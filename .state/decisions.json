@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "D-12",
+    "phase": 1,
+    "title": "Phase 1: zod for runtime schema validation",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Use zod for ingredient JSON runtime validation in Phase 1. Chosen over ajv (heavier) and hand-rolled validation (error-prone). zod's .enum() guards map cleanly to the controlled vocabulary union types already defined in TypeScript.",
+    "rationale": "zod is already idiomatic in Vite/React stacks, produces typed parse results, and its enum guards directly enforce the controlled vocabulary invariants without a separate JSON schema file to maintain."
+  },
+  {
+    "id": "D-13",
+    "phase": 1,
+    "title": "Phase 1: seed fixture must exercise all converter branches",
+    "status": "closed",
+    "priority": "high",
+    "decision": "The Phase 1 seed fixture (10-15 ingredients) must include at least one example of: a pairsWith group ref, a pairsWith direct ID ref, a cuisineWeights object, a populated cookMinutes, and a blank cookMinutes. This ensures every converter branch is proven before Phase 2 runs the full 119-ingredient catalog.",
+    "rationale": "If untested converter branches hit only in Phase 2, debugging cost multiplies. Testing all branches on a small hand-crafted fixture is cheap and prevents late surprises."
+  }
+]

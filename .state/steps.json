@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "phase": 1,
+    "step": 1,
+    "title": "Scaffold Vite + React + TypeScript app with Vitest",
+    "status": "pending",
+    "notes": "npm create vite with react-ts template; add vitest, @testing-library/react, jsdom; configure vitest.config.ts. Tests verify: npm run build exits 0; npm test runs an empty suite without errors."
+  },
+  {
+    "phase": 1,
+    "step": 2,
+    "title": "Define controlled vocabularies and TypeScript types",
+    "status": "pending",
+    "notes": "src/types/index.ts: all const enums/union types from ARCHITECTURE.md (IngredientCategory, CookingStage, Role, BalanceAxis, Trait, CuisineTag, SaltRisk, GroupTag, IngredientRef) plus core object types (Ingredient, BuildIngredient, StewBuild, AnalysisResult, AnalysisMessage, GeneratedRecipe). Also define GROUPS constant mapping each GroupTag to its member definition (category or explicit ID list). Tests verify TypeScript compiles; spot-check that COOKING_STAGE_ORDER tuple is exhaustive."
+  },
+  {
+    "phase": 1,
+    "step": 3,
+    "title": "Runtime schema validation for ingredient JSON (zod)",
+    "status": "pending",
+    "notes": "src/catalog/schema.ts: IngredientSchema using zod with .enum() guards on all controlled vocabularies. Export validateIngredient(unknown): Ingredient and validateCatalog(unknown[]): Ingredient[]. Tests: valid record passes; record with unknown category rejects; record with unknown cuisine rejects; record with missing required field rejects. Error messages must name the offending field and value."
+  },
+  {
+    "phase": 1,
+    "step": 4,
+    "title": "CSV→JSON converter script",
+    "status": "pending",
+    "notes": "scripts/convert-catalog.ts (run with tsx): reads insta_the_pot_ingredients_v2.csv, outputs src/catalog/ingredients.json. Must: split \";\" delimited cells (roles, traits, cuisines, pairs_with, avoid_with); parse balance_scores JSON string; omit cookMinutes when cook_min/cook_max blank; map raw cuisine strings to CuisineTag via the 18-tag consolidation table from ARCHITECTURE.md; classify each pairsWith/avoidWith token as GroupTag (if in GROUP_TAGS set) or IngredientId; halt with typed error on vocabulary drift, unresolved ID ref, or group-tag/ID namespace collision. Add to package.json scripts as convert:catalog. Unit tests for: semicolon splitter, cuisine consolidation mapper, ref classifier, balance-scores parser."
+  },
+  {
+    "phase": 1,
+    "step": 5,
+    "title": "Seed fixture and end-to-end catalog integrity proof",
+    "status": "pending",
+    "notes": "Create fixtures/seed_ingredients.csv with 10-15 hand-authored ingredients spanning all 8 stages (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over). Must include at least: one with pairsWith group ref, one with pairsWith direct ID ref, one with cuisineWeights, one with cookMinutes present, one with cookMinutes blank. Run converter on fixture. Catalog integrity test suite: no duplicate IDs; every pairsWith/avoidWith token resolves to a known ingredient ID in the fixture OR to a valid GroupTag; group tags and ingredient IDs are disjoint; every group referenced has >=1 member in the fixture catalog."
+  }
+]
