@@ -1,0 +1,34 @@
+# i2c project configuration.
+#
+# Defaults for `i2c run`. Precedence: CLI flag > this file > built-in default.
+# Uncomment and edit a key to change its default; commented keys fall back to
+# the built-in (claude / sonnet / 5.00). Secrets / API keys do NOT belong here —
+# configure those via environment variables (see the quickstart).
+
+[run]
+# backend = "claude"      # claude | codex
+# model = "sonnet"
+# max_budget_usd = 5.00
+
+# Optional: per-action backend, overriding [run].backend for that action.
+# Lets you spread load across backends (e.g. heavy EXECUTE on codex, the rest
+# on claude) or use an independent reviewer. `i2c run --backend X` overrides all.
+# [run.backends]
+# plan = "claude"
+# execute = "codex"
+# review = "claude"
+# close = "claude"
+
+# Optional: telemetry sidecar (.state/telemetry.jsonl) enrichment.
+# test_cmd is the opt-in tests oracle — a shell command run in the project root
+# after each worker invocation; its exit code is recorded as tests_pass. Leave
+# it unset to keep the oracle off. [telemetry.pricing] adds or overrides per-
+# model rates (USD per 1M tokens) layered over the bundled pricing table, used
+# to derive cost_usd / tier.
+# [telemetry]
+# test_cmd = "python -m pytest -q"
+# [telemetry.pricing.my-model]
+# tier = "T1"
+# in = 3.00
+# cached = 0.30
+# out = 15.00

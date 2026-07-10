@@ -1,0 +1,10 @@
+,
+Model decision,Details
+Roles,"Functional, categorical tags only. Not scored."
+Balance axes,Only these 10 axes are summed in the app.
+Traits,Descriptive flavor/search tags; not scored directly.
+Salt,"Handled through salt_risk and warnings, not a balance score."
+Distinct forms,Fresh/dried/cooked variants are separate rows where stage or behavior differs.
+Cuisine,Soft affinity tags; spices/finishers can later receive stronger cuisine weights.
+Pairs/avoid,"Entries are ingredient IDs or group tags (roots, beans, herbs, meat, ...). Group tags are a closed vocabulary resolved to members; tags and IDs are disjoint. A few missing-ingredient refs still need to be added or dropped."
+Quantities,Current scores are ingredient-level defaults. Quantity scaling is deferred.
