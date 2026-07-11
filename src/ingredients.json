@@ -1,0 +1,3890 @@
+[
+  {
+    "id": "chicken_thighs",
+    "name": "Chicken thighs",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "richness": 3,
+      "umami": 2
+    },
+    "cuisines": [
+      "universal",
+      "french",
+      "italian",
+      "mexican",
+      "east_asian",
+      "indian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 15,
+      "max": 25
+    },
+    "pairsWith": [
+      "pearl_barley",
+      "rutabaga",
+      "cooked_chickpeas",
+      "spinach",
+      "lemon_juice"
+    ],
+    "notes": "Cheap and forgiving; at long pressure times expect shredded texture."
+  },
+  {
+    "id": "chicken_drumsticks",
+    "name": "Chicken drumsticks",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "richness": 2,
+      "umami": 2
+    },
+    "cuisines": [
+      "universal",
+      "american",
+      "french"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 30
+    },
+    "pairsWith": [
+      "roots",
+      "pearl_barley",
+      "cabbage",
+      "thyme"
+    ],
+    "notes": "Bone-in; contributes more broth body than thighs."
+  },
+  {
+    "id": "chicken_feet",
+    "name": "Chicken feet",
+    "category": "protein",
+    "stage": "pressure",
+    "roles": [
+      "collagen",
+      "body"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 5,
+      "richness": 2,
+      "umami": 2
+    },
+    "cuisines": [
+      "east_asian",
+      "eastern_european",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "dried_mushrooms",
+      "pearl_barley",
+      "ginger"
+    ],
+    "notes": "Stock builder, not a substantial meat portion."
+  },
+  {
+    "id": "beef_chuck",
+    "name": "Beef chuck",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 4,
+      "umami": 3
+    },
+    "cuisines": [
+      "french",
+      "american",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "pearl_barley",
+      "fresh_mushrooms",
+      "red_wine",
+      "celery_root"
+    ],
+    "notes": "Reliable long-cook beef."
+  },
+  {
+    "id": "beef_short_ribs",
+    "name": "Beef short ribs",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "richness": 5,
+      "umami": 4
+    },
+    "cuisines": [
+      "french",
+      "east_asian",
+      "american"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "fresh_mushrooms",
+      "red_wine",
+      "celery_root",
+      "lemon_juice"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "smoked_sausage"
+    ],
+    "notes": "Very rich; pair with lighter vegetables and acid."
+  },
+  {
+    "id": "beef_shank",
+    "name": "Beef shank",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "richness": 4,
+      "umami": 4
+    },
+    "cuisines": [
+      "italian",
+      "french",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 60,
+      "max": 90
+    },
+    "pairsWith": [
+      "canned_tomatoes",
+      "pearl_barley",
+      "roots",
+      "parsley"
+    ],
+    "notes": "Marrow and connective tissue enrich the liquid."
+  },
+  {
+    "id": "pork_shoulder",
+    "name": "Pork shoulder",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 4,
+      "umami": 3
+    },
+    "cuisines": [
+      "mexican",
+      "american",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "dried_black_beans",
+      "cabbage",
+      "cumin",
+      "cider_vinegar"
+    ],
+    "avoidWith": [
+      "bacon",
+      "smoked_sausage"
+    ],
+    "notes": "Better timing match for dried beans than chicken."
+  },
+  {
+    "id": "pork_stewing_cubes",
+    "name": "Pork stewing cubes",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "fat"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "richness": 3,
+      "umami": 2
+    },
+    "cuisines": [
+      "universal",
+      "mexican",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 35,
+      "max": 50
+    },
+    "pairsWith": [
+      "dried_black_beans",
+      "rutabaga",
+      "smoked_paprika"
+    ],
+    "notes": "Timing depends on cut and leanness."
+  },
+  {
+    "id": "lamb_shoulder",
+    "name": "Lamb shoulder",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "gamey"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 4,
+      "umami": 3,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "north_african",
+      "mediterranean",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "dried_chickpeas",
+      "cumin",
+      "coriander_seed",
+      "cinnamon"
+    ],
+    "notes": "Strong profile anchor."
+  },
+  {
+    "id": "lamb_shank",
+    "name": "Lamb shank",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "body"
+    ],
+    "traits": [
+      "gamey"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "richness": 4,
+      "umami": 4
+    },
+    "cuisines": [
+      "north_african",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 50,
+      "max": 70
+    },
+    "pairsWith": [
+      "dried_chickpeas",
+      "roots",
+      "parsley",
+      "lemon_juice"
+    ],
+    "notes": "Long-cook centerpiece."
+  },
+  {
+    "id": "oxtail",
+    "name": "Oxtail",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "collagen",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "richness": 5,
+      "umami": 4
+    },
+    "cuisines": [
+      "latin_american",
+      "east_asian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 60,
+      "max": 90
+    },
+    "pairsWith": [
+      "beans",
+      "roots",
+      "red_wine",
+      "thyme"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "smoked_sausage"
+    ],
+    "notes": "Excellent body, usually expensive."
+  },
+  {
+    "id": "ham_hock",
+    "name": "Ham hock",
+    "category": "protein",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "collagen",
+      "fat",
+      "seasoning",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "richness": 4,
+      "umami": 4,
+      "smoke": 4
+    },
+    "cuisines": [
+      "american",
+      "french",
+      "central_european"
+    ],
+    "saltRisk": "high",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "dried_white_beans",
+      "split_peas",
+      "cabbage",
+      "pearl_barley"
+    ],
+    "avoidWith": [
+      "chicken_stock",
+      "bacon",
+      "smoked_sausage",
+      "miso"
+    ],
+    "notes": "Salt only after cooking."
+  },
+  {
+    "id": "smoked_turkey_leg",
+    "name": "Smoked turkey leg",
+    "category": "protein",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "collagen",
+      "seasoning",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 3,
+      "umami": 4,
+      "smoke": 4
+    },
+    "cuisines": [
+      "american"
+    ],
+    "saltRisk": "high",
+    "cookMinutes": {
+      "min": 40,
+      "max": 60
+    },
+    "pairsWith": [
+      "beans",
+      "greens",
+      "pearl_barley"
+    ],
+    "avoidWith": [
+      "ham_hock"
+    ],
+    "notes": "Lighter smoked alternative to ham hock."
+  },
+  {
+    "id": "turkey_neck",
+    "name": "Turkey neck",
+    "category": "protein",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "collagen",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 2,
+      "umami": 3
+    },
+    "cuisines": [
+      "american",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "roots",
+      "beans",
+      "pearl_barley"
+    ],
+    "notes": "Good-value broth meat; watch small bones."
+  },
+  {
+    "id": "pork_neck_bones",
+    "name": "Pork neck bones",
+    "category": "protein",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "collagen",
+      "body"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "richness": 3,
+      "umami": 3
+    },
+    "cuisines": [
+      "american",
+      "eastern_european",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 45,
+      "max": 60
+    },
+    "pairsWith": [
+      "beans",
+      "cabbage",
+      "pearl_barley"
+    ],
+    "notes": "Budget broth option; watch bone fragments."
+  },
+  {
+    "id": "smoked_sausage",
+    "name": "Smoked sausage",
+    "category": "protein",
+    "stage": "brown",
+    "roles": [
+      "protein",
+      "fat",
+      "seasoning"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "richness": 4,
+      "umami": 4,
+      "smoke": 5
+    },
+    "cuisines": [
+      "central_european",
+      "american"
+    ],
+    "saltRisk": "high",
+    "cookMinutes": {
+      "min": 10,
+      "max": 20
+    },
+    "pairsWith": [
+      "cabbage",
+      "beans",
+      "pearl_barley",
+      "smoked_paprika"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "bacon"
+    ],
+    "notes": "A small amount can season the whole pot."
+  },
+  {
+    "id": "bacon",
+    "name": "Bacon",
+    "category": "fat",
+    "stage": "brown",
+    "roles": [
+      "fat",
+      "seasoning"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "richness": 4,
+      "umami": 3,
+      "smoke": 4,
+      "texture": 2
+    },
+    "cuisines": [
+      "american",
+      "french",
+      "central_european"
+    ],
+    "saltRisk": "high",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "beans",
+      "cabbage",
+      "roots",
+      "lentils"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "smoked_sausage"
+    ],
+    "notes": "Render first; reserve some for topping if desired."
+  },
+  {
+    "id": "onion",
+    "name": "Onion",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "pungent",
+      "savory"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "umami": 1,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "notes": "Core aromatic."
+  },
+  {
+    "id": "red_onion",
+    "name": "Red onion",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "pungent"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "mexican",
+      "mediterranean",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "black_beans",
+      "canned_tomatoes",
+      "lime_juice"
+    ],
+    "notes": "Slightly sharper than yellow onion."
+  },
+  {
+    "id": "shallot",
+    "name": "Shallot",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "pungent"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "french",
+      "southeast_asian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 3,
+      "max": 6
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "white_wine",
+      "herbs"
+    ],
+    "notes": "More delicate than onion."
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic",
+      "seasoning"
+    ],
+    "traits": [
+      "garlicky",
+      "pungent"
+    ],
+    "balanceScores": {
+      "umami": 1,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 1,
+      "max": 3
+    },
+    "notes": "Add after onion; do not scorch."
+  },
+  {
+    "id": "garlic_powder",
+    "name": "Garlic powder",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "garlicky"
+    ],
+    "balanceScores": {
+      "umami": 1,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "universal",
+      "american"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "beans",
+      "roots",
+      "meat"
+    ],
+    "notes": "Convenient but less fresh-tasting."
+  },
+  {
+    "id": "ginger",
+    "name": "Ginger",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic",
+      "freshener"
+    ],
+    "traits": [
+      "pungent",
+      "citrusy"
+    ],
+    "balanceScores": {
+      "freshness": 2,
+      "heat": 1,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "indian",
+      "east_asian",
+      "north_african"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 1,
+      "max": 3
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "dried_chickpeas",
+      "miso",
+      "coconut_milk"
+    ],
+    "avoidWith": [
+      "parmesan"
+    ],
+    "notes": "Bloom briefly."
+  },
+  {
+    "id": "leek",
+    "name": "Leek",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "british"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "celery_root",
+      "pearl_barley",
+      "thyme"
+    ],
+    "notes": "Wash thoroughly."
+  },
+  {
+    "id": "celery_stalk",
+    "name": "Celery stalk",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 1,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "american",
+      "italian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "onion",
+      "carrot",
+      "chicken_thighs",
+      "beans"
+    ],
+    "notes": "Classic mirepoix component."
+  },
+  {
+    "id": "fennel_bulb",
+    "name": "Fennel bulb",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "aromatic"
+    ],
+    "traits": [
+      "anise",
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "freshness": 1,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "italian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "white_beans",
+      "canned_tomatoes"
+    ],
+    "avoidWith": [
+      "cumin"
+    ],
+    "notes": "Distinct from fennel seed."
+  },
+  {
+    "id": "tomato_paste",
+    "name": "Tomato paste",
+    "category": "aromatics",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "thickener"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 1,
+      "richness": 1,
+      "umami": 3,
+      "sweetness": 1,
+      "acidity": 1
+    },
+    "cuisines": [
+      "italian",
+      "french",
+      "universal"
+    ],
+    "saltRisk": "medium",
+    "cookMinutes": {
+      "min": 1,
+      "max": 3
+    },
+    "pairsWith": [
+      "beef_chuck",
+      "beans",
+      "wine",
+      "roots"
+    ],
+    "notes": "Brown briefly before liquid."
+  },
+  {
+    "id": "water",
+    "name": "Water",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid"
+    ],
+    "traits": [],
+    "balanceScores": {},
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "miso",
+      "dried_mushrooms",
+      "chicken_feet",
+      "parmesan_rind"
+    ],
+    "notes": "Neutral base; needs other flavor builders."
+  },
+  {
+    "id": "chicken_stock",
+    "name": "Chicken stock",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "seasoning"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "umami": 2,
+      "richness": 1
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "chicken_thighs",
+      "grains",
+      "roots",
+      "greens"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "smoked_sausage",
+      "miso"
+    ],
+    "notes": "Prefer low-sodium."
+  },
+  {
+    "id": "beef_stock",
+    "name": "Beef stock",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "seasoning"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 1,
+      "richness": 3,
+      "umami": 3
+    },
+    "cuisines": [
+      "french",
+      "american"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "beef_chuck",
+      "beef_shank",
+      "pearl_barley",
+      "fresh_mushrooms"
+    ],
+    "avoidWith": [
+      "oxtail"
+    ],
+    "notes": "Can make already-rich builds heavy."
+  },
+  {
+    "id": "bean_cooking_liquid",
+    "name": "Bean cooking liquid",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "umami": 1
+    },
+    "cuisines": [
+      "mexican",
+      "american",
+      "mediterranean"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "beans",
+      "roots",
+      "greens"
+    ],
+    "notes": "Useful if not overly salty."
+  },
+  {
+    "id": "white_wine",
+    "name": "White wine",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "acid"
+    ],
+    "traits": [
+      "fruity"
+    ],
+    "balanceScores": {
+      "acidity": 2,
+      "freshness": 1,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "french",
+      "italian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "white_beans",
+      "roots",
+      "thyme"
+    ],
+    "avoidWith": [
+      "miso"
+    ],
+    "notes": "Cook off alcohol before pressure."
+  },
+  {
+    "id": "red_wine",
+    "name": "Red wine",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "acid"
+    ],
+    "traits": [
+      "fruity",
+      "bitter"
+    ],
+    "balanceScores": {
+      "acidity": 2,
+      "richness": 2,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "french",
+      "italian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "beef_chuck",
+      "fresh_mushrooms",
+      "roots",
+      "rosemary"
+    ],
+    "notes": "Best with dark meats; can overpower delicate chicken builds."
+  },
+  {
+    "id": "beer",
+    "name": "Beer",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid"
+    ],
+    "traits": [
+      "malty",
+      "bitter"
+    ],
+    "balanceScores": {
+      "richness": 1,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "central_european",
+      "american"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "pork_shoulder",
+      "smoked_sausage",
+      "cabbage",
+      "pearl_barley"
+    ],
+    "notes": "Dark beer can contribute substantial bitterness."
+  },
+  {
+    "id": "apple_cider",
+    "name": "Apple cider",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "acid"
+    ],
+    "traits": [
+      "fruity"
+    ],
+    "balanceScores": {
+      "sweetness": 3,
+      "acidity": 2,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "american",
+      "french"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "pork_shoulder",
+      "chicken_thighs",
+      "parsnip",
+      "cabbage"
+    ],
+    "notes": "Often best partly diluted."
+  },
+  {
+    "id": "rutabaga",
+    "name": "Rutabaga",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "sweetness": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "scandinavian",
+      "british",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 40
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "pork_shoulder",
+      "pearl_barley",
+      "thyme"
+    ],
+    "notes": "Holds up better than potatoes."
+  },
+  {
+    "id": "celery_root",
+    "name": "Celery root",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body"
+    ],
+    "traits": [
+      "earthy",
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "sweetness": 1,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 15,
+      "max": 30
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "white_beans",
+      "pearl_barley",
+      "parsley"
+    ],
+    "notes": "Can partly dissolve and thicken broth."
+  },
+  {
+    "id": "parsnip",
+    "name": "Parsnip",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "sweetness": 4
+    },
+    "cuisines": [
+      "french",
+      "british",
+      "scandinavian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 15,
+      "max": 25
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "celery_root",
+      "thyme",
+      "lemon_juice"
+    ],
+    "notes": "Use moderately; gets quite sweet."
+  },
+  {
+    "id": "carrot",
+    "name": "Carrot",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "body"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "sweetness": 3,
+      "texture": 1
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 10,
+      "max": 20
+    },
+    "notes": "Core root vegetable."
+  },
+  {
+    "id": "potato",
+    "name": "Potato",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "texture": 2
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 8,
+      "max": 15
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "beef_chuck",
+      "herbs",
+      "greens"
+    ],
+    "notes": "Breaks down during long cooks."
+  },
+  {
+    "id": "sweet_potato",
+    "name": "Sweet potato",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 3,
+      "sweetness": 5
+    },
+    "cuisines": [
+      "american",
+      "north_african",
+      "west_african"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 8,
+      "max": 15
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "peanut",
+      "dried_chickpeas",
+      "chile"
+    ],
+    "notes": "Dissolves easily."
+  },
+  {
+    "id": "turnip",
+    "name": "Turnip",
+    "category": "roots",
+    "stage": "pressure",
+    "roles": [
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 1,
+      "sweetness": 1,
+      "texture": 2
+    },
+    "cuisines": [
+      "scandinavian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 10,
+      "max": 20
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "ham_hock",
+      "greens"
+    ],
+    "notes": "Lighter than potato."
+  },
+  {
+    "id": "butternut_squash",
+    "name": "Butternut squash",
+    "category": "vegetable",
+    "stage": "pressure",
+    "roles": [
+      "body",
+      "thickener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 2,
+      "sweetness": 4
+    },
+    "cuisines": [
+      "american",
+      "north_african"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "dried_chickpeas",
+      "chicken_thighs",
+      "ginger",
+      "cinnamon"
+    ],
+    "notes": "Usually dissolves in a long cook."
+  },
+  {
+    "id": "cauliflower",
+    "name": "Cauliflower",
+    "category": "vegetable",
+    "stage": "simmer_after",
+    "roles": [
+      "texture"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 1,
+      "freshness": 1,
+      "texture": 2
+    },
+    "cuisines": [
+      "indian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "dried_chickpeas",
+      "curry_paste",
+      "chicken_thighs"
+    ],
+    "notes": "Better added after pressure release."
+  },
+  {
+    "id": "cabbage",
+    "name": "Cabbage",
+    "category": "vegetable",
+    "stage": "pressure",
+    "roles": [
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "freshness": 1,
+      "texture": 2
+    },
+    "cuisines": [
+      "central_european",
+      "american",
+      "east_asian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 15
+    },
+    "pairsWith": [
+      "ham_hock",
+      "smoked_sausage",
+      "pearl_barley",
+      "cider_vinegar"
+    ],
+    "notes": "Move to simmer_after if you want more texture."
+  },
+  {
+    "id": "fresh_mushrooms",
+    "name": "Fresh mushrooms",
+    "category": "vegetable",
+    "stage": "brown",
+    "roles": [
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy",
+      "savory"
+    ],
+    "balanceScores": {
+      "umami": 4,
+      "richness": 1,
+      "texture": 3
+    },
+    "cuisines": [
+      "french",
+      "italian",
+      "east_asian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "pearl_barley",
+      "beef_chuck",
+      "chicken_thighs",
+      "wine"
+    ],
+    "notes": "Brown in batches."
+  },
+  {
+    "id": "dried_mushrooms",
+    "name": "Dried mushrooms",
+    "category": "vegetable",
+    "stage": "pressure",
+    "roles": [
+      "body",
+      "seasoning"
+    ],
+    "traits": [
+      "earthy",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "umami": 5,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "east_asian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 60
+    },
+    "pairsWith": [
+      "water",
+      "chicken_feet",
+      "pearl_barley",
+      "miso"
+    ],
+    "notes": "Check for grit."
+  },
+  {
+    "id": "canned_tomatoes",
+    "name": "Canned tomatoes",
+    "category": "vegetable",
+    "stage": "pressure",
+    "roles": [
+      "liquid",
+      "acid",
+      "body"
+    ],
+    "traits": [
+      "fruity",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "umami": 2,
+      "sweetness": 1,
+      "acidity": 3
+    },
+    "cuisines": [
+      "italian",
+      "mexican",
+      "universal"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "beef_shank",
+      "black_beans",
+      "oregano",
+      "smoked_paprika"
+    ],
+    "notes": "Acid can slow stubborn beans."
+  },
+  {
+    "id": "bell_pepper",
+    "name": "Bell pepper",
+    "category": "vegetable",
+    "stage": "pressure",
+    "roles": [
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "fruity"
+    ],
+    "balanceScores": {
+      "sweetness": 3,
+      "freshness": 1,
+      "texture": 1
+    },
+    "cuisines": [
+      "mexican",
+      "mediterranean",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 15
+    },
+    "pairsWith": [
+      "pork_shoulder",
+      "black_beans",
+      "smoked_paprika",
+      "canned_tomatoes"
+    ],
+    "notes": "Sauté first for deeper flavor."
+  },
+  {
+    "id": "corn",
+    "name": "Corn",
+    "category": "vegetable",
+    "stage": "stir_in",
+    "roles": [
+      "texture",
+      "freshener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "sweetness": 4,
+      "freshness": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "mexican",
+      "american"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 2,
+      "max": 5
+    },
+    "pairsWith": [
+      "black_beans",
+      "chicken_thighs",
+      "lime_juice",
+      "bell_pepper"
+    ],
+    "notes": "Frozen corn works well."
+  },
+  {
+    "id": "green_beans",
+    "name": "Green beans",
+    "category": "vegetable",
+    "stage": "simmer_after",
+    "roles": [
+      "texture",
+      "freshener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "freshness": 2,
+      "texture": 3
+    },
+    "cuisines": [
+      "french",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "canned_tomatoes",
+      "herbs"
+    ],
+    "notes": "Add after pressure release."
+  },
+  {
+    "id": "frozen_peas",
+    "name": "Frozen peas",
+    "category": "vegetable",
+    "stage": "stir_in",
+    "roles": [
+      "freshener",
+      "texture"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "sweetness": 3,
+      "freshness": 4,
+      "texture": 2
+    },
+    "cuisines": [
+      "french",
+      "british",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 2,
+      "max": 4
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "pearl_barley",
+      "spinach",
+      "mint"
+    ],
+    "notes": "Excellent anti-heaviness addition."
+  },
+  {
+    "id": "edamame",
+    "name": "Edamame",
+    "category": "legumes",
+    "stage": "stir_in",
+    "roles": [
+      "protein",
+      "texture",
+      "freshener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "freshness": 3,
+      "texture": 3,
+      "umami": 1
+    },
+    "cuisines": [
+      "east_asian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 3,
+      "max": 5
+    },
+    "pairsWith": [
+      "miso",
+      "dried_mushrooms",
+      "green_onions"
+    ],
+    "avoidWith": [
+      "ham_hock"
+    ],
+    "notes": "Use shelled."
+  },
+  {
+    "id": "dried_black_beans",
+    "name": "Dried black beans",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "earthy",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "umami": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "mexican",
+      "latin_american"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 35,
+      "max": 60
+    },
+    "pairsWith": [
+      "pork_shoulder",
+      "cumin",
+      "oregano",
+      "lime_juice"
+    ],
+    "avoidWith": [
+      "canned_tomatoes",
+      "vinegar"
+    ],
+    "notes": "Old beans may need soaking and longer cooking."
+  },
+  {
+    "id": "cooked_black_beans",
+    "name": "Cooked black beans",
+    "category": "legumes",
+    "stage": "stir_in",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "umami": 2,
+      "texture": 3
+    },
+    "cuisines": [
+      "mexican",
+      "latin_american"
+    ],
+    "saltRisk": "medium",
+    "cookMinutes": {
+      "min": 3,
+      "max": 5
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "corn",
+      "bell_pepper",
+      "lime_juice"
+    ],
+    "notes": "Good supporting legume."
+  },
+  {
+    "id": "dried_chickpeas",
+    "name": "Dried chickpeas",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "texture": 4,
+      "umami": 1
+    },
+    "cuisines": [
+      "north_african",
+      "indian",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 35,
+      "max": 50
+    },
+    "pairsWith": [
+      "lamb_shoulder",
+      "chicken_thighs",
+      "cumin",
+      "coriander_seed"
+    ],
+    "notes": "Soaking improves predictability."
+  },
+  {
+    "id": "cooked_chickpeas",
+    "name": "Cooked chickpeas",
+    "category": "legumes",
+    "stage": "stir_in",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "texture": 3,
+      "umami": 1
+    },
+    "cuisines": [
+      "north_african",
+      "indian",
+      "mediterranean"
+    ],
+    "saltRisk": "medium",
+    "cookMinutes": {
+      "min": 3,
+      "max": 5
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "spinach",
+      "lemon_juice",
+      "yogurt"
+    ],
+    "notes": "Easy supporting legume."
+  },
+  {
+    "id": "dried_white_beans",
+    "name": "Dried white beans",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "creamy",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 4,
+      "umami": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "italian",
+      "french",
+      "iberian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 30,
+      "max": 45
+    },
+    "pairsWith": [
+      "ham_hock",
+      "chicken_thighs",
+      "kale",
+      "rosemary"
+    ],
+    "notes": "More neutral than black beans."
+  },
+  {
+    "id": "cooked_white_beans",
+    "name": "Cooked white beans",
+    "category": "legumes",
+    "stage": "stir_in",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "creamy",
+      "savory"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "umami": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "italian",
+      "french",
+      "iberian"
+    ],
+    "saltRisk": "medium",
+    "cookMinutes": {
+      "min": 3,
+      "max": 5
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "greens",
+      "lemon_juice",
+      "parmesan"
+    ],
+    "notes": "Excellent secondary ingredient."
+  },
+  {
+    "id": "red_lentils_pressure",
+    "name": "Red lentils (pressure)",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "umami": 1
+    },
+    "cuisines": [
+      "indian",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "carrot",
+      "ginger",
+      "cumin"
+    ],
+    "notes": "Disappear completely in long cooks."
+  },
+  {
+    "id": "red_lentils_simmer",
+    "name": "Red lentils (simmer after)",
+    "category": "legumes",
+    "stage": "simmer_after",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "umami": 1
+    },
+    "cuisines": [
+      "indian",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 15,
+      "max": 20
+    },
+    "pairsWith": [
+      "roots",
+      "spices"
+    ],
+    "notes": "Useful post-opening correction knob; good for thickening a thin broth."
+  },
+  {
+    "id": "green_lentils",
+    "name": "Green lentils",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "texture": 3,
+      "umami": 1
+    },
+    "cuisines": [
+      "french",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 12,
+      "max": 20
+    },
+    "pairsWith": [
+      "smoked_sausage",
+      "roots",
+      "thyme",
+      "vinegar"
+    ],
+    "notes": "Hold shape better than red lentils."
+  },
+  {
+    "id": "brown_lentils",
+    "name": "Brown lentils",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "texture": 2,
+      "umami": 1
+    },
+    "cuisines": [
+      "universal",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 12,
+      "max": 20
+    },
+    "pairsWith": [
+      "beef_chuck",
+      "smoked_sausage",
+      "canned_tomatoes",
+      "herbs"
+    ],
+    "notes": "Softer than green lentils."
+  },
+  {
+    "id": "split_peas",
+    "name": "Split peas",
+    "category": "legumes",
+    "stage": "pressure",
+    "roles": [
+      "protein",
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "body": 5,
+      "umami": 1
+    },
+    "cuisines": [
+      "american",
+      "eastern_european",
+      "british"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 15,
+      "max": 25
+    },
+    "pairsWith": [
+      "ham_hock",
+      "smoked_turkey_leg",
+      "carrot"
+    ],
+    "notes": "Break down into a velvety base."
+  },
+  {
+    "id": "pearl_barley",
+    "name": "Pearl barley",
+    "category": "grains",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "thickener",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "texture": 4,
+      "richness": 1
+    },
+    "cuisines": [
+      "french",
+      "central_european",
+      "british"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 30
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "ham_hock",
+      "fresh_mushrooms",
+      "roots"
+    ],
+    "notes": "Strong fit for long-cook stews."
+  },
+  {
+    "id": "farro",
+    "name": "Farro",
+    "category": "grains",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "texture": 5
+    },
+    "cuisines": [
+      "italian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 30
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "fresh_mushrooms",
+      "kale",
+      "parmesan"
+    ],
+    "notes": "Holds texture well."
+  },
+  {
+    "id": "wheat_berries",
+    "name": "Wheat berries",
+    "category": "grains",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "texture": 5
+    },
+    "cuisines": [
+      "universal",
+      "eastern_european"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 30,
+      "max": 40
+    },
+    "pairsWith": [
+      "beef_chuck",
+      "roots",
+      "fresh_mushrooms"
+    ],
+    "notes": "Very sturdy."
+  },
+  {
+    "id": "buckwheat_groats",
+    "name": "Buckwheat groats",
+    "category": "grains",
+    "stage": "simmer_after",
+    "roles": [
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "earthy",
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "texture": 3,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "eastern_european"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 10,
+      "max": 15
+    },
+    "pairsWith": [
+      "fresh_mushrooms",
+      "onion",
+      "chicken_thighs"
+    ],
+    "notes": "Strong flavor."
+  },
+  {
+    "id": "white_rice",
+    "name": "White rice",
+    "category": "grains",
+    "stage": "simmer_after",
+    "roles": [
+      "starch",
+      "body",
+      "thickener"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 3,
+      "texture": 2
+    },
+    "cuisines": [
+      "east_asian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 10,
+      "max": 15
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "ginger",
+      "frozen_peas"
+    ],
+    "notes": "Add after pressure for control."
+  },
+  {
+    "id": "brown_rice",
+    "name": "Brown rice",
+    "category": "grains",
+    "stage": "pressure",
+    "roles": [
+      "starch",
+      "body",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 3,
+      "texture": 3
+    },
+    "cuisines": [
+      "universal",
+      "east_asian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 20,
+      "max": 25
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "dried_mushrooms",
+      "greens"
+    ],
+    "notes": "More durable than white rice."
+  },
+  {
+    "id": "quinoa",
+    "name": "Quinoa",
+    "category": "grains",
+    "stage": "simmer_after",
+    "roles": [
+      "protein",
+      "starch",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 1,
+      "freshness": 1,
+      "texture": 3
+    },
+    "cuisines": [
+      "universal",
+      "latin_american"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 12,
+      "max": 15
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "greens",
+      "lemon_juice"
+    ],
+    "notes": "Rinse first."
+  },
+  {
+    "id": "orzo",
+    "name": "Orzo",
+    "category": "grains",
+    "stage": "simmer_after",
+    "roles": [
+      "starch",
+      "body"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 3,
+      "texture": 2
+    },
+    "cuisines": [
+      "italian",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 8,
+      "max": 10
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "spinach",
+      "lemon_juice",
+      "parmesan"
+    ],
+    "notes": "Technically pasta."
+  },
+  {
+    "id": "small_pasta",
+    "name": "Small pasta",
+    "category": "grains",
+    "stage": "simmer_after",
+    "roles": [
+      "starch",
+      "body"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 3,
+      "texture": 2
+    },
+    "cuisines": [
+      "italian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 6,
+      "max": 12
+    },
+    "pairsWith": [
+      "beans",
+      "canned_tomatoes",
+      "greens"
+    ],
+    "notes": "Timing depends on shape."
+  },
+  {
+    "id": "couscous",
+    "name": "Couscous",
+    "category": "grains",
+    "stage": "serve_over",
+    "roles": [
+      "starch",
+      "body"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 2,
+      "texture": 2
+    },
+    "cuisines": [
+      "north_african",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 5
+    },
+    "pairsWith": [
+      "dried_chickpeas",
+      "lamb_shoulder",
+      "chicken_thighs",
+      "roots"
+    ],
+    "notes": "Prepare separately."
+  },
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "category": "greens",
+    "stage": "stir_in",
+    "roles": [
+      "freshener"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "texture": 1
+    },
+    "cuisines": [
+      "italian",
+      "east_asian",
+      "indian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 1,
+      "max": 3
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "white_beans",
+      "miso",
+      "lemon_juice"
+    ],
+    "notes": "Add after opening."
+  },
+  {
+    "id": "kale",
+    "name": "Kale",
+    "category": "greens",
+    "stage": "simmer_after",
+    "roles": [
+      "freshener",
+      "texture"
+    ],
+    "traits": [
+      "herbaceous",
+      "bitter"
+    ],
+    "balanceScores": {
+      "freshness": 3,
+      "texture": 3
+    },
+    "cuisines": [
+      "italian",
+      "iberian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 5,
+      "max": 10
+    },
+    "pairsWith": [
+      "white_beans",
+      "smoked_sausage",
+      "pearl_barley"
+    ],
+    "notes": "Better leftover texture than spinach."
+  },
+  {
+    "id": "swiss_chard",
+    "name": "Swiss chard",
+    "category": "greens",
+    "stage": "stir_in",
+    "roles": [
+      "freshener",
+      "texture"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "texture": 2
+    },
+    "cuisines": [
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 3,
+      "max": 5
+    },
+    "pairsWith": [
+      "white_beans",
+      "cooked_chickpeas",
+      "lemon_juice"
+    ],
+    "notes": "Stems may need separate cooking."
+  },
+  {
+    "id": "napa_cabbage",
+    "name": "Napa cabbage",
+    "category": "greens",
+    "stage": "stir_in",
+    "roles": [
+      "freshener",
+      "texture"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "sweetness": 1,
+      "freshness": 3,
+      "texture": 2
+    },
+    "cuisines": [
+      "east_asian"
+    ],
+    "saltRisk": "low",
+    "cookMinutes": {
+      "min": 2,
+      "max": 5
+    },
+    "pairsWith": [
+      "chicken_thighs",
+      "miso",
+      "dried_mushrooms"
+    ],
+    "notes": "Wilts quickly."
+  },
+  {
+    "id": "parsley",
+    "name": "Parsley",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "italian",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "roots",
+      "pearl_barley",
+      "lemon_juice"
+    ],
+    "notes": "Very versatile."
+  },
+  {
+    "id": "dill",
+    "name": "Dill",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "eastern_european",
+      "scandinavian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "roots",
+      "sour_cream",
+      "lemon_juice"
+    ],
+    "avoidWith": [
+      "cumin"
+    ],
+    "notes": "Strong profile marker."
+  },
+  {
+    "id": "cilantro",
+    "name": "Cilantro",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "herbaceous",
+      "citrusy"
+    ],
+    "balanceScores": {
+      "freshness": 5,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "mexican",
+      "indian",
+      "north_african"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "black_beans",
+      "dried_chickpeas",
+      "lime_juice"
+    ],
+    "notes": "Polarizing."
+  },
+  {
+    "id": "green_onions",
+    "name": "Green onions",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "pungent"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "east_asian",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "miso",
+      "chicken_thighs",
+      "frozen_peas",
+      "dried_mushrooms"
+    ],
+    "notes": "Add just before serving."
+  },
+  {
+    "id": "chives",
+    "name": "Chives",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 3,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "potato",
+      "sour_cream"
+    ],
+    "notes": "Gentle finisher."
+  },
+  {
+    "id": "lemon_juice",
+    "name": "Lemon juice",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "acid",
+      "freshener",
+      "seasoning"
+    ],
+    "traits": [
+      "citrusy"
+    ],
+    "balanceScores": {
+      "acidity": 5,
+      "freshness": 4,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "french",
+      "mediterranean",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "white_beans",
+      "greens",
+      "pearl_barley"
+    ],
+    "notes": "Major anti-heaviness tool."
+  },
+  {
+    "id": "lime_juice",
+    "name": "Lime juice",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "acid",
+      "freshener",
+      "seasoning"
+    ],
+    "traits": [
+      "citrusy"
+    ],
+    "balanceScores": {
+      "acidity": 5,
+      "freshness": 4,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "mexican",
+      "southeast_asian",
+      "latin_american"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "black_beans",
+      "corn",
+      "cilantro",
+      "pork_shoulder"
+    ],
+    "notes": "Add per bowl if uncertain."
+  },
+  {
+    "id": "cider_vinegar",
+    "name": "Cider vinegar",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "acid",
+      "freshener",
+      "seasoning"
+    ],
+    "traits": [
+      "tangy"
+    ],
+    "balanceScores": {
+      "acidity": 5,
+      "freshness": 2
+    },
+    "cuisines": [
+      "american",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "pork_shoulder",
+      "cabbage",
+      "beans"
+    ],
+    "notes": "Good with smoked meats."
+  },
+  {
+    "id": "sherry_vinegar",
+    "name": "Sherry vinegar",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "acid",
+      "freshener",
+      "seasoning"
+    ],
+    "traits": [
+      "tangy"
+    ],
+    "balanceScores": {
+      "acidity": 5,
+      "freshness": 2,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "iberian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "beef_chuck",
+      "lentils",
+      "fresh_mushrooms"
+    ],
+    "notes": "Use sparingly."
+  },
+  {
+    "id": "red_wine_vinegar",
+    "name": "Red wine vinegar",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "acid",
+      "freshener",
+      "seasoning"
+    ],
+    "traits": [
+      "tangy"
+    ],
+    "balanceScores": {
+      "acidity": 5,
+      "freshness": 2
+    },
+    "cuisines": [
+      "italian",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "beans",
+      "greens",
+      "beef_chuck"
+    ],
+    "notes": "General-purpose finisher."
+  },
+  {
+    "id": "parmesan",
+    "name": "Parmesan",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "seasoning",
+      "fat"
+    ],
+    "traits": [
+      "savory",
+      "nutty"
+    ],
+    "balanceScores": {
+      "richness": 3,
+      "umami": 4,
+      "texture": 1
+    },
+    "cuisines": [
+      "italian"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "pearl_barley",
+      "white_beans",
+      "spinach",
+      "chicken_thighs"
+    ],
+    "avoidWith": [
+      "miso"
+    ],
+    "notes": "Best added per bowl."
+  },
+  {
+    "id": "parmesan_rind",
+    "name": "Parmesan rind",
+    "category": "topping",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "body"
+    ],
+    "traits": [
+      "savory",
+      "nutty"
+    ],
+    "balanceScores": {
+      "body": 2,
+      "richness": 2,
+      "umami": 4
+    },
+    "cuisines": [
+      "italian"
+    ],
+    "saltRisk": "high",
+    "cookMinutes": {
+      "min": 20,
+      "max": 60
+    },
+    "pairsWith": [
+      "white_beans",
+      "pearl_barley",
+      "canned_tomatoes",
+      "greens"
+    ],
+    "avoidWith": [
+      "ham_hock"
+    ],
+    "notes": "Remove before serving."
+  },
+  {
+    "id": "miso",
+    "name": "Miso",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "fermented",
+      "savory"
+    ],
+    "balanceScores": {
+      "umami": 5,
+      "richness": 1,
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "east_asian"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "chicken_thighs",
+      "dried_mushrooms",
+      "spinach",
+      "green_onions"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "parmesan"
+    ],
+    "notes": "Dissolve in hot broth after pressure cooking."
+  },
+  {
+    "id": "yogurt",
+    "name": "Yogurt",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "acid"
+    ],
+    "traits": [
+      "creamy",
+      "tangy"
+    ],
+    "balanceScores": {
+      "richness": 2,
+      "acidity": 2,
+      "freshness": 2
+    },
+    "cuisines": [
+      "indian",
+      "middle_eastern",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "dried_chickpeas",
+      "lamb_shoulder",
+      "cumin",
+      "herbs"
+    ],
+    "notes": "Add per bowl."
+  },
+  {
+    "id": "sour_cream",
+    "name": "Sour cream",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "acid"
+    ],
+    "traits": [
+      "creamy",
+      "tangy"
+    ],
+    "balanceScores": {
+      "richness": 3,
+      "acidity": 2
+    },
+    "cuisines": [
+      "eastern_european",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "dill",
+      "potato",
+      "cabbage",
+      "ham_hock"
+    ],
+    "notes": "Add per bowl."
+  },
+  {
+    "id": "crispy_bacon",
+    "name": "Crispy bacon",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "seasoning",
+      "texture"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "richness": 4,
+      "umami": 3,
+      "smoke": 4,
+      "texture": 4
+    },
+    "cuisines": [
+      "american"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "beans",
+      "roots",
+      "greens"
+    ],
+    "avoidWith": [
+      "ham_hock",
+      "smoked_sausage"
+    ],
+    "notes": "Texture contrast."
+  },
+  {
+    "id": "fried_onions",
+    "name": "Fried onions",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "texture"
+    ],
+    "traits": [
+      "savory"
+    ],
+    "balanceScores": {
+      "sweetness": 2,
+      "richness": 2,
+      "umami": 2,
+      "texture": 5
+    },
+    "cuisines": [
+      "american",
+      "central_european",
+      "indian"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "lentils",
+      "beans",
+      "roots"
+    ],
+    "notes": "Texture contrast."
+  },
+  {
+    "id": "croutons",
+    "name": "Croutons",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "starch",
+      "texture"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "body": 1,
+      "texture": 5
+    },
+    "cuisines": [
+      "french",
+      "italian"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "greens",
+      "parmesan"
+    ],
+    "notes": "Add only at serving; best in soupier builds."
+  },
+  {
+    "id": "pumpkin_seeds",
+    "name": "Pumpkin seeds",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "richness": 1,
+      "texture": 5
+    },
+    "cuisines": [
+      "mexican",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "black_beans",
+      "butternut_squash",
+      "lime_juice"
+    ],
+    "notes": "Crunch without much heaviness."
+  },
+  {
+    "id": "sunflower_seeds",
+    "name": "Sunflower seeds",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "topping",
+      "fat",
+      "texture"
+    ],
+    "traits": [
+      "nutty"
+    ],
+    "balanceScores": {
+      "richness": 1,
+      "texture": 5
+    },
+    "cuisines": [
+      "universal",
+      "eastern_european"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "roots",
+      "greens",
+      "yogurt"
+    ],
+    "notes": "Inexpensive topping."
+  },
+  {
+    "id": "bay_leaf",
+    "name": "Bay leaf",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "french",
+      "mediterranean",
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "beans",
+      "meat",
+      "roots",
+      "pearl_barley"
+    ],
+    "notes": "Remove before serving."
+  },
+  {
+    "id": "whole_black_pepper",
+    "name": "Whole black pepper",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "peppery"
+    ],
+    "balanceScores": {
+      "heat": 2,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "meat",
+      "beans",
+      "roots"
+    ],
+    "notes": "Whole peppercorns survive long cooking."
+  },
+  {
+    "id": "fennel_seed",
+    "name": "Fennel seed",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "anise"
+    ],
+    "balanceScores": {
+      "sweetness": 1,
+      "aromatic_intensity": 5
+    },
+    "cuisines": [
+      "italian",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "pork_shoulder",
+      "chicken_thighs",
+      "white_beans",
+      "canned_tomatoes"
+    ],
+    "avoidWith": [
+      "cumin"
+    ],
+    "notes": "Use moderately."
+  },
+  {
+    "id": "cumin",
+    "name": "Cumin",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 5,
+      "heat": 1
+    },
+    "cuisines": [
+      "mexican",
+      "indian",
+      "north_african",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "black_beans",
+      "dried_chickpeas",
+      "lamb_shoulder",
+      "lime_juice"
+    ],
+    "notes": "Bloom briefly in fat."
+  },
+  {
+    "id": "coriander_seed",
+    "name": "Coriander seed",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "citrusy",
+      "floral"
+    ],
+    "balanceScores": {
+      "freshness": 1,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "indian",
+      "north_african",
+      "mexican"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "cumin",
+      "dried_chickpeas",
+      "chicken_thighs",
+      "lemon_juice"
+    ],
+    "notes": "Whole or ground."
+  },
+  {
+    "id": "oregano",
+    "name": "Oregano",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "italian",
+      "mexican",
+      "mediterranean"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "canned_tomatoes",
+      "beans",
+      "pork_shoulder",
+      "chicken_thighs"
+    ],
+    "notes": "Cuisine depends on companions."
+  },
+  {
+    "id": "thyme",
+    "name": "Thyme",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "french",
+      "british"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "chicken_thighs",
+      "roots",
+      "pearl_barley",
+      "white_wine"
+    ],
+    "notes": "Reliable with roots."
+  },
+  {
+    "id": "rosemary",
+    "name": "Rosemary",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "resinous",
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 5
+    },
+    "cuisines": [
+      "italian",
+      "french"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "lamb_shoulder",
+      "beef_chuck",
+      "white_beans",
+      "potato"
+    ],
+    "notes": "Use sparingly."
+  },
+  {
+    "id": "smoked_paprika",
+    "name": "Smoked paprika",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "smoke": 4,
+      "sweetness": 1,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "iberian",
+      "central_european"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "pork_shoulder",
+      "beans",
+      "smoked_sausage",
+      "canned_tomatoes"
+    ],
+    "avoidWith": [
+      "ham_hock"
+    ],
+    "notes": "Bloom briefly."
+  },
+  {
+    "id": "chipotle",
+    "name": "Chipotle",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "fruity"
+    ],
+    "balanceScores": {
+      "heat": 4,
+      "smoke": 5,
+      "aromatic_intensity": 4
+    },
+    "cuisines": [
+      "mexican"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "black_beans",
+      "pork_shoulder",
+      "canned_tomatoes",
+      "lime_juice"
+    ],
+    "notes": "Strong cuisine anchor."
+  },
+  {
+    "id": "cinnamon",
+    "name": "Cinnamon",
+    "category": "spice",
+    "stage": "pressure",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "sweetness": 1,
+      "aromatic_intensity": 5
+    },
+    "cuisines": [
+      "north_african",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "lamb_shoulder",
+      "dried_chickpeas",
+      "cumin"
+    ],
+    "notes": "Use a very small amount."
+  },
+  {
+    "id": "turmeric",
+    "name": "Turmeric",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "earthy"
+    ],
+    "balanceScores": {
+      "aromatic_intensity": 2
+    },
+    "cuisines": [
+      "indian",
+      "middle_eastern"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "lentils",
+      "dried_chickpeas",
+      "ginger"
+    ],
+    "notes": "Bloom in fat."
+  },
+  {
+    "id": "garam_masala",
+    "name": "Garam masala",
+    "category": "spice",
+    "stage": "finish",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [],
+    "balanceScores": {
+      "aromatic_intensity": 5,
+      "heat": 1
+    },
+    "cuisines": [
+      "indian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "dried_chickpeas",
+      "lentils",
+      "chicken_thighs",
+      "yogurt"
+    ],
+    "notes": "Better near the end."
+  },
+  {
+    "id": "curry_paste",
+    "name": "Curry paste",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "pungent"
+    ],
+    "balanceScores": {
+      "heat": 4,
+      "umami": 2,
+      "aromatic_intensity": 5
+    },
+    "cuisines": [
+      "southeast_asian"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "chicken_thighs",
+      "coconut_milk",
+      "vegetables"
+    ],
+    "avoidWith": [
+      "parmesan",
+      "red_wine"
+    ],
+    "notes": "Fry briefly before liquid."
+  },
+  {
+    "id": "soy_sauce",
+    "name": "Soy sauce",
+    "category": "spice",
+    "stage": "finish",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "fermented",
+      "savory"
+    ],
+    "balanceScores": {
+      "umami": 4,
+      "aromatic_intensity": 1
+    },
+    "cuisines": [
+      "east_asian"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "dried_mushrooms",
+      "chicken_thighs",
+      "miso",
+      "greens"
+    ],
+    "avoidWith": [
+      "ham_hock"
+    ],
+    "notes": "Treat mainly as seasoning."
+  },
+  {
+    "id": "fish_sauce",
+    "name": "Fish sauce",
+    "category": "spice",
+    "stage": "finish",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [
+      "fermented",
+      "savory",
+      "pungent"
+    ],
+    "balanceScores": {
+      "umami": 5,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "southeast_asian"
+    ],
+    "saltRisk": "high",
+    "pairsWith": [
+      "chicken_thighs",
+      "lime_juice",
+      "herbs",
+      "chile"
+    ],
+    "avoidWith": [
+      "parmesan",
+      "sour_cream"
+    ],
+    "notes": "Use in tiny amounts."
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "category": "spice",
+    "stage": "finish",
+    "roles": [
+      "seasoning"
+    ],
+    "traits": [],
+    "balanceScores": {},
+    "cuisines": [
+      "universal"
+    ],
+    "saltRisk": "high",
+    "notes": "Dosage-dependent; do not score as an ingredient-level balance axis."
+  },
+  {
+    "id": "coconut_milk",
+    "name": "Coconut milk",
+    "category": "liquid",
+    "stage": "deglaze",
+    "roles": [
+      "liquid",
+      "fat",
+      "body"
+    ],
+    "traits": [
+      "creamy",
+      "nutty"
+    ],
+    "balanceScores": {
+      "richness": 4,
+      "body": 2,
+      "sweetness": 1
+    },
+    "cuisines": [
+      "southeast_asian",
+      "indian",
+      "east_asian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "curry_paste",
+      "chicken_thighs",
+      "sweet_potato",
+      "ginger"
+    ],
+    "notes": "Light coconut milk holds up to pressure; stir thicker coconut cream in near the end to avoid splitting."
+  },
+  {
+    "id": "peanut",
+    "name": "Peanut butter",
+    "category": "fat",
+    "stage": "stir_in",
+    "roles": [
+      "fat",
+      "body",
+      "thickener"
+    ],
+    "traits": [
+      "nutty",
+      "creamy"
+    ],
+    "balanceScores": {
+      "richness": 4,
+      "body": 3,
+      "umami": 1
+    },
+    "cuisines": [
+      "west_african",
+      "southeast_asian"
+    ],
+    "saltRisk": "medium",
+    "pairsWith": [
+      "sweet_potato",
+      "chicken_thighs",
+      "chile"
+    ],
+    "notes": "Stir in near the end to enrich and thicken; thin with broth to prevent clumping."
+  },
+  {
+    "id": "chile",
+    "name": "Fresh chile",
+    "category": "spice",
+    "stage": "aromatics",
+    "roles": [
+      "seasoning",
+      "aromatic"
+    ],
+    "traits": [
+      "pungent",
+      "fruity"
+    ],
+    "balanceScores": {
+      "heat": 4,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "mexican",
+      "southeast_asian",
+      "indian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "sweet_potato",
+      "black_beans",
+      "lime_juice",
+      "fish_sauce"
+    ],
+    "notes": "Adjust amount to taste; remove seeds for less heat."
+  },
+  {
+    "id": "mint",
+    "name": "Mint",
+    "category": "topping",
+    "stage": "finish",
+    "roles": [
+      "freshener",
+      "topping"
+    ],
+    "traits": [
+      "herbaceous"
+    ],
+    "balanceScores": {
+      "freshness": 4,
+      "aromatic_intensity": 3
+    },
+    "cuisines": [
+      "middle_eastern",
+      "indian",
+      "southeast_asian"
+    ],
+    "saltRisk": "low",
+    "pairsWith": [
+      "frozen_peas",
+      "yogurt",
+      "lamb_shoulder",
+      "lemon_juice"
+    ],
+    "notes": "Add at the end; brightens rich or bean-heavy builds."
+  }
+]
