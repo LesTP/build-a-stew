@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Project Bootstrap",
     "regime": "build",
-    "status": "pending",
+    "status": "complete",
     "module": "bootstrap",
     "dependencies": []
   },

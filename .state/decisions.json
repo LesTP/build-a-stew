@@ -16,5 +16,15 @@
     "priority": "high",
     "decision": "The Phase 1 seed fixture (10-15 ingredients) must include at least one example of: a pairsWith group ref, a pairsWith direct ID ref, a cuisineWeights object, a populated cookMinutes, and a blank cookMinutes. This ensures every converter branch is proven before Phase 2 runs the full 119-ingredient catalog.",
     "rationale": "If untested converter branches hit only in Phase 2, debugging cost multiplies. Testing all branches on a small hand-crafted fixture is cheap and prevents late surprises."
+  },
+  {
+    "id": "D-14",
+    "phase": 1,
+    "title": "Vinegar group IDs: defer reconciliation to Phase 2",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave vinegar group as [red_wine_vinegar, sherry_vinegar, apple_cider_vinegar, white_wine_vinegar] until Phase 2 processes the full CSV catalog.",
+    "rationale": "The architecture spec lists cider_vinegar but the likely actual catalog ID is apple_cider_vinegar (full name). white_wine_vinegar may also exist. Changing blindly risks Phase 2 group resolution failures. Phase 2 must verify these IDs match the catalog and update if needed.",
+    "revisit_if": "Phase 2 processes the full CSV catalog and resolves actual ingredient IDs for vinegar items."
   }
 ]
