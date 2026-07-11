@@ -55,5 +55,47 @@
     "decision": "Leave `catalog.ts` using `JSON.parse(JSON.stringify())` and `store.tsx` using `structuredClone`. Both are correct for the data shapes involved.",
     "rationale": "No behavioral difference for plain JSON-serializable ingredient/build data. Standardizing is churn; both approaches are defensible. Unify opportunistically when one file is next edited significantly.",
     "revisit_if": "Either file is substantially refactored, or a data type is introduced that JSON-roundtripping would corrupt (e.g. Date, undefined values)."
+  },
+  {
+    "id": "D-18",
+    "title": "Composer layout: four equal columns, vertical timeline",
+    "status": "closed",
+    "priority": "high",
+    "phase": 3,
+    "timestamp": "2026-07-11T07:24:59Z",
+    "decision": "The composer is four equal-width columns in order Library -> Detail -> Timeline -> Analysis; the cooking timeline is a vertical list of the 8 stages in canonical order (not a horizontal board), stacking to a single column on mobile.",
+    "rationale": "A browse -> inspect -> place -> assess flow gives each step its own column; a vertical timeline reads naturally and reuses the same layout on mobile.",
+    "revisit_if": "The timeline needs simultaneous cross-stage comparison better served by a horizontal board."
+  },
+  {
+    "id": "D-19",
+    "title": "Placement model: select-to-detail then pick-stage; click+keyboard, no drag in MVP",
+    "status": "closed",
+    "priority": "high",
+    "phase": 3,
+    "timestamp": "2026-07-11T07:24:59Z",
+    "decision": "Placement is select-then-place: click a library ingredient to load Detail, then pick a target stage (default suggested) to send it to the timeline; every place/move/remove is click- and keyboard-operable, with drag-and-drop deferred as a later enhancement.",
+    "rationale": "Guarantees the accessible non-drag path required by the drag-and-drop escalation trigger, and fully specifies the interaction for Phase 3 before any drag library is chosen.",
+    "revisit_if": "Usability testing shows select-then-place is too slow and drag becomes the primary interaction (drag must still keep a keyboard/click equivalent)."
+  },
+  {
+    "id": "D-20",
+    "title": "Card face vs detail split",
+    "status": "closed",
+    "priority": "medium",
+    "phase": 3,
+    "timestamp": "2026-07-11T07:24:59Z",
+    "decision": "Library card faces stay compact (name plus a salt-risk flag); full metadata, including balance-axis bars, is shown only in the Detail column.",
+    "rationale": "Balance sparklines on the card face read as cryptic in the spike; a dedicated Detail column presents the ~12 ingredient fields legibly without crowding the browse list.",
+    "revisit_if": "Users need at-a-glance balance while browsing without opening Detail."
+  },
+  {
+    "id": "D-21",
+    "phase": 3,
+    "title": "Analysis column is a placeholder in Phase 3",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Phase 3 renders only a static summary (ingredient count, populated stage count, Phase 4 note) in the Analysis column. No balance bars, cuisine scores, or warnings are computed.",
+    "rationale": "Analysis logic is Phase 4. Building the composer interaction model first keeps the two concerns independent and avoids wiring incomplete analysis into Phase 3 component tests."
   }
 ]
