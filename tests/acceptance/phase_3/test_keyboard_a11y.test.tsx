@@ -205,23 +205,9 @@ describe('Keyboard accessibility — Phase 3', () => {
     if (pressureBtn) await user.click(pressureBtn);
 
     const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-
-    // Tab to the remove button and press Enter
-    for (let i = 0; i < 30; i++) {
-      await user.tab();
-      const active = document.activeElement;
-      if (
-        active &&
-        timeline.contains(active) &&
-        (active.getAttribute('role') === 'button' || active.tagName === 'BUTTON')
-      ) {
-        const label = (active.getAttribute('aria-label') ?? active.textContent ?? '').toLowerCase();
-        if (/remove|delete|×|✕/.test(label)) {
-          await user.keyboard('{Enter}');
-          break;
-        }
-      }
-    }
+    const removeButton = within(timeline).getByRole('button', { name: /remove chicken thighs/i });
+    removeButton.focus();
+    await user.keyboard('{Enter}');
 
     // Ingredient should be gone
     expect(within(timeline).queryByText(/chicken/i)).toBeNull();

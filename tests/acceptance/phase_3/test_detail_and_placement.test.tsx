@@ -99,8 +99,8 @@ describe('Ingredient Detail panel — Phase 3', () => {
     await user.click(within(library).getByText(/chicken thigh/i));
 
     const detail = screen.getByRole('region', { name: /detail/i });
-    // salt risk should be one of: low / medium / high
-    expect(within(detail).queryByText(/low|medium|high/i)).toBeDefined();
+    const saltRisk = within(detail).getByText(/^(low|medium|high)$/i);
+    expect(saltRisk).toBeDefined();
   });
 
   it('Detail shows balance score labels (axes) as labeled bars or values', async () => {
