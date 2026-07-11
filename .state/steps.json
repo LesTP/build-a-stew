@@ -42,35 +42,40 @@
     "phase": 2,
     "step": 1,
     "title": "Run full CSV catalog conversion",
-    "status": "pending",
-    "notes": "Add convert:catalog script to package.json (tsx scripts/convert-catalog.ts). Run converter on insta_the_pot_ingredients_v2.csv to produce src/catalog/ingredients.json. Tests verify: output file exists; record count >= 100; every record passes ingredientSchema; no duplicate IDs; converter exits 0 with no warnings."
+    "status": "complete",
+    "notes": "Add convert:catalog script to package.json (tsx scripts/convert-catalog.ts). Run converter on insta_the_pot_ingredients_v2.csv to produce src/catalog/ingredients.json. Tests verify: output file exists; record count >= 100; every record passes ingredientSchema; no duplicate IDs; converter exits 0 with no warnings.",
+    "commit": "d8c3662"
   },
   {
     "phase": 2,
     "step": 2,
     "title": "Catalog loader with load-time integrity validation",
-    "status": "pending",
-    "notes": "src/catalog/index.ts: import ingredients.json statically; validate every record with ingredientSchema at module load; run integrity checks (no duplicate IDs, every pairsWith/avoidWith token is a known GroupTag or an ingredient ID in the catalog, group tags and ingredient IDs are disjoint, every group has >= 1 member in the catalog). Expose getIngredient(id), listIngredients(filters?). Tests: catalog loads 119 records; getIngredient returns correct record; getIngredient unknown ID returns undefined; listIngredients with category filter returns correct subset; integrity checks throw on injected duplicate/broken-ref catalog."
+    "status": "complete",
+    "notes": "src/catalog/index.ts: import ingredients.json statically; validate every record with ingredientSchema at module load; run integrity checks (no duplicate IDs, every pairsWith/avoidWith token is a known GroupTag or an ingredient ID in the catalog, group tags and ingredient IDs are disjoint, every group has >= 1 member in the catalog). Expose getIngredient(id), listIngredients(filters?). Tests: catalog loads 119 records; getIngredient returns correct record; getIngredient unknown ID returns undefined; listIngredients with category filter returns correct subset; integrity checks throw on injected duplicate/broken-ref catalog.",
+    "commit": "c585426"
   },
   {
     "phase": 2,
     "step": 3,
     "title": "Immutable build operations",
-    "status": "pending",
-    "notes": "src/store/buildReducer.ts: implement addIngredient, removeIngredient, moveIngredient, updateBuildIngredient — each takes (build: StewBuild, ...) and returns a new StewBuild without mutating the input. Export UnknownIngredientError (typed Error subclass). Invariants: at most one row per ingredient ID (addIngredient throws UnknownIngredientError if ID unknown, is a no-op or throws on duplicate — choose throw for clarity); remove/move/update throw UnknownIngredientError for unknown IDs; all functions are pure (no catalog import — catalog is passed as parameter where needed for ID validation). Tests: add creates new object leaving original unchanged; double-add throws; remove removes; move changes stage; update patches quantity/unit without touching other fields; unknown-ID operations all throw UnknownIngredientError; cross-product: add+move+remove sequence on same ID."
+    "status": "complete",
+    "notes": "src/store/buildReducer.ts: implement addIngredient, removeIngredient, moveIngredient, updateBuildIngredient — each takes (build: StewBuild, ...) and returns a new StewBuild without mutating the input. Export UnknownIngredientError (typed Error subclass). Invariants: at most one row per ingredient ID (addIngredient throws UnknownIngredientError if ID unknown, is a no-op or throws on duplicate — choose throw for clarity); remove/move/update throw UnknownIngredientError for unknown IDs; all functions are pure (no catalog import — catalog is passed as parameter where needed for ID validation). Tests: add creates new object leaving original unchanged; double-add throws; remove removes; move changes stage; update patches quantity/unit without touching other fields; unknown-ID operations all throw UnknownIngredientError; cross-product: add+move+remove sequence on same ID.",
+    "commit": "ff3e2f1"
   },
   {
     "phase": 2,
     "step": 4,
     "title": "React build store",
-    "status": "pending",
-    "notes": "src/store/index.ts: React context + useReducer wrapping buildReducer actions. Expose useBuildStore() hook returning {build, dispatch}. Action union: AddIngredient, RemoveIngredient, MoveIngredient, UpdateBuildIngredient. Errors from buildReducer propagate as thrown exceptions. BuildStoreProvider wraps the app. Tests: hook returns initial empty build; dispatch AddIngredient action updates build; dispatch RemoveIngredient removes it; dispatch MoveIngredient changes stage field; dispatch unknown action leaves build unchanged."
+    "status": "complete",
+    "notes": "src/store/index.ts: React context + useReducer wrapping buildReducer actions. Expose useBuildStore() hook returning {build, dispatch}. Action union: AddIngredient, RemoveIngredient, MoveIngredient, UpdateBuildIngredient. Errors from buildReducer propagate as thrown exceptions. BuildStoreProvider wraps the app. Tests: hook returns initial empty build; dispatch AddIngredient action updates build; dispatch RemoveIngredient removes it; dispatch MoveIngredient changes stage field; dispatch unknown action leaves build unchanged.",
+    "commit": "60abea5"
   },
   {
     "phase": 2,
     "step": 5,
     "title": "Minimal stage-grouped build summary UI",
-    "status": "pending",
-    "notes": "src/components/BuildSummary.tsx: renders a text list of the current build grouped by stage in canonical stage order (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over). Each non-empty stage shows its name and ingredient names. Empty stages are omitted. src/App.tsx: renders BuildSummary inside BuildStoreProvider; includes a hardcoded demo add of two or three ingredients from the loaded catalog to prove catalog -> build -> UI flow. Tests: render BuildSummary with a build containing ingredients in multiple stages; verify stage headings appear in canonical order; verify ingredient names appear under the correct stage; verify empty stages produce no heading; end-to-end render: App renders without errors and shows at least one ingredient name."
+    "status": "complete",
+    "notes": "src/components/BuildSummary.tsx: renders a text list of the current build grouped by stage in canonical stage order (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over). Each non-empty stage shows its name and ingredient names. Empty stages are omitted. src/App.tsx: renders BuildSummary inside BuildStoreProvider; includes a hardcoded demo add of two or three ingredients from the loaded catalog to prove catalog -> build -> UI flow. Tests: render BuildSummary with a build containing ingredients in multiple stages; verify stage headings appear in canonical order; verify ingredient names appear under the correct stage; verify empty stages produce no heading; end-to-end render: App renders without errors and shows at least one ingredient name.",
+    "commit": "f84ba15"
   }
 ]

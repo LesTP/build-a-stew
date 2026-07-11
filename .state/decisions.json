@@ -35,5 +35,25 @@
     "priority": "medium",
     "decision": "buildReducer functions take catalog: Ingredient[] as a parameter for ID validation rather than importing the catalog module directly. This keeps build operations pure and independently testable without the real catalog.",
     "rationale": "Avoids implicit coupling to the static catalog import; lets tests inject small fixture catalogs. The React store layer passes the loaded catalog from context."
+  },
+  {
+    "id": "D-16",
+    "phase": 2,
+    "title": "Skip: remove redundant assertValidStage runtime check in build.ts",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave the `assertValidStage` runtime guard in `updateBuildIngredient`. TypeScript already prevents invalid CookingStage values at compile time, so the check is dead code at runtime, but it costs nothing and guards against future JavaScript callers.",
+    "rationale": "Removal adds noise to git blame for low signal; guard is harmless and adds belt-and-suspenders safety.",
+    "revisit_if": "Next significant refactor of build.ts touches updateBuildIngredient."
+  },
+  {
+    "id": "D-17",
+    "phase": 2,
+    "title": "Skip: unify deep-copy strategy between catalog.ts and store.tsx",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave `catalog.ts` using `JSON.parse(JSON.stringify())` and `store.tsx` using `structuredClone`. Both are correct for the data shapes involved.",
+    "rationale": "No behavioral difference for plain JSON-serializable ingredient/build data. Standardizing is churn; both approaches are defensible. Unify opportunistically when one file is next edited significantly.",
+    "revisit_if": "Either file is substantially refactored, or a data type is introduced that JSON-roundtripping would corrupt (e.g. Date, undefined values)."
   }
 ]

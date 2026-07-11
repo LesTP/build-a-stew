@@ -11,7 +11,7 @@
     "id": 2,
     "title": "Catalog and Build Core",
     "regime": "build",
-    "status": "pending",
+    "status": "complete",
     "dependencies": []
   },
   {
