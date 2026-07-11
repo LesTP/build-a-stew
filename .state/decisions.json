@@ -26,5 +26,14 @@
     "decision": "Leave vinegar group as [red_wine_vinegar, sherry_vinegar, apple_cider_vinegar, white_wine_vinegar] until Phase 2 processes the full CSV catalog.",
     "rationale": "The architecture spec lists cider_vinegar but the likely actual catalog ID is apple_cider_vinegar (full name). white_wine_vinegar may also exist. Changing blindly risks Phase 2 group resolution failures. Phase 2 must verify these IDs match the catalog and update if needed.",
     "revisit_if": "Phase 2 processes the full CSV catalog and resolves actual ingredient IDs for vinegar items."
+  },
+  {
+    "id": "D-15",
+    "phase": 2,
+    "title": "Build operations receive catalog as parameter",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "buildReducer functions take catalog: Ingredient[] as a parameter for ID validation rather than importing the catalog module directly. This keeps build operations pure and independently testable without the real catalog.",
+    "rationale": "Avoids implicit coupling to the static catalog import; lets tests inject small fixture catalogs. The React store layer passes the loaded catalog from context."
   }
 ]
