@@ -21,37 +21,96 @@ function AppContent() {
   }, [build.ingredients]);
 
   return (
-    <main className="app-shell">
-      <section className="hero">
-        <p className="eyebrow">Build-a-Stew</p>
-        <h1>Catalog-driven stew planning</h1>
-        <p className="hero-copy">
-          A minimal build view that loads ingredients from the generated catalog, seeds a demo build,
-          and groups the active pot by cooking stage.
-        </p>
-        <div className="hero-stats" aria-label="Build overview">
-          <div>
-            <span className="stat-value">{build.ingredients.length}</span>
-            <span className="stat-label">ingredients</span>
-          </div>
-          <div>
-            <span className="stat-value">{groupedStageCount}</span>
-            <span className="stat-label">active stages</span>
-          </div>
-          <div>
-            <span className="stat-value">{catalog.length}</span>
-            <span className="stat-label">catalog items</span>
-          </div>
+    <>
+      <header className="app-header">
+        <div className="brand-block">
+          <p className="eyebrow">Build-a-Stew</p>
+          <h1>Insta the Pot</h1>
+          <p className="hero-copy">
+            A catalog-driven stew composer with four working columns for browsing, inspecting, staging,
+            and analysis.
+          </p>
         </div>
-        <div className="hero-actions">
+
+        <div className="header-toolbar" aria-label="Build controls">
+          <div className="hero-stats" aria-label="Build overview">
+            <div>
+              <span className="stat-value">{build.ingredients.length}</span>
+              <span className="stat-label">ingredients</span>
+            </div>
+            <div>
+              <span className="stat-value">{groupedStageCount}</span>
+              <span className="stat-label">active stages</span>
+            </div>
+            <div>
+              <span className="stat-value">{catalog.length}</span>
+              <span className="stat-label">catalog items</span>
+            </div>
+          </div>
           <button type="button" className="primary-action" onClick={resetBuild}>
             Clear demo build
           </button>
         </div>
-      </section>
+      </header>
 
-      <BuildSummary build={build} catalog={catalog} />
-    </main>
+      <main className="app-shell">
+        <section className="composer-panel composer-panel--library" aria-labelledby="library-title">
+          <div className="panel-heading">
+            <p className="eyebrow">Library</p>
+            <h2 id="library-title">Ingredient browser</h2>
+          </div>
+          <p className="panel-copy">
+            Phase 3 will add category tabs, search, and ingredient cards here. The catalog is already
+            loaded and ready for filtering.
+          </p>
+          <dl className="panel-metrics" aria-label="Library summary">
+            <div>
+              <dt>Catalog size</dt>
+              <dd>{catalog.length}</dd>
+            </div>
+            <div>
+              <dt>Demo picks</dt>
+              <dd>{build.ingredients.length}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="composer-panel composer-panel--detail" aria-labelledby="detail-title">
+          <div className="panel-heading">
+            <p className="eyebrow">Detail</p>
+            <h2 id="detail-title">Ingredient inspector</h2>
+          </div>
+          <p className="panel-copy">
+            Selecting an ingredient will surface metadata, stage placement controls, and action buttons
+            in this column.
+          </p>
+          <div className="panel-placeholder" aria-hidden="true">
+            Click an ingredient card to inspect its notes, tags, and stage options.
+          </div>
+        </section>
+
+        <section className="composer-panel composer-panel--timeline" aria-labelledby="timeline-title">
+          <div className="panel-heading">
+            <p className="eyebrow">Timeline</p>
+            <h2 id="timeline-title">Cooking timeline</h2>
+          </div>
+          <BuildSummary build={build} catalog={catalog} />
+        </section>
+
+        <section className="composer-panel composer-panel--analysis" aria-labelledby="analysis-title">
+          <div className="panel-heading">
+            <p className="eyebrow">Analysis</p>
+            <h2 id="analysis-title">Guidance placeholder</h2>
+          </div>
+          <p className="panel-copy">
+            Phase 4 will fill this lane with scoring, affinity hints, and next-step recommendations.
+          </p>
+          <div className="panel-placeholder panel-placeholder--soft" aria-hidden="true">
+            Analysis is intentionally empty in Phase 3.
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 
