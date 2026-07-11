@@ -52,13 +52,13 @@ export const GROUP_DEFINITIONS: Record<GroupTag, GroupDefinition> = {
   greens:       { category: 'greens' },
   grains:       { category: 'grains' },
   spices:       { category: 'spice' },
-  herbs:        { ids: ['parsley', 'thyme', 'rosemary', 'bay_leaf', 'cilantro', 'dill', 'tarragon', 'sage'] },
+  herbs:        { ids: ['parsley', 'dill', 'cilantro', 'mint', 'chives', 'bay_leaf', 'thyme', 'rosemary', 'oregano'] },
   wine:         { ids: ['white_wine', 'red_wine'] },
   vinegar:      { ids: ['red_wine_vinegar', 'sherry_vinegar', 'apple_cider_vinegar', 'white_wine_vinegar'] },
-  beans:        { category: 'legumes' },
+  beans:        { ids: ['dried_black_beans', 'cooked_black_beans', 'dried_white_beans', 'cooked_white_beans'] },
   black_beans:  { ids: ['dried_black_beans', 'cooked_black_beans'] },
   white_beans:  { ids: ['dried_white_beans', 'cooked_white_beans'] },
-  lentils:      { ids: ['lentils', 'red_lentils'] },
+  lentils:      { ids: ['red_lentils_pressure', 'red_lentils_simmer', 'green_lentils', 'brown_lentils'] },
 };
 
 export interface Ingredient {
