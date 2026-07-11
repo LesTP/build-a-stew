@@ -91,8 +91,8 @@ export function moveIngredient(build: StewBuild, ingredientId: IngredientId, sta
   return updateBuildIngredient(build, ingredientId, { stage });
 }
 
-export function groupBuildByStage(build: StewBuild): Partial<Record<CookingStage, BuildIngredient[]>> {
-  const grouped: Partial<Record<CookingStage, BuildIngredient[]>> = {};
+export function groupBuildByStage(build: StewBuild): Record<CookingStage, BuildIngredient[]> {
+  const grouped = {} as Record<CookingStage, BuildIngredient[]>;
 
   for (const stage of COOKING_STAGES) {
     const ingredients = build.ingredients
