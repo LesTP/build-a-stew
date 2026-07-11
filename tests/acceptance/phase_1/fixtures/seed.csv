@@ -1,0 +1,15 @@
+id,name,category,stage,roles,traits,balance_scores,cuisines,cook_min,cook_max,salt_risk,pairs_with,avoid_with,notes
+chicken_thighs,Chicken thighs,protein,brown,protein; fat; body,savory,"{""body"":2,""richness"":3,""umami"":2}",universal; french,15,25,low,grains; roots,,Cheap and forgiving.
+bacon,Bacon,fat,brown,fat; seasoning,savory,"{""richness"":4,""umami"":3,""smoke"":4}",american; french,5,10,high,beans; roots,,Render first.
+fresh_mushrooms,Fresh mushrooms,vegetable,brown,body; texture,earthy; savory,"{""umami"":4,""richness"":1,""texture"":3}",french; italian,5,10,low,grains; wine,,Brown in batches.
+onion,Onion,aromatics,aromatics,aromatic,pungent; savory,"{""sweetness"":2,""umami"":1,""aromatic_intensity"":3}",universal,5,10,low,,,Core aromatic.
+garlic,Garlic,aromatics,aromatics,aromatic; seasoning,garlicky; pungent,"{""umami"":1,""aromatic_intensity"":4}",universal,1,3,low,,,Add after onion; do not scorch.
+white_wine,White wine,liquid,deglaze,liquid; acid,fruity,"{""acidity"":2,""freshness"":1,""aromatic_intensity"":3}",french; italian,,,low,meat; roots,,Cook off alcohol before pressure.
+carrot,Carrot,roots,pressure,body,earthy,"{""sweetness"":3,""texture"":1}",universal,10,20,low,,,Core root vegetable.
+pearl_barley,Pearl barley,grains,pressure,starch; body; thickener; texture,nutty,"{""body"":3,""texture"":4,""richness"":1}",french; british,20,30,low,meat; roots,,Strong fit for long-cook stews.
+dried_white_beans,Dried white beans,legumes,pressure,protein; starch; body; thickener,creamy; savory,"{""body"":4,""umami"":2,""texture"":2}",italian; french,30,45,low,meat; greens,,More neutral than black beans.
+kale,Kale,greens,simmer_after,freshener; texture,herbaceous; bitter,"{""freshness"":3,""texture"":3}",italian; universal,5,10,low,white_beans; grains,,Better leftover texture than spinach.
+spinach,Spinach,greens,stir_in,freshener,herbaceous,"{""freshness"":4,""texture"":1}",italian; universal,1,3,low,meat; white_beans,,Add after opening.
+corn,Corn,vegetable,stir_in,texture; freshener,,"{""sweetness"":4,""freshness"":2,""texture"":2}",mexican; american,2,5,low,beans; meat,,Frozen corn works well.
+parsley,Parsley,topping,finish,freshener; topping,herbaceous,"{""freshness"":4,""aromatic_intensity"":2}",french; italian,,,low,meat; grains,,Very versatile.
+couscous,Couscous,grains,serve_over,starch; body,,"{""body"":2,""texture"":2}",north_african; mediterranean,5,5,low,meat,,Prepare separately.
