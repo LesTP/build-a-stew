@@ -29,7 +29,9 @@ export const ingredientSchema = z.object({
   pairsWith: z.array(z.string()).optional(),
   avoidWith: z.array(z.string()).optional(),
   notes: z.string().optional(),
-});
+}).strict();
+
+export const ingredientCatalogSchema = z.array(ingredientSchema);
 
 export type IngredientInput = z.input<typeof ingredientSchema>;
 export type IngredientOutput = z.output<typeof ingredientSchema>;
