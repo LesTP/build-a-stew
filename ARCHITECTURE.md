@@ -555,7 +555,7 @@ The generator must not invent quantities, temperatures, or cooking times absent 
 
 | # | Module / Phase | Description | Regime | Depends on | Status |
 |---|---|---|---|---|---|
-| 1 | Project Bootstrap | Create the React + TypeScript + Vite application, test harness, controlled vocabularies, schema types, runtime schema validation, and an offline CSV→JSON catalog build step proven on a small validated ingredient fixture. | Build | — | Not started |
+| 1 | Project Bootstrap | Create the React + TypeScript + Vite application, test harness, controlled vocabularies, schema types, runtime schema validation, and an offline CSV→JSON catalog build step proven on a small validated ingredient fixture. | Build | — | Complete |
 | 2 | Catalog and Build Core | Run the CSV→JSON build step on the full ingredient catalog to produce the bundled `ingredients.json`, implement the catalog loader and validation, immutable build operations, and local in-memory store. Deliver a text-only or minimally styled build editor proving catalog → build flow. | Build | Project Bootstrap | Not started |
 | 3 | Interactive Composer | Implement ingredient search/filtering, card presentation, stage timeline, add/remove/move interactions, ingredient detail view, and accessible non-drag controls. | Build | Catalog and Build Core | Not started |
 | 4 | Analysis and Guidance | Implement role scoring, cuisine affinity, pairing logic, timing findings, initial warning rules, and suggested-next-ingredient ranking. Validate against representative builds from the original cooking discussion. | Build | Interactive Composer | Not started |
