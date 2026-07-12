@@ -25,6 +25,7 @@ export interface BuildStoreApi extends BuildStoreState {
   removeIngredient(ingredientId: IngredientId): void;
   moveIngredient(ingredientId: IngredientId, stage: CookingStage): void;
   updateBuildIngredient(ingredientId: IngredientId, patch: BuildIngredientPatch): void;
+  updateBuild(patch: Partial<StewBuild>): void;
   replaceBuild(build: StewBuild): void;
   resetBuild(): void;
 }
@@ -40,6 +41,7 @@ type BuildStoreAction =
   | { type: 'remove'; ingredientId: IngredientId }
   | { type: 'move'; ingredientId: IngredientId; stage: CookingStage }
   | { type: 'update'; ingredientId: IngredientId; patch: BuildIngredientPatch }
+  | { type: 'patch-build'; patch: Partial<StewBuild> }
   | { type: 'replace'; build: StewBuild }
   | { type: 'reset' };
 
@@ -86,6 +88,14 @@ export function createBuildStoreReducer(catalog: readonly Ingredient[]) {
         return {
           ...state,
           build: updateBuildIngredient(state.build, action.ingredientId, action.patch),
+        };
+      case 'patch-build':
+        return {
+          ...state,
+          build: {
+            ...state.build,
+            ...action.patch,
+          },
         };
       case 'replace':
         return {
@@ -138,6 +148,9 @@ export function useBuildStore(): BuildStoreApi {
     },
     updateBuildIngredient(ingredientId, patch) {
       dispatch({ type: 'update', ingredientId, patch });
+    },
+    updateBuild(patch) {
+      dispatch({ type: 'patch-build', patch });
     },
     replaceBuild(nextBuild) {
       dispatch({ type: 'replace', build: nextBuild });
