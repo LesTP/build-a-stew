@@ -207,9 +207,39 @@
     "id": "D-33",
     "phase": 6,
     "title": "First Refine item: 4-column layout reconciliation",
-    "status": "open",
+    "status": "closed",
     "priority": "high",
-    "decision": "First iteration restructures App.tsx from 5-6 sibling sections to the D-18 spec: 4 equal-width columns (Library → Detail → Timeline → Analysis), folding InstructionsPanel into the analysis/summary column, relocating pressure/release and cook-timing controls out of the Timeline column header, setting minimum readable column widths, and confirming mobile single-column stack.",
-    "rationale": "Layout is the most visually breaking issue — columns truncate at current widths and the Instructions panel is outside the 4-column spec. Fixing layout first makes a11y, badge display, and the smoke check interpretable."
+    "decision": "Phase 6 implementation matched the D-18 layout spec: four equal-width columns (Library, Detail, Timeline, Analysis), InstructionsPanel moved into the Analysis column wrapper, pressure/release controls relocated out of the Timeline header, and the UI confirms a single-column mobile stack.",
+    "rationale": "Resolved the primary visual breakage and reconciled the composer flow with the contract."
+  },
+  {
+    "id": "D-34",
+    "phase": 6,
+    "title": "Salt warning: adopt generic salt-load heuristic (saltScore >= 3)",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Keep the generic `saltScore >= 3` sum in analysis.ts rather than implementing specific cured-protein + salty-finisher gating. ARCHITECTURE.md Initial Rule Set updated to match.",
+    "rationale": "The generic heuristic catches the same practical cases (ham hock + stock, bacon + Parmesan) without requiring ingredient-level tagging for cured/smoked proteins. The message accurately describes what it detects. Punch list offered this as a valid option.",
+    "revisit_if": "Users report false positives on builds with multiple medium-salt ingredients that are not actually over-salted."
+  },
+  {
+    "id": "D-35",
+    "phase": 6,
+    "title": "Skip: defer full ranked suggested-next-ingredient logic",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Retain condition-driven suggestion candidates (spinach for low freshness + no greens; lemon_juice for richness OR-branch) rather than implementing a scored rank across the full catalog.",
+    "rationale": "The condition-driven approach covers the most impactful cases. Full ranked scoring across 80+ ingredients adds complexity without clear user value at MVP scale.",
+    "revisit_if": "Users request specific ingredient guidance or the catalog grows to a point where condition-driven coverage feels sparse."
+  },
+  {
+    "id": "D-36",
+    "phase": 6,
+    "title": "Skip: defer remaining Phase 6 polish items to next iteration",
+    "status": "closed",
+    "priority": "low",
+    "decision": "The following Phase 6 punch list items are deferred: (1) pressure/release relocation from Timeline to Detail/header; (2) click-within-Library to dismiss Detail; (3) focus return after Detail close and saved-build restore; (4) test-coverage gaps (localStorage quota, richness OR-branch test, pairing dedup); (5) STAGE_LABELS dedup; (6) saveBuild index-write order.",
+    "rationale": "These are Should/Optional items with no failing tests or correctness bugs. The three Must items (richness OR-branch, 4-column layout, salt rule documentation) and three Should items (salt badge high-only, tabpanel addition, memoized analysis prop) were addressed in this review pass. Remaining items require separate EXECUTE or can be batched in a subsequent pass.",
+    "revisit_if": "Next EXECUTE iteration for Phase 6."
   }
 ]

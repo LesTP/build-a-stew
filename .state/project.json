@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
   "phase": 6,
-  "state": "plan",
+  "state": "audit_boundary",
   "gotchas": [
     "Group defs: when a group name does not match an ingredient category (e.g. beans vs legumes), use an explicit ID list — a category alias will silently include wrong members",
     "node_modules must live on Linux fs and be symlinked into the NTFS workspace — execute permissions fail on NTFS mounts",
