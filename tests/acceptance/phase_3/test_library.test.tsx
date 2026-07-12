@@ -30,12 +30,20 @@ const ALL_CATEGORIES = [
 describe('Ingredient Library — Phase 3', () => {
   // ── Initial state ───────────────────────────────────────────────────────────
 
-  it('renders at least one ingredient card in the initial view', () => {
+  it('shows a prompt and no ingredient cards before a category or search is chosen', () => {
     render(<App />);
     const library = screen.getByRole('region', { name: /library/i });
-    // Expect at least one listitem / article / button representing an ingredient
-    const cards = within(library).getAllByRole('button');
-    expect(cards.length).toBeGreaterThan(0);
+    expect(within(library).getByText(/pick a category/i)).toBeDefined();
+    // Category tabs use role="tab"; with nothing selected there are no card buttons.
+    expect(within(library).queryAllByRole('button').length).toBe(0);
+  });
+
+  it('renders ingredient cards once a category tab is selected', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const library = screen.getByRole('region', { name: /library/i });
+    await user.click(within(library).getByRole('tab', { name: /protein/i }));
+    expect(within(library).queryAllByText(/chicken/i)[0]).toBeDefined();
   });
 
   // ── Category tabs ───────────────────────────────────────────────────────────
@@ -153,17 +161,21 @@ describe('Ingredient Library — Phase 3', () => {
     const user = userEvent.setup();
     render(<App />);
     const library = screen.getByRole('region', { name: /library/i });
+
+    // A category must be active for the library to show cards.
+    await user.click(within(library).getByRole('tab', { name: /protein/i }));
+    const fullCount = within(library).getAllByRole('button').length;
+
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
-
     await user.type(searchInput, 'chicken');
     const narrowCount = within(library).getAllByRole('button').length;
 
     await user.clear(searchInput);
-    const wideCount = within(library).getAllByRole('button').length;
+    const restoredCount = within(library).getAllByRole('button').length;
 
-    // After clearing, more cards should be visible than during a narrow search
-    expect(wideCount).toBeGreaterThanOrEqual(narrowCount);
+    expect(narrowCount).toBeLessThanOrEqual(fullCount);
+    expect(restoredCount).toBe(fullCount);
   });
 
   // ── Card compactness guarantee ───────────────────────────────────────────────

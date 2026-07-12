@@ -53,6 +53,9 @@ describe('Keyboard accessibility — Phase 3', () => {
 
     const library = screen.getByRole('region', { name: /library/i });
 
+    // Reveal ingredient cards by selecting a category first.
+    await user.click(within(library).getByRole('tab', { name: /protein/i }));
+
     // Tab until the first ingredient button inside Library is focused
     let reached = false;
     for (let i = 0; i < 40; i++) {

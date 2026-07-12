@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "vitest",
+    "smoke": "node scripts/smoke.mjs",
     "convert:catalog": "vite-node scripts/run-catalog-conversion.ts"
   },
   "dependencies": {

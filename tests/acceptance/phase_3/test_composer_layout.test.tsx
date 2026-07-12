@@ -43,44 +43,38 @@ describe('Composer layout — Phase 3', () => {
     expect(screen.getByRole('region', { name: /timeline|cooking/i })).toBeDefined();
   });
 
-  it('renders an Analysis region', () => {
+  it('renders the analysis cards (Balance, Cuisine, Advisories)', () => {
     render(<App />);
-    expect(screen.getByRole('region', { name: /analysis/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^balance$/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^cuisine$/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^advisories$/i })).toBeDefined();
   });
 
-  it('all four column regions are present simultaneously', () => {
+  it('all core column regions are present simultaneously', () => {
     render(<App />);
-    const library = screen.getByRole('region', { name: /library/i });
-    const detail = screen.getByRole('region', { name: /detail/i });
-    const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-    const analysis = screen.getByRole('region', { name: /analysis/i });
-    expect(library).toBeDefined();
-    expect(detail).toBeDefined();
-    expect(timeline).toBeDefined();
-    expect(analysis).toBeDefined();
+    expect(screen.getByRole('region', { name: /library/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /detail/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /timeline|cooking/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^balance$/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^cuisine$/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /^advisories$/i })).toBeDefined();
   });
 
-  it('four columns appear in the correct DOM order: Library, Detail, Timeline, Analysis', () => {
+  it('columns appear in DOM order: Library, Detail, Timeline, then the analysis cards', () => {
     render(<App />);
-    const library = screen.getByRole('region', { name: /library/i });
-    const detail = screen.getByRole('region', { name: /detail/i });
-    const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-    const analysis = screen.getByRole('region', { name: /analysis/i });
+    const ordered = [
+      screen.getByRole('region', { name: /library/i }),
+      screen.getByRole('region', { name: /detail/i }),
+      screen.getByRole('region', { name: /timeline|cooking/i }),
+      screen.getByRole('region', { name: /^balance$/i }),
+      screen.getByRole('region', { name: /^cuisine$/i }),
+      screen.getByRole('region', { name: /^advisories$/i }),
+    ];
 
     const allRegions = screen.getAllByRole('region');
-    const indices = [library, detail, timeline, analysis].map(el =>
-      allRegions.indexOf(el)
-    );
-    // Each successive column must appear after the previous in DOM order
-    expect(indices[0]).toBeLessThan(indices[1]);
-    expect(indices[1]).toBeLessThan(indices[2]);
-    expect(indices[2]).toBeLessThan(indices[3]);
-  });
-
-  it('analysis column is present as a placeholder — its content need not be computed in Phase 3', () => {
-    render(<App />);
-    const analysis = screen.getByRole('region', { name: /analysis/i });
-    // The column exists; content verification is Phase 4's concern
-    expect(analysis).toBeDefined();
+    const indices = ordered.map(el => allRegions.indexOf(el));
+    for (let i = 1; i < indices.length; i++) {
+      expect(indices[i - 1]).toBeLessThan(indices[i]);
+    }
   });
 });

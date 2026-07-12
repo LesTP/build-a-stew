@@ -3,10 +3,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { AnalysisPanel } from '../../src/components/AnalysisPanel';
 import { BALANCE_AXES, CUISINE_TAGS } from '../../src/types';
-import type { AnalysisResult, StewBuild, BalanceAxis, CuisineTag } from '../../src/types';
+import type { AnalysisResult, BalanceAxis, CuisineTag } from '../../src/types';
 
 function createBalanceScores(): Record<BalanceAxis, number> {
-  return Object.fromEntries(BALANCE_AXES.map(axis => [axis, axis === 'body' ? 6 : axis === 'freshness' ? 3 : 0])) as Record<BalanceAxis, number>;
+  return Object.fromEntries(
+    BALANCE_AXES.map(axis => [axis, axis === 'body' ? 6 : axis === 'freshness' ? 3 : 0]),
+  ) as Record<BalanceAxis, number>;
 }
 
 function createCuisineScores(): Record<CuisineTag, number> {
@@ -25,15 +27,10 @@ function createAnalysis(): AnalysisResult {
       {
         id: 'composition:greens:missing',
         severity: 'info',
-        message: 'This build has low freshness and no greens. Add a leafy green for lift.',
+        message: 'This build has low freshness and no greens. Add a leafy green like spinach for lift.',
       },
     ],
-    suggestions: [
-      {
-        ingredientId: 'spinach',
-        message: 'Add a leafy green for freshness.',
-      },
-    ],
+    suggestions: [],
     timingFindings: [
       {
         ingredientId: 'spinach',
@@ -43,33 +40,32 @@ function createAnalysis(): AnalysisResult {
   };
 }
 
-function createBuild(): StewBuild {
-  return {
-    id: 'analysis-panel-test',
-    ingredients: [
-      { ingredientId: 'beef_chuck', stage: 'brown' },
-      { ingredientId: 'spinach', stage: 'pressure' },
-    ],
-  };
-}
-
 describe('AnalysisPanel', () => {
-  it('renders the computed analysis sections and messages', () => {
-    const markup = renderToStaticMarkup(
-      <AnalysisPanel build={createBuild()} analysis={createAnalysis()} />,
-    );
+  it('renders Balance, Cuisine, and Advisories cards with computed content', () => {
+    const markup = renderToStaticMarkup(<AnalysisPanel analysis={createAnalysis()} />);
 
-    expect(markup).toContain('Analysis');
-    expect(markup).toContain('2 ingredients in the build.');
-    expect(markup).toContain('Cuisine affinity is led by french.');
-    expect(markup).toContain('Balance scores');
+    // Three separate card headings
+    expect(markup).toContain('Balance');
+    expect(markup).toContain('Cuisine');
+    expect(markup).toContain('Advisories');
+    // Balance axis labels
     expect(markup).toContain('Richness');
     expect(markup).toContain('Freshness');
-    expect(markup).toContain('Cuisine affinity');
-    expect(markup).toContain('Warnings');
-    expect(markup).toContain('Add a leafy green for lift.');
-    expect(markup).toContain('Suggestions');
-    expect(markup).toContain('Timing findings');
+    // Cuisine ranking
+    expect(markup).toContain('french');
+    // Merged advisory content + per-card severity badge
+    expect(markup).toContain('Add a leafy green like spinach for lift.');
+    expect(markup).toContain('info');
+    expect(markup).toContain('timing');
     expect(markup).toContain('Spinach is overcooked at 25 min pressure; it usually needs 1-3 min.');
+  });
+
+  it('drops the old per-type section headers and intro copy', () => {
+    const markup = renderToStaticMarkup(<AnalysisPanel analysis={createAnalysis()} />);
+
+    expect(markup).not.toContain('ingredients in the build');
+    expect(markup).not.toContain('Warnings');
+    expect(markup).not.toContain('Suggestions');
+    expect(markup).not.toContain('Timing findings');
   });
 });

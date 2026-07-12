@@ -11,8 +11,14 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (open) {
-      dialogRef.current?.showModal();
+    const dialog = dialogRef.current;
+    if (open && dialog && typeof dialog.showModal === 'function' && !dialog.open) {
+      try {
+        dialog.showModal();
+      } catch {
+        // showModal is unavailable in some environments (e.g. jsdom); the
+        // dialog still renders its content, so degrade gracefully.
+      }
     }
   }, [open]);
 

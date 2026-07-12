@@ -129,7 +129,7 @@ describe('Saved builds UI', () => {
     vi.unstubAllGlobals();
   });
 
-  it('save button in the app header calls saveBuild and refreshes the saved list', async () => {
+  it('the header Save button calls saveBuild, and Load reveals the saved list', async () => {
     const user = userEvent.setup();
     const initialBuild = createBuild(catalog, 'header-build', 'Header Build');
 
@@ -137,10 +137,12 @@ describe('Saved builds UI', () => {
 
     mockState.buildsById[initialBuild.id] = structuredClone(initialBuild);
 
-    await user.click(screen.getByRole('button', { name: /save current build/i }));
-
+    await user.click(screen.getByRole('button', { name: /^save$/i }));
     expect(mockState.saveBuild).toHaveBeenCalled();
-    await screen.findByRole('list', { name: /saved build records/i });
+
+    // Saved-builds management now lives behind the Load popup.
+    await user.click(screen.getByRole('button', { name: /^load$/i }));
+    await screen.findByRole('list', { name: /saved build records/i, hidden: true });
   });
 
   it('renders saved builds, restores a build, and removes a build from the list', async () => {
