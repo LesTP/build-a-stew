@@ -1,6 +1,5 @@
-import { analyzeBuild } from '../analysis';
 import { generateInstructions } from '../instructions';
-import type { CookingStage, Ingredient, StewBuild } from '../types';
+import type { AnalysisResult, CookingStage, Ingredient, StewBuild } from '../types';
 
 const STAGE_LABELS: Record<CookingStage, string> = {
   brown: 'Brown',
@@ -16,14 +15,14 @@ const STAGE_LABELS: Record<CookingStage, string> = {
 interface InstructionsPanelProps {
   build: StewBuild;
   catalog: readonly Ingredient[];
+  analysis: AnalysisResult;
 }
 
-export function InstructionsPanel({ build, catalog }: InstructionsPanelProps) {
-  const analysis = analyzeBuild(build, catalog);
+export function InstructionsPanel({ build, catalog, analysis }: InstructionsPanelProps) {
   const recipe = generateInstructions(build, catalog, analysis);
 
   return (
-    <section className="composer-panel composer-panel--instructions" aria-labelledby="instructions-panel-title">
+    <div className="instructions-section">
       <div className="panel-heading">
         <p className="eyebrow">Generated output</p>
         <h2 id="instructions-panel-title">Instructions</h2>
@@ -61,6 +60,6 @@ export function InstructionsPanel({ build, catalog }: InstructionsPanelProps) {
           ))}
         </div>
       )}
-    </section>
+    </div>
   );
 }

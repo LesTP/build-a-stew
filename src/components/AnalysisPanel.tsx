@@ -37,7 +37,7 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
   const topCuisine = rankedCuisines[0];
 
   return (
-    <section className="composer-panel composer-panel--analysis" aria-label="Analysis">
+    <div>
       <div className="panel-heading">
         <p className="eyebrow">Analysis</p>
         <h2 id="analysis-title">Analysis</h2>
@@ -136,6 +136,6 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
           </ul>
         )}
       </div>
-    </section>
+    </div>
   );
 }

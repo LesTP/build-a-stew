@@ -297,12 +297,13 @@ function addCompositionSignals(
   const acidity = balanceScores.acidity ?? 0;
   const richness = balanceScores.richness ?? 0;
   const saltScore = buildIngredients.reduce((total, ingredient) => total + SALT_RISK_SCORE[ingredient.saltRisk], 0);
+  const isRichAndLow = richness >= 4 && (freshness <= 2 || acidity <= 2);
 
-  if (richness >= 4 && freshness <= 2 && acidity <= 2) {
+  if (isRichAndLow) {
     addWarning(warnings, seenWarnings, {
       id: 'composition:richness:freshness',
       severity: 'info',
-      message: 'This build is rich but light on freshness and acidity. Consider adding acid or fresh herbs.',
+      message: 'This build is rich but light on freshness or acidity. Consider adding acid or fresh herbs.',
     });
   }
 
@@ -352,7 +353,7 @@ function addCompositionSignals(
     });
   }
 
-  if (richness >= 4 && freshness <= 2 && acidity <= 2) {
+  if (isRichAndLow) {
     addSuggestion(suggestions, seenSuggestions, {
       ingredientId: 'lemon_juice',
       message: 'Add acid or fresh herbs to brighten the pot.',
