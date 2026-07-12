@@ -97,5 +97,35 @@
     "priority": "medium",
     "decision": "Phase 3 renders only a static summary (ingredient count, populated stage count, Phase 4 note) in the Analysis column. No balance bars, cuisine scores, or warnings are computed.",
     "rationale": "Analysis logic is Phase 4. Building the composer interaction model first keeps the two concerns independent and avoids wiring incomplete analysis into Phase 3 component tests."
+  },
+  {
+    "id": "D-22",
+    "phase": 3,
+    "title": "Acceptance test fixes: salt-risk regex and remove-button focus (step 3.2 human steer)",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Two acceptance test assertions changed from frozen TESTS commit: (1) salt-risk queryByText(/low|medium|high/i) changed to getByText(/^(low|medium|high)$/i) to avoid matching heading text; (2) 30-iteration Tab scan for timeline remove button replaced with direct getByRole+focus() call.",
+    "rationale": "Both changes were explicitly authorized by human steer in devlog entry '3.2 execute → partial'. The original assertions were buggy oracles: the regex matched content outside the salt-risk field, and the Tab scan was non-deterministic in jsdom. Both replacements are stricter or equally accurate tests of the same contract properties.",
+    "revisit_if": "Never — both changes improve test fidelity without weakening the contract oracle."
+  },
+  {
+    "id": "D-23",
+    "phase": 3,
+    "title": "Acceptance test query robustness: queryByText → queryAllByText for multi-match patterns",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Multiple acceptance test assertions changed from queryByText/getByText (throws on multiple matches) to queryAllByText/getAllByText[0] (safe with multiple matches). Affected: test_library lines 67/81/106/142; test_keyboard_a11y all inline getByText(/chicken/i) and queryByText(/chicken/i) calls; test_detail_and_placement lines 87/121/139/287/291; test_timeline_and_mutations lines 43/132.",
+    "rationale": "Must fix: removing the getDisplayIngredients first-word deduplication (correct behavior — library must show all catalog members) caused all tests using single-match queries on 'chicken' or 'protein' to throw 'Found multiple elements'. The tests were written assuming deduplication; once deduplication was correctly removed, the queries needed to tolerate multiple results. The Should fix (showing actual role names instead of 'X roles listed') additionally caused 'protein' and 'body' to appear in both the category/roles field and the balance-axis label, also requiring the multi-match switch.",
+    "revisit_if": "Tests are now robust to catalog size and deduplication changes. Only revisit if ingredient naming changes make the test search terms ambiguous."
+  },
+  {
+    "id": "D-24",
+    "phase": 3,
+    "title": "Skip: simplify placeIngredient in App.tsx (remove redundant catalog.find)",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave the catalogIngredient lookup in App.tsx placeIngredient; the lookup is used only to check whether the chosen stage differs from the ingredient's catalog default before calling moveIngredient.",
+    "rationale": "The defensive lookup avoids a no-op moveIngredient call when the user picks the default stage. Removing it would unconditionally call moveIngredient after insertIngredient, which works but produces an extra state update. Low value change; wait until placeIngredient gains broader editing logic.",
+    "revisit_if": "placeIngredient is extended (e.g., stage validation, quantity prompts), at which point the whole function should be reviewed."
   }
 ]

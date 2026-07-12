@@ -82,49 +82,51 @@
     "phase": 3,
     "step": 1,
     "title": "App shell + four-column layout",
-    "status": "pending",
-    "notes": "App.tsx with Header (app title + build name from store) and four equal-width columns: Library, Detail, Timeline, Analysis — each a stub with a title. Tests: four columns render with correct headings; header shows build name."
+    "status": "complete",
+    "notes": "App.tsx with Header (app title + build name from store) and four equal-width columns: Library, Detail, Timeline, Analysis — each a stub with a title. Tests: four columns render with correct headings; header shows build name.",
+    "commit": "860b846"
   },
   {
     "phase": 3,
     "step": 2,
     "title": "Library column — category tabs and ingredient cards",
-    "status": "pending",
-    "notes": "All IngredientCategory tabs in a fixed canonical order (protein → aromatics → liquid → roots → vegetable → legumes → grains → greens → fat → topping → spice). Clicking a tab filters the ingredient list. Compact card: name + salt-risk badge. Clicking a card dispatches select-ingredient action. Tests: all 11 tabs render; active tab filters to correct ingredients; card face shows name and salt-risk only."
+    "status": "complete",
+    "notes": "All IngredientCategory tabs in a fixed canonical order (protein → aromatics → liquid → roots → vegetable → legumes → grains → greens → fat → topping → spice). Clicking a tab filters the ingredient list. Compact card: name + salt-risk badge. Clicking a card dispatches select-ingredient action. Tests: all 11 tabs render; active tab filters to correct ingredients; card face shows name and salt-risk only.",
+    "commit": "05d6b20"
   },
   {
     "phase": 3,
     "step": 3,
     "title": "Library — name search (composes with tab filter)",
-    "status": "pending",
+    "status": "complete",
     "notes": "Text input above ingredient list; case-insensitive substring match on ingredient name. Filter composes with active category tab (AND). Tests: search narrows the list; combined search+tab produces correct intersection; clearing search restores full tab list."
   },
   {
     "phase": 3,
     "step": 4,
     "title": "Detail column — ingredient metadata panel + stage picker",
-    "status": "pending",
+    "status": "complete",
     "notes": "Detail column shows full ingredient record when one is selected: name, category, stage default, roles, traits, balance-score bars (labeled by axis), cuisines, saltRisk, cookMinutes range, pairsWith, avoidWith, notes. Empty-state placeholder when nothing is selected. Stage picker: 8 CookingStage chips in canonical order; ingredient default stage pre-highlighted; if already in build, current build stage highlighted instead. Escape key clears selection. Clicking a chip calls addIngredient (or moveIngredient if already in build). Tests: metadata fields render correctly; empty state; default stage chip highlighted; already-placed ingredient shows current stage; Escape dismisses; chip click updates build."
   },
   {
     "phase": 3,
     "step": 5,
     "title": "Stage Timeline column",
-    "status": "pending",
+    "status": "complete",
     "notes": "Vertical list of all 8 stages in canonical order (brown → aromatics → deglaze → pressure → simmer_after → stir_in → finish → serve_over). Every stage is always rendered; empty stages show a greyed header with no cards. Placed ingredient cards show: name and cookMinutes range (if present). Each card has a remove button. Tests: all 8 stages present in canonical order; placed ingredients appear in their correct stage; empty stages still render; remove button calls removeIngredient and card disappears."
   },
   {
     "phase": 3,
     "step": 6,
     "title": "Keyboard accessibility — place and remove flows",
-    "status": "pending",
+    "status": "complete",
     "notes": "Tab order: Library search input → category tabs → ingredient cards → (when Detail open) stage chips → Timeline remove buttons. Enter/Space on an ingredient card loads Detail. Tab to a stage chip, Enter/Space places/moves. Escape clears Detail without placing. Tab to remove button in Timeline, Enter/Space removes. No interactive element should be pointer-only. Tests: keyboard-only flow successfully places an ingredient (search → card → stage chip) and removes it (Timeline remove button) with no mouse events; focus is visible throughout."
   },
   {
     "phase": 3,
     "step": 7,
     "title": "Analysis column placeholder + Phase 3 acceptance test",
-    "status": "pending",
+    "status": "complete",
     "notes": "Analysis column renders a static placeholder: ingredient count, stages populated count, and a note that balance/cuisine/warnings arrive in Phase 4. Phase 3 acceptance test: render full composer; click a protein tab; click chicken ingredient; verify Detail opens with correct name; click pressure stage chip; verify Timeline shows chicken in pressure stage; click remove; verify build is empty. Tests: placeholder renders; full composer E2E flow passes."
   }
 ]
