@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
-  "phase": 5,
-  "state": "audit_boundary",
+  "phase": 6,
+  "state": "plan",
   "gotchas": [
     "Group defs: when a group name does not match an ingredient category (e.g. beans vs legumes), use an explicit ID list — a category alias will silently include wrong members",
     "node_modules must live on Linux fs and be symlinked into the NTFS workspace — execute permissions fail on NTFS mounts",
@@ -12,6 +12,8 @@
     "Use ES2021 lib before calling replaceAll; older tsconfig targets break the build pipeline.",
     "Invoke TypeScript through node when the tsc shim loses its execute bit in this workspace; bare npm script execution can fail with Permission denied even though the compiler itself is healthy."
   ],
-  "budget_type": "steps",
-  "pattern": "B"
+  "budget_type": "time",
+  "pattern": "B",
+  "time_budget_seconds": 21600,
+  "time_started_at": "2026-07-12T00:00:00Z"
 }

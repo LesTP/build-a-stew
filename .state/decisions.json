@@ -183,5 +183,33 @@
     "decision": "Leave updateFeedback as a named helper in SavedBuildsPanel.",
     "rationale": "12 call sites make it a net clarity win over inlining setFeedback directly. A named wrapper communicates intent.",
     "revisit_if": "Next significant refactor of SavedBuildsPanel touches state management."
+  },
+  {
+    "id": "D-31",
+    "phase": 6,
+    "title": "Phase 6 goal: MVP polish and validation",
+    "status": "closed",
+    "priority": "high",
+    "decision": "All items from the Phase 5 architecture review punch list are resolved or explicitly deferred: analysis rule corrections (salt gating, richness OR-branch), suggested-next ranking (implement), 4-column layout reconciliation, salt badge display (high only), accessibility pass, test-coverage gaps, code-quality cleanups, and real-browser smoke check confirming dist/ renders.",
+    "rationale": "Phase 6 is the final Refine pass over the completed Build phases. Layout correctness, accessibility, and analysis rule behavior all require visual or perceptual verification against a running browser — jsdom cannot catch them."
+  },
+  {
+    "id": "D-32",
+    "phase": 6,
+    "title": "Suggested-next-ingredient: implement ranked logic in Phase 6",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Implement ranked suggested-next-ingredient logic rather than deferring it. Score candidates by: (a) pairsWith matches against current build, (b) fills the weakest balance axis, (c) not already in build. Present top 3. Remove hardcoded spinach/lemon_juice placeholders.",
+    "rationale": "Phase 4 contract promised ranked logic; Phase 5 explicitly deferred it. Phase 6 is the last pre-MVP opportunity. The ranking algorithm is deterministic and testable, so it is compatible with the Refine regime (it is one of the testable sub-items within the phase).",
+    "revisit_if": "Catalog pairing coverage is too sparse to yield meaningful ranked suggestions — fallback to category diversity heuristic."
+  },
+  {
+    "id": "D-33",
+    "phase": 6,
+    "title": "First Refine item: 4-column layout reconciliation",
+    "status": "open",
+    "priority": "high",
+    "decision": "First iteration restructures App.tsx from 5-6 sibling sections to the D-18 spec: 4 equal-width columns (Library → Detail → Timeline → Analysis), folding InstructionsPanel into the analysis/summary column, relocating pressure/release and cook-timing controls out of the Timeline column header, setting minimum readable column widths, and confirming mobile single-column stack.",
+    "rationale": "Layout is the most visually breaking issue — columns truncate at current widths and the Instructions panel is outside the 4-column spec. Fixing layout first makes a11y, badge display, and the smoke check interpretable."
   }
 ]
