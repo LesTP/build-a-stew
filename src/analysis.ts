@@ -35,6 +35,19 @@ function cloneCuisineScores(): Record<CuisineTag, number> {
   return { ...EMPTY_CUISINE_SCORES };
 }
 
+function addCuisineAffinityScores(
+  cuisineScores: Record<CuisineTag, number>,
+  ingredient: Ingredient,
+): void {
+  for (const cuisine of ingredient.cuisines) {
+    if (cuisine === 'universal') {
+      continue;
+    }
+
+    cuisineScores[cuisine] += ingredient.cuisineWeights?.[cuisine] ?? 1;
+  }
+}
+
 function capitalize(label: string): string {
   return label
     .replaceAll('_', ' ')
@@ -353,9 +366,7 @@ export function analyzeBuild(build: StewBuild, catalog: readonly Ingredient[]): 
       balanceScores[axis] += ingredient.balanceScores[axis] ?? 0;
     }
 
-    for (const cuisine of ingredient.cuisines) {
-      cuisineScores[cuisine] += 1;
-    }
+    addCuisineAffinityScores(cuisineScores, ingredient);
   }
 
   addStageWarnings(warnings, seenWarnings, build, byId);
