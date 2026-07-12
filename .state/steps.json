@@ -200,42 +200,47 @@
     "phase": 5,
     "step": 1,
     "title": "Instruction Generator",
-    "status": "pending",
-    "notes": "Add GeneratedRecipe and InstructionStep types to types.ts. Implement src/instructions.ts exporting generateInstructions(build, catalog, analysis): GeneratedRecipe. Emit one or more instructions per non-empty stage in canonical order (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over); omit empty stages entirely. Ingredient notes may append handling clauses; do not invent quantities, temperatures, or times absent from the build or catalog. Also produce a plainText rendering. Unit tests: canonical stage order; empty-stage omission; note injection; no invented quantities; plain-text contains all non-empty stage headings."
+    "status": "complete",
+    "notes": "Add GeneratedRecipe and InstructionStep types to types.ts. Implement src/instructions.ts exporting generateInstructions(build, catalog, analysis): GeneratedRecipe. Emit one or more instructions per non-empty stage in canonical order (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over); omit empty stages entirely. Ingredient notes may append handling clauses; do not invent quantities, temperatures, or times absent from the build or catalog. Also produce a plainText rendering. Unit tests: canonical stage order; empty-stage omission; note injection; no invented quantities; plain-text contains all non-empty stage headings.",
+    "commit": "dc6a811"
   },
   {
     "phase": 5,
     "step": 2,
     "title": "Persistence Adapter",
-    "status": "pending",
-    "notes": "Add SavedBuildRecord type to types.ts (includes schemaVersion). Implement src/persistence.ts exporting: saveBuild, loadBuild, listSavedBuilds, deleteBuild (localStorage CRUD), exportBuild (serialise to JSON with schemaVersion), importBuild (parse JSON, validate schemaVersion present, verify every ingredientId resolves in the catalog, surface unknown IDs as an ImportError). Storage failures must throw or return an error object — never silently discard the current build. Unit tests: round-trip save/load; list returns all saved records; delete removes entry; export includes schemaVersion; importBuild accepts valid JSON; importBuild rejects missing schemaVersion; importBuild rejects unknown ingredient IDs listing the bad IDs."
+    "status": "complete",
+    "notes": "Add SavedBuildRecord type to types.ts (includes schemaVersion). Implement src/persistence.ts exporting: saveBuild, loadBuild, listSavedBuilds, deleteBuild (localStorage CRUD), exportBuild (serialise to JSON with schemaVersion), importBuild (parse JSON, validate schemaVersion present, verify every ingredientId resolves in the catalog, surface unknown IDs as an ImportError). Storage failures must throw or return an error object — never silently discard the current build. Unit tests: round-trip save/load; list returns all saved records; delete removes entry; export includes schemaVersion; importBuild accepts valid JSON; importBuild rejects missing schemaVersion; importBuild rejects unknown ingredient IDs listing the bad IDs.",
+    "commit": "5f7ecf0"
   },
   {
     "phase": 5,
     "step": 3,
     "title": "Pressure and release time UI controls",
-    "status": "pending",
-    "notes": "Add numeric inputs for pressureMinutes and naturalReleaseMinutes to the Stage Timeline column (near the Pressure stage lane or in a build-metadata section). Wire to the build store so changes update StewBuild fields. Both fields are optional; omit from instructions when blank. Component tests: inputs render; changing a value updates the store; values persist across renders."
+    "status": "complete",
+    "notes": "Add numeric inputs for pressureMinutes and naturalReleaseMinutes to the Stage Timeline column (near the Pressure stage lane or in a build-metadata section). Wire to the build store so changes update StewBuild fields. Both fields are optional; omit from instructions when blank. Component tests: inputs render; changing a value updates the store; values persist across renders.",
+    "commit": "2cb6c33"
   },
   {
     "phase": 5,
     "step": 4,
     "title": "Instructions panel in BuildSummary",
-    "status": "pending",
-    "notes": "Call generateInstructions in App.tsx (alongside analyzeBuild) and pass the result to BuildSummary or a new InstructionsPanel component. Render the ordered step list with stage headings. Add a copy-to-clipboard button that copies the plainText rendering. Empty build renders a placeholder (no steps). Component tests: steps render in canonical stage order; copy button present; empty build renders gracefully; stage headings match non-empty stages only."
+    "status": "complete",
+    "notes": "Call generateInstructions in App.tsx (alongside analyzeBuild) and pass the result to BuildSummary or a new InstructionsPanel component. Render the ordered step list with stage headings. Add a copy-to-clipboard button that copies the plainText rendering. Empty build renders a placeholder (no steps). Component tests: steps render in canonical stage order; copy button present; empty build renders gracefully; stage headings match non-empty stages only.",
+    "commit": "f6e73bf"
   },
   {
     "phase": 5,
     "step": 5,
     "title": "Saved Builds UI",
-    "status": "pending",
-    "notes": "Add save-current-build button to the app header. Add a Saved Builds panel (toggle or sidebar) listing all SavedBuildRecords with: restore (overwrites current build), delete, and rename actions. Add export-to-JSON (triggers browser download) and import-from-JSON (file picker) controls. Display import errors inline — unknown IDs or invalid schema. Component tests: save button calls saveBuild; list renders saved builds; restore calls loadBuild and updates store; delete removes entry from list; import error message renders on bad JSON; export triggers download."
+    "status": "complete",
+    "notes": "Add save-current-build button to the app header. Add a Saved Builds panel (toggle or sidebar) listing all SavedBuildRecords with: restore (overwrites current build), delete, and rename actions. Add export-to-JSON (triggers browser download) and import-from-JSON (file picker) controls. Display import errors inline — unknown IDs or invalid schema. Component tests: save button calls saveBuild; list renders saved builds; restore calls loadBuild and updates store; delete removes entry from list; import error message renders on bad JSON; export triggers download.",
+    "commit": "45324bd"
   },
   {
     "phase": 5,
     "step": 6,
     "title": "End-to-end test: chicken/roots/barley/spinach/lemon",
-    "status": "pending",
+    "status": "complete",
     "notes": "Integration test in tests/acceptance/phase_5/: build the canonical reference fixture (chicken thighs pressure stage, carrot+parsnip pressure stage, pearl barley pressure stage, spinach stir_in stage, lemon juice finish stage). Call generateInstructions and assert: pressure stage step present, stir_in step present, finish step present; brown/aromatics/deglaze omitted when empty. Call saveBuild, then loadBuild, assert round-trip preserves all BuildIngredient fields and pressureMinutes. Assert analyzeBuild still returns expected warnings (spinach-in-pressure caution if applicable based on stage; high-body composition if applicable). This test must pass with tsc --noEmit clean and all prior acceptance suites intact."
   }
 ]

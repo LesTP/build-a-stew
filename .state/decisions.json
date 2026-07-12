@@ -173,5 +173,15 @@
     "priority": "medium",
     "decision": "Steps proceed from pure logic outward to UI: (1) instruction generator, (2) persistence adapter — both pure/testable modules first; (3) pressure/release controls — small UI addition; (4) instructions panel — rendering of step 1; (5) saved builds UI — rendering of step 2; (6) E2E test closes the phase. Each step is independently verifiable before the next builds on it.",
     "rationale": "Pure-logic-first order lets TESTS author an acceptance suite against stable contracts before any UI exists; UI steps compose on a proven foundation."
+  },
+  {
+    "id": "D-30",
+    "phase": 5,
+    "title": "Skip: inline updateFeedback in SavedBuildsPanel",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave updateFeedback as a named helper in SavedBuildsPanel.",
+    "rationale": "12 call sites make it a net clarity win over inlining setFeedback directly. A named wrapper communicates intent.",
+    "revisit_if": "Next significant refactor of SavedBuildsPanel touches state management."
   }
 ]
