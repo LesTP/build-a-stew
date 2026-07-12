@@ -164,5 +164,14 @@
     "decision": "Leave formatCount as a named helper in AnalysisPanel.tsx.",
     "rationale": "Single call site; extracting to a helper adds no abstraction value. Could be inlined, but the helper has no cost and reads clearly.",
     "revisit_if": "A second call site appears or the component is significantly restructured."
+  },
+  {
+    "id": "D-29",
+    "phase": 5,
+    "title": "Phase 5 step decomposition: instructions first, then persistence, then UI",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Steps proceed from pure logic outward to UI: (1) instruction generator, (2) persistence adapter — both pure/testable modules first; (3) pressure/release controls — small UI addition; (4) instructions panel — rendering of step 1; (5) saved builds UI — rendering of step 2; (6) E2E test closes the phase. Each step is independently verifiable before the next builds on it.",
+    "rationale": "Pure-logic-first order lets TESTS author an acceptance suite against stable contracts before any UI exists; UI steps compose on a proven foundation."
   }
 ]
