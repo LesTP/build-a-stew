@@ -133,63 +133,67 @@
     "phase": 4,
     "step": 1,
     "title": "Analysis types + analyzeBuild skeleton",
-    "status": "pending",
-    "notes": "Add AnalysisResult, AnalysisMessage, TimingFinding, IngredientSuggestion to types.ts. Create src/analysis.ts with analyzeBuild(build, catalog) returning a zeroed-out AnalysisResult stub. Tests verify the return shape and that it is pure (same input → same output)."
+    "status": "complete",
+    "notes": "Add AnalysisResult, AnalysisMessage, TimingFinding, IngredientSuggestion to types.ts. Create src/analysis.ts with analyzeBuild(build, catalog) returning a zeroed-out AnalysisResult stub. Tests verify the return shape and that it is pure (same input → same output).",
+    "commit": "6760ec7"
   },
   {
     "phase": 4,
     "step": 2,
     "title": "Balance axis scoring",
-    "status": "pending",
+    "status": "complete",
     "notes": "Sum each ingredients balanceScores across all 10 axes. Tests: empty build yields all-zero scores; single ingredient contributes its exact values; multi-ingredient build sums correctly including overlapping axes."
   },
   {
     "phase": 4,
     "step": 3,
     "title": "Cuisine affinity scoring",
-    "status": "pending",
-    "notes": "Per ingredient: if cuisineWeights present use those values; else contribute 1 per cuisines tag. Omit universal from ranked output. Tests: default-weight ingredient contributes 1 per tag; cuisineWeights override; universal excluded from result; ranked order is descending by score."
+    "status": "complete",
+    "notes": "Per ingredient: if cuisineWeights present use those values; else contribute 1 per cuisines tag. Omit universal from ranked output. Tests: default-weight ingredient contributes 1 per tag; cuisineWeights override; universal excluded from result; ranked order is descending by score.",
+    "commit": "9e5e3b5"
   },
   {
     "phase": 4,
     "step": 4,
     "title": "Pairing and avoidance synergies",
-    "status": "pending",
-    "notes": "Resolve each pairsWith/avoidWith IngredientRef: GroupTag resolves to member set via GROUP_DEFINITIONS; IngredientId matches directly. A ref counts at most once even if group+member both match. Pairs treated as symmetric: A.pairsWith B counts even if B.pairsWith omits A. Tests: ID match; group match; group+member dedup; symmetric resolution; avoidWith caution message emitted; severity=info for synergy, severity=warning for caution."
+    "status": "complete",
+    "notes": "Resolve each pairsWith/avoidWith IngredientRef: GroupTag resolves to member set via GROUP_DEFINITIONS; IngredientId matches directly. A ref counts at most once even if group+member both match. Pairs treated as symmetric: A.pairsWith B counts even if B.pairsWith omits A. Tests: ID match; group match; group+member dedup; symmetric resolution; avoidWith caution message emitted; severity=info for synergy, severity=warning for caution.",
+    "commit": "39aa818"
   },
   {
     "phase": 4,
     "step": 5,
     "title": "Timing findings",
-    "status": "pending",
+    "status": "complete",
     "notes": "For each build ingredient with a catalog cookMinutes range: compare against build.pressureMinutes (if present). Below min → likely undercooked. Above max → likely to soften/shred/dissolve. Within range → appropriate. Tests: no pressureMinutes → no timing findings; undercook case; overcook case with descriptive message; within-range is silent."
   },
   {
     "phase": 4,
     "step": 6,
     "title": "Stage placement warnings",
-    "status": "pending",
+    "status": "complete",
     "notes": "Three deterministic rules: (1) Miso in any stage other than finish/stir_in → suggest moving to finish. (2) Spinach in pressure stage → suggest moving to stir_in. (3) Couscous in any stage other than serve_over → suggest moving to serve_over. Tests: each rule fires on correct condition; does not fire when stage is correct; two rules can fire simultaneously (cross-product)."
   },
   {
     "phase": 4,
     "step": 7,
     "title": "Composition warnings and gap suggestions",
-    "status": "pending",
+    "status": "complete",
     "notes": "Five deterministic rules: (1) richness>=4 AND acidity+freshness<2 → suggest acid or fresh herbs. (2) legume category count>=1 AND grain category count>=1 AND root category count>=2 → warn excessive body/starch. (3) Ham hock or smoked sausage present AND (stock OR miso OR parmesan present) → warn salt accumulation. (4) Dried beans present AND tomato-category ingredients present → warn slow softening. (5) No greens AND freshness<2 → suggest spinach/peas/herbs/scallions. Threshold values are provisional (see D-25). Tests: each rule fires/silent; rules are disjoint (fire independently when coexisting); the cross-product build triggers rules 1+2 simultaneously."
   },
   {
     "phase": 4,
     "step": 8,
     "title": "Ten representative fixture builds",
-    "status": "pending",
+    "status": "complete",
     "notes": "Create tests/fixtures/builds.ts with at least 10 typed StewBuild constants covering: (1) chicken-roots-barley-spinach-lemon (reference E2E build), (2) heavy/rich (ham hock + beans + roots), (3) bright/acid (lemon-forward French), (4) bean-forward, (5) root-forward, (6) French affinity (white wine, butter, thyme, leek), (7) Mexican affinity (cumin, chili, chipotle, lime), (8) Japanese/East-Asian affinity (miso, ginger, soy, scallion), (9) greens-heavy/low-body, (10) cross-product: triggers stage placement + composition warnings simultaneously. Each fixture documents its expected AnalysisResult shape (top cuisine, warning IDs, timing outcome). Tests assert analyzer output matches expectations."
   },
   {
     "phase": 4,
     "step": 9,
     "title": "Wire analysis into Analysis column UI",
-    "status": "pending",
-    "notes": "Replace the Phase 3 static placeholder in the Analysis column with live AnalysisResult: (1) balance bars for each of the 10 axes (proportional width, labeled); (2) ranked cuisine scores (excluding universal, no percentages); (3) warnings list with severity badge (info/warning); (4) suggestions list. Analysis reruns on every build change. Tests: column renders balance bars; cuisine list excludes universal; warning badge shows severity; empty build renders gracefully."
+    "status": "complete",
+    "notes": "Replace the Phase 3 static placeholder in the Analysis column with live AnalysisResult: (1) balance bars for each of the 10 axes (proportional width, labeled); (2) ranked cuisine scores (excluding universal, no percentages); (3) warnings list with severity badge (info/warning); (4) suggestions list. Analysis reruns on every build change. Tests: column renders balance bars; cuisine list excludes universal; warning badge shows severity; empty build renders gracefully.",
+    "commit": "88e480a"
   }
 ]

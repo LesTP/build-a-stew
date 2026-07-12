@@ -154,5 +154,15 @@
     "priority": "medium",
     "decision": "Representative builds live in tests/fixtures/builds.ts as exported StewBuild constants. Each fixture is accompanied by an expectedAnalysis object documenting what analyzeBuild should return. Integration tests import both and assert.",
     "rationale": "Typed fixtures catch catalog drift (ingredient ID renames break the import). Colocating expected output with the fixture makes fixture intent self-documenting for future tuning."
+  },
+  {
+    "id": "D-28",
+    "phase": 4,
+    "title": "Skip: inline formatCount helper in AnalysisPanel",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave formatCount as a named helper in AnalysisPanel.tsx.",
+    "rationale": "Single call site; extracting to a helper adds no abstraction value. Could be inlined, but the helper has no cost and reads clearly.",
+    "revisit_if": "A second call site appears or the component is significantly restructured."
   }
 ]

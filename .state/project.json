@@ -1,14 +1,15 @@
 {
   "schema_version": 3,
   "phase": 4,
-  "state": "plan",
+  "state": "audit_boundary",
   "gotchas": [
     "Group defs: when a group name does not match an ingredient category (e.g. beans vs legumes), use an explicit ID list — a category alias will silently include wrong members",
     "node_modules must live on Linux fs and be symlinked into the NTFS workspace — execute permissions fail on NTFS mounts",
     "Build mutation helpers must preserve the full StewBuild payload; reconstructing from ingredients only drops saved metadata.",
     "removeIngredient must raise UnknownIngredientError on missing IDs; a silent no-op hides contract drift.",
     "Use scope-limited queries for common terms like low/high; broad regexes collide with nearby headings.",
-    "Keep Timeline remove controls as native buttons; manual keyboard handlers are redundant and can hide true accessibility regressions."
+    "Keep Timeline remove controls as native buttons; manual keyboard handlers are redundant and can hide true accessibility regressions.",
+    "Use ES2021 lib before calling replaceAll; older tsconfig targets break the build pipeline."
   ],
   "budget_type": "steps",
   "pattern": "B"
