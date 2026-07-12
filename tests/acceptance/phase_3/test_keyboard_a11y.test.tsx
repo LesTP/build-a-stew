@@ -94,10 +94,10 @@ describe('Keyboard accessibility — Phase 3', () => {
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
 
     const detail = screen.getByRole('region', { name: /detail/i });
-    expect(within(detail).queryByText(/chicken/i)).toBeDefined();
+    expect(within(detail).queryAllByText(/chicken/i)[0]).toBeDefined();
 
     // Now Tab through the Detail panel until a stage button is focused
     let foundStagePicker = false;
@@ -123,7 +123,7 @@ describe('Keyboard accessibility — Phase 3', () => {
 
     // After Enter, ingredient should appear in the Timeline
     const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-    expect(within(timeline).queryByText(/chicken/i)).toBeDefined();
+    expect(within(timeline).queryAllByText(/chicken/i)[0]).toBeDefined();
   });
 
   it('stage-picker buttons can be activated via Space', async () => {
@@ -134,7 +134,7 @@ describe('Keyboard accessibility — Phase 3', () => {
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
 
     const detail = screen.getByRole('region', { name: /detail/i });
 
@@ -145,7 +145,7 @@ describe('Keyboard accessibility — Phase 3', () => {
       await user.keyboard(' ');
 
       const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-      expect(within(timeline).queryByText(/chicken/i)).toBeDefined();
+      expect(within(timeline).queryAllByText(/chicken/i)[0]).toBeDefined();
     }
   });
 
@@ -160,14 +160,14 @@ describe('Keyboard accessibility — Phase 3', () => {
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
     const detail = screen.getByRole('region', { name: /detail/i });
     const pressureBtn = within(detail).queryByRole('button', { name: /pressure/i })
       ?? within(detail).queryByText(/pressure/i);
     if (pressureBtn) await user.click(pressureBtn);
 
     const timeline = screen.getByRole('region', { name: /timeline|cooking/i });
-    expect(within(timeline).queryByText(/chicken/i)).toBeDefined();
+    expect(within(timeline).queryAllByText(/chicken/i)[0]).toBeDefined();
 
     // Tab until a remove button inside the Timeline is focused
     let foundRemoveBtn = false;
@@ -198,7 +198,7 @@ describe('Keyboard accessibility — Phase 3', () => {
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
     const detail = screen.getByRole('region', { name: /detail/i });
     const pressureBtn = within(detail).queryByRole('button', { name: /pressure/i })
       ?? within(detail).queryByText(/pressure/i);
@@ -223,10 +223,10 @@ describe('Keyboard accessibility — Phase 3', () => {
     const searchInput = within(library).getByRole('searchbox')
       ?? within(library).getByRole('textbox');
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
 
     const detail = screen.getByRole('region', { name: /detail/i });
-    expect(within(detail).queryByText(/chicken/i)).toBeDefined();
+    expect(within(detail).queryAllByText(/chicken/i)[0]).toBeDefined();
 
     await user.keyboard('{Escape}');
 

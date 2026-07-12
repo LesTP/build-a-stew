@@ -64,7 +64,7 @@ describe('Ingredient Library — Phase 3', () => {
     // All displayed cards must belong to a protein (chicken, beef, pork, lamb, etc.)
     // We verify by checking that chicken_thighs (a known protein) is in the list
     // and that a known non-protein (e.g. garlic, an aromatic) is NOT in the list
-    expect(within(library).queryByText(/chicken/i)).toBeDefined();
+    expect(within(library).queryAllByText(/chicken/i)[0]).toBeDefined();
     expect(within(library).queryByText(/garlic/i)).toBeNull();
   });
 
@@ -78,7 +78,7 @@ describe('Ingredient Library — Phase 3', () => {
     await user.click(aromaticsTab);
 
     // Garlic is a known aromatic in the catalog
-    expect(within(library).queryByText(/garlic/i)).toBeDefined();
+    expect(within(library).queryAllByText(/garlic/i)[0]).toBeDefined();
     // Chicken thighs is NOT an aromatic
     expect(within(library).queryByText(/chicken thigh/i)).toBeNull();
   });
@@ -103,7 +103,7 @@ describe('Ingredient Library — Phase 3', () => {
     await user.type(searchInput, 'chicken');
 
     // At least one chicken-named ingredient should appear
-    expect(within(library).queryByText(/chicken/i)).toBeDefined();
+    expect(within(library).queryAllByText(/chicken/i)[0]).toBeDefined();
   });
 
   it('search shows no results for a term that matches nothing in the catalog', async () => {
@@ -139,7 +139,7 @@ describe('Ingredient Library — Phase 3', () => {
     await user.type(searchInput, 'chicken');
 
     // "chicken thighs" — protein + matches "chicken" — should appear
-    expect(within(library).queryByText(/chicken/i)).toBeDefined();
+    expect(within(library).queryAllByText(/chicken/i)[0]).toBeDefined();
 
     // Search for something that exists in a different category (e.g. garlic)
     await user.clear(searchInput);

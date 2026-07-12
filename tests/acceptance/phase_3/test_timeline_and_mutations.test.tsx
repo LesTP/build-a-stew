@@ -40,7 +40,7 @@ async function placeIngredient(
   await user.clear(searchInput);
   await user.type(searchInput, searchTerm);
 
-  const card = within(library).getByText(new RegExp(searchTerm, 'i'));
+  const card = within(library).getAllByText(new RegExp(searchTerm, 'i'))[0];
   await user.click(card);
 
   const detail = screen.getByRole('region', { name: /detail/i });
@@ -129,7 +129,7 @@ describe('Stage Timeline — Phase 3', () => {
       ?? within(library).getByRole('textbox');
     await user.clear(searchInput);
     await user.type(searchInput, 'chicken');
-    await user.click(within(library).getByText(/chicken/i));
+    await user.click(within(library).getAllByText(/chicken/i)[0]);
 
     const detail = screen.getByRole('region', { name: /detail/i });
     const brownBtn = within(detail).getByRole('button', { name: /^brown$/i })

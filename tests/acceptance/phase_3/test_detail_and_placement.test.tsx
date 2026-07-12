@@ -84,7 +84,7 @@ describe('Ingredient Detail panel — Phase 3', () => {
     await user.click(within(library).getByText(/chicken thigh/i));
 
     const detail = screen.getByRole('region', { name: /detail/i });
-    expect(within(detail).queryByText(/protein/i)).toBeDefined();
+    expect(within(detail).queryAllByText(/protein/i)[0]).toBeDefined();
   });
 
   it('Detail shows salt risk for the ingredient', async () => {
@@ -118,7 +118,7 @@ describe('Ingredient Detail panel — Phase 3', () => {
     // At least one BalanceAxis label must appear in the detail panel
     const axisNames = ['body', 'richness', 'umami', 'sweetness', 'acidity', 'heat', 'smoke', 'freshness', 'texture'];
     const anyAxisVisible = axisNames.some(ax =>
-      within(detail).queryByText(new RegExp(ax, 'i')) !== null
+      within(detail).queryAllByText(new RegExp(ax, 'i')).length > 0
     );
     expect(anyAxisVisible, 'No balance axis label found in Detail panel').toBe(true);
   });
@@ -136,7 +136,7 @@ describe('Ingredient Detail panel — Phase 3', () => {
 
     const detail = screen.getByRole('region', { name: /detail/i });
     // chicken_thighs has role "protein" — should appear in detail
-    expect(within(detail).queryByText(/protein/i)).toBeDefined();
+    expect(within(detail).queryAllByText(/protein/i)[0]).toBeDefined();
   });
 
   it('Detail shows cuisine tags for the ingredient', async () => {
@@ -284,11 +284,11 @@ describe('Ingredient Detail panel — Phase 3', () => {
     await user.clear(searchInput);
     await user.type(searchInput, 'beef');
 
-    const beefCard = within(library).queryByText(/beef/i);
+    const beefCard = within(library).queryAllByText(/beef/i)[0];
     if (beefCard) {
       await user.click(beefCard);
       // Detail should now show beef content, not chicken
-      expect(within(detail).queryByText(/beef/i)).toBeDefined();
+      expect(within(detail).queryAllByText(/beef/i)[0]).toBeDefined();
     }
     // If no beef ingredient is found in filtered results, that's a catalog issue not a Phase 3 regression —
     // the test is conditional to prevent false failures on catalog-content variance.
