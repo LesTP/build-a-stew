@@ -5,6 +5,8 @@ import { loadCatalog } from './catalog';
 import { AnalysisPanel } from './components/AnalysisPanel';
 import { BuildSummary } from './components/BuildSummary';
 import { InstructionsPanel } from './components/InstructionsPanel';
+import { Modal } from './components/Modal';
+import { HowContent } from './components/HowContent';
 import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
 import { IngredientDetail } from './components/IngredientDetail';
 import { IngredientLibrary } from './components/IngredientLibrary';
@@ -35,6 +37,7 @@ function AppContent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIngredientId, setSelectedIngredientId] = useState<string | null>(null);
   const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
+  const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load'>(null);
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
 
@@ -94,12 +97,23 @@ function AppContent() {
         </div>
 
         <div className="header-toolbar" aria-label="Build controls">
-          <div className="header-actions">
+          <div className="header-actions header-actions--info">
+            <button type="button" className="secondary-action" onClick={() => setOverlay('how')}>
+              How
+            </button>
+            <button type="button" className="secondary-action" onClick={() => setOverlay('recipe')}>
+              Recipe
+            </button>
+          </div>
+          <div className="header-actions header-actions--mutate">
             <button type="button" className="primary-action" onClick={handleSaveCurrentBuild}>
-              Save current build
+              Save
             </button>
             <button type="button" className="secondary-action" onClick={resetBuild}>
-              Clear demo build
+              Clear
+            </button>
+            <button type="button" className="secondary-action" onClick={() => setOverlay('load')}>
+              Load
             </button>
           </div>
           {saveFeedback ? (
@@ -141,13 +155,20 @@ function AppContent() {
           />
         </section>
 
-        <section className="composer-panel composer-panel--analysis" aria-label="Analysis">
-          <AnalysisPanel build={build} analysis={analysis} />
-          <InstructionsPanel build={build} catalog={catalog} analysis={analysis} />
-        </section>
-
-        <SavedBuildsPanel />
+        <div className="analysis-group">
+          <AnalysisPanel analysis={analysis} />
+        </div>
       </main>
+
+      <Modal open={overlay === 'how'} onClose={() => setOverlay(null)} title="How it works">
+        <HowContent />
+      </Modal>
+      <Modal open={overlay === 'recipe'} onClose={() => setOverlay(null)} title="Recipe">
+        <InstructionsPanel build={build} catalog={catalog} analysis={analysis} />
+      </Modal>
+      <Modal open={overlay === 'load'} onClose={() => setOverlay(null)} title="Saved builds">
+        <SavedBuildsPanel />
+      </Modal>
     </>
   );
 }

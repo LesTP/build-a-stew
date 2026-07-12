@@ -52,14 +52,42 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
   gap: 20px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .app-shell {
   padding-top: 16px;
   padding-bottom: 32px;
   display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
   gap: 18px;
+}
+
+.composer-panel--saved-builds {
+  grid-column: 1 / -1;
+}
+
+.analysis-group {
+  display: contents;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1600px) {
+  .app-shell {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .analysis-group {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
 }
 
 .brand-block,
@@ -79,14 +107,92 @@ button {
 }
 
 .header-toolbar {
-  display: grid;
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .header-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
+  flex: 1;
+}
+
+.header-actions > button {
+  flex: 1;
+}
+
+.modal {
+  width: min(92vw, 640px);
+  max-width: min(92vw, 640px);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: #141821;
+  color: #f4efe7;
+}
+
+.modal::backdrop {
+  background: rgba(6, 8, 12, 0.62);
+}
+
+.modal__panel {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal__title {
+  margin: 0;
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+}
+
+.modal__body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal__body .composer-panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.modal__body .panel-heading {
+  display: none;
+}
+
+.prose h3 {
+  margin: 0 0 6px;
+}
+
+.prose p,
+.prose ul {
+  margin: 0 0 12px;
 }
 
 .summary-panel {
@@ -893,21 +999,6 @@ button {
   color: rgba(244, 239, 231, 0.58);
   font-size: 0.84rem;
   white-space: nowrap;
-}
-
-@media (min-width: 1120px) {
-  .app-shell {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .composer-panel--timeline {
-    grid-column: span 1;
-  }
-
-  .composer-panel--saved-builds {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 720px) {

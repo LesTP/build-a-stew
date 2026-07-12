@@ -1,7 +1,6 @@
-import type { AnalysisResult, BalanceAxis, CuisineTag, StewBuild } from '../types';
+import type { AnalysisResult, BalanceAxis, CuisineTag } from '../types';
 
 interface AnalysisPanelProps {
-  build: StewBuild;
   analysis: AnalysisResult;
 }
 
@@ -22,37 +21,25 @@ function formatCuisineLabel(cuisine: CuisineTag): string {
   return cuisine.replaceAll('_', ' ');
 }
 
-function formatCount(count: number, singular: string, plural = `${singular}s`): string {
-  return `${count} ${count === 1 ? singular : plural}`;
-}
-
 function rankCuisineScores(scores: AnalysisResult['cuisineScores']): Array<[CuisineTag, number]> {
   return Object.entries(scores)
     .filter(([cuisine, score]) => cuisine !== 'universal' && score > 0)
     .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0])) as Array<[CuisineTag, number]>;
 }
 
-export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
+export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
   const rankedCuisines = rankCuisineScores(analysis.cuisineScores);
-  const topCuisine = rankedCuisines[0];
+  const noAdvisories =
+    analysis.warnings.length === 0 &&
+    analysis.suggestions.length === 0 &&
+    analysis.timingFindings.length === 0;
 
   return (
-    <div>
-      <div className="panel-heading">
-        <h2 id="analysis-title">Analysis</h2>
-      </div>
-
-      <p className="panel-copy">
-        {formatCount(build.ingredients.length, 'ingredient')} in the build.
-      </p>
-      <p className="panel-copy">
-        {topCuisine
-          ? `Cuisine affinity is led by ${formatCuisineLabel(topCuisine[0])}.`
-          : 'No non-universal cuisine signal yet.'}
-      </p>
-
-      <div className="detail-section">
-        <h3 className="analysis-section-title">Balance scores</h3>
+    <>
+      <section className="composer-panel composer-panel--balance" aria-labelledby="balance-title">
+        <div className="panel-heading">
+          <h2 id="balance-title">Balance</h2>
+        </div>
         <ul className="analysis-score-list">
           {(Object.entries(analysis.balanceScores) as Array<[BalanceAxis, number]>).map(([axis, score]) => (
             <li key={axis} className="analysis-score-row">
@@ -67,10 +54,12 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
             </li>
           ))}
         </ul>
-      </div>
+      </section>
 
-      <div className="detail-section">
-        <h3 className="analysis-section-title">Cuisine affinity</h3>
+      <section className="composer-panel composer-panel--cuisine" aria-labelledby="cuisine-title">
+        <div className="panel-heading">
+          <h2 id="cuisine-title">Cuisine</h2>
+        </div>
         {rankedCuisines.length === 0 ? (
           <p className="analysis-empty-note">No non-universal cuisine signal yet.</p>
         ) : (
@@ -83,11 +72,13 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
             ))}
           </ol>
         )}
-      </div>
+      </section>
 
-      <div className="detail-section">
-        <h3 className="analysis-section-title">Advisories</h3>
-        {analysis.warnings.length === 0 && analysis.suggestions.length === 0 && analysis.timingFindings.length === 0 ? (
+      <section className="composer-panel composer-panel--advisories" aria-labelledby="advisories-title">
+        <div className="panel-heading">
+          <h2 id="advisories-title">Advisories</h2>
+        </div>
+        {noAdvisories ? (
           <p className="analysis-empty-note">No advisories for the current build.</p>
         ) : (
           <ul className="analysis-list">
@@ -114,7 +105,7 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
             ))}
           </ul>
         )}
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
