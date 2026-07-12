@@ -127,5 +127,32 @@
     "decision": "Leave the catalogIngredient lookup in App.tsx placeIngredient; the lookup is used only to check whether the chosen stage differs from the ingredient's catalog default before calling moveIngredient.",
     "rationale": "The defensive lookup avoids a no-op moveIngredient call when the user picks the default stage. Removing it would unconditionally call moveIngredient after insertIngredient, which works but produces an extra state update. Low value change; wait until placeIngredient gains broader editing logic.",
     "revisit_if": "placeIngredient is extended (e.g., stage validation, quantity prompts), at which point the whole function should be reviewed."
+  },
+  {
+    "id": "D-25",
+    "phase": 4,
+    "title": "Analysis result types added to types.ts; thresholds are provisional",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Add AnalysisResult, AnalysisMessage, TimingFinding, IngredientSuggestion to types.ts. Composition warning thresholds (richness>=4, freshness<2, root count>=2) are provisional per ARCHITECTURE.md §Provisional Contracts; tune in Phase 4 step 8 against fixture builds before closing the phase.",
+    "rationale": "Types belong alongside the other core data types; keeping them in types.ts avoids a circular import between analysis.ts and any future consumer."
+  },
+  {
+    "id": "D-26",
+    "phase": 4,
+    "title": "Analysis engine is a pure module with no React/UI imports",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "src/analysis.ts exports only analyzeBuild(build: StewBuild, catalog: Ingredient[]): AnalysisResult. No React, no store imports. The UI layer calls it and passes the result as props.",
+    "rationale": "Keeps the function independently testable without a DOM environment. Follows the existing pattern of build.ts and catalog.ts being pure modules."
+  },
+  {
+    "id": "D-27",
+    "phase": 4,
+    "title": "Fixture builds as typed TS constants in tests/fixtures/builds.ts",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Representative builds live in tests/fixtures/builds.ts as exported StewBuild constants. Each fixture is accompanied by an expectedAnalysis object documenting what analyzeBuild should return. Integration tests import both and assert.",
+    "rationale": "Typed fixtures catch catalog drift (ingredient ID renames break the import). Colocating expected output with the fixture makes fixture intent self-documenting for future tuning."
   }
 ]
