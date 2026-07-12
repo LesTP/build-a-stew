@@ -118,6 +118,21 @@ function relatedPairIds(a: IngredientId, b: IngredientId): IngredientId[] {
   return a < b ? [a, b] : [b, a];
 }
 
+function formatPairMessage(
+  kind: 'pair' | 'avoid',
+  left: IngredientId,
+  right: IngredientId,
+  byId: Map<IngredientId, Ingredient>,
+): string {
+  const [canonicalLeft, canonicalRight] = relatedPairIds(left, right);
+  const leftName = capitalize(byId.get(canonicalLeft)?.name ?? canonicalLeft);
+  const rightName = capitalize(byId.get(canonicalRight)?.name ?? canonicalRight);
+
+  return kind === 'pair'
+    ? `${leftName} pairs well with ${rightName}.`
+    : `${leftName} clashes with ${rightName}.`;
+}
+
 function buildIngredientIds(build: StewBuild): Set<IngredientId> {
   return new Set(build.ingredients.map(ingredient => ingredient.ingredientId));
 }
@@ -232,7 +247,7 @@ function addPairingSignals(
         addWarning(warnings, seenWarnings, {
           id: pairKey,
           severity: 'info',
-          message: `${capitalize(ingredient.name)} pairs well with ${capitalize(byId.get(relatedId)?.name ?? relatedId)}.`,
+          message: formatPairMessage('pair', ingredient.id, relatedId, byId),
           relatedIngredientIds: relatedPairIds(ingredient.id, relatedId),
         });
       }
@@ -251,7 +266,7 @@ function addPairingSignals(
         addWarning(warnings, seenWarnings, {
           id: pairKey,
           severity: 'warning',
-          message: `${capitalize(ingredient.name)} clashes with ${capitalize(byId.get(relatedId)?.name ?? relatedId)}.`,
+          message: formatPairMessage('avoid', ingredient.id, relatedId, byId),
           relatedIngredientIds: relatedPairIds(ingredient.id, relatedId),
         });
       }
