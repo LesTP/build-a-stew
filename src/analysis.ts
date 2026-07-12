@@ -1,9 +1,8 @@
-import { GROUP_DEFINITIONS, BALANCE_AXES, CUISINE_TAGS, SALT_RISKS } from './types';
+import { GROUP_DEFINITIONS, BALANCE_AXES, CUISINE_TAGS } from './types';
 import type {
   AnalysisMessage,
   AnalysisResult,
   BalanceAxis,
-  BuildIngredient,
   CuisineTag,
   Ingredient,
   IngredientId,
@@ -51,7 +50,7 @@ function addCuisineAffinityScores(
 function capitalize(label: string): string {
   return label
     .replaceAll('_', ' ')
-    .replace(/\b\w/g, letter => letter.toUpperCase());
+    .replace(/\b\w/g, (letter: string) => letter.toUpperCase());
 }
 
 function getIngredientMap(catalog: readonly Ingredient[]): Map<IngredientId, Ingredient> {
