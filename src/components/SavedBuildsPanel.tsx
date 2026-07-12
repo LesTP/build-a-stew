@@ -11,10 +11,6 @@ export function notifySavedBuildsChanged(): void {
   }
 }
 
-function formatSavedAt(savedAt: string): string {
-  return savedAt;
-}
-
 function buildLabel(id: string, name: string | undefined): string {
   return name?.trim() ? name : id;
 }
@@ -234,7 +230,7 @@ export function SavedBuildsPanel() {
                         <h3>{label}</h3>
                         <p className="saved-build-card__meta">ID: {record.id}</p>
                       </div>
-                      <p className="saved-build-card__meta">Saved {formatSavedAt(record.savedAt)}</p>
+                      <p className="saved-build-card__meta">Saved {record.savedAt}</p>
                     </div>
                     <div className="saved-build-card__actions">
                       <button type="button" className="secondary-action" onClick={() => handleRestore(record.id)}>

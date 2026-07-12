@@ -38,10 +38,6 @@ const savedBuildRecordListSchema = z.array(savedBuildRecordSchema);
 
 type ExportedBuild = z.infer<typeof exportedBuildSchema>;
 
-function deepClone<T>(value: T): T {
-  return structuredClone(value);
-}
-
 function getStorage(): Storage {
   if (typeof localStorage === 'undefined') {
     throw new Error('localStorage is not available');
@@ -69,7 +65,7 @@ function readSavedBuildIndex(storage: Storage): SavedBuildRecord[] {
   }
 
   const parsed = savedBuildRecordListSchema.parse(JSON.parse(rawIndex));
-  return parsed.map(record => deepClone(record));
+  return parsed.map(record => structuredClone(record));
 }
 
 function writeSavedBuildIndex(storage: Storage, records: readonly SavedBuildRecord[]): void {
@@ -111,13 +107,13 @@ function parseBuild(json: string): ExportedBuild {
 
 function exportedBuildToStewBuild(build: ExportedBuild): StewBuild {
   const { schemaVersion: _schemaVersion, ...rest } = build;
-  return deepClone(rest);
+  return structuredClone(rest);
 }
 
 export function exportBuild(build: StewBuild): string {
   return JSON.stringify({
     schemaVersion: SCHEMA_VERSION,
-    ...deepClone(build),
+    ...structuredClone(build),
   });
 }
 
