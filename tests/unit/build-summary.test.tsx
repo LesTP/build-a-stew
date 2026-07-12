@@ -107,4 +107,28 @@ describe('BuildSummary', () => {
     expect((screen.getByRole('spinbutton', { name: /cook minutes/i }) as HTMLInputElement).value).toBe('30');
     expect((screen.getByRole('spinbutton', { name: /natural release minutes/i }) as HTMLInputElement).value).toBe('8');
   });
+
+  it('renders a generated instructions panel for the current build', () => {
+    const markup = renderToStaticMarkup(<BuildSummary build={createDemoBuild(catalog)} catalog={catalog} />);
+
+    expect(markup).toContain('Generated output');
+    expect(markup).toContain('Instructions');
+    expect(markup).toContain('Brown');
+    expect(markup).toContain('Aromatics');
+    expect(markup).toContain('Deglaze');
+    expect(markup).toContain('Pressure');
+    expect(markup).toContain('Chicken thighs');
+    expect(markup).toContain('Onion');
+    expect(markup).toContain('White wine');
+    expect(markup).toContain('Carrot');
+  });
+
+  it('shows an empty instructions message when the build has no ingredients', () => {
+    const markup = renderToStaticMarkup(
+      <BuildSummary build={createEmptyBuild('empty-summary')} catalog={catalog} showEmptyStages />,
+    );
+
+    expect(markup).toContain('No instructions yet.');
+    expect(markup).toContain('Once the build has ingredients, each stage becomes a generated step list here.');
+  });
 });
