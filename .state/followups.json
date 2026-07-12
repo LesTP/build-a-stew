@@ -1,0 +1,28 @@
+[
+  {
+    "id": "FU-1",
+    "title": "Supervised visual-polish batch (full-width layout, header/eyebrow cleanup, timeline flatten, detail reorder, analysis de-badge) - applied in-session, needs commit + tests",
+    "kind": "structural-refactor",
+    "status": "open",
+    "opened": "2026-07-11",
+    "context": "Supervised visual-polish batch applied directly in a Devmate session after the Phase 6 close, while reviewing the live browser build with the operator. Changes ARE applied in the working tree but are NOT committed and NOT test-covered, and .state had no record - this FU is the tracking record. Edits: (1) styles.css - removed the .app-header/.app-shell max-width 1120px cap so the app is full-width with four equal columns; trimmed padding (side 24->16, header-top 40->20, shell-bottom 64->32, brand/toolbar/summary 28->20, composer 22->18). (2) Removed every eyebrow kicker (Library, Detail, Analysis, Timeline, Current build, Build metadata, Generated output, Persistence). (3) Library search: visible Search label made visually-hidden, placeholder only. (4) Header: h1 retitled to Build-a-Stew, hero tagline removed. (5) Timeline: removed the Build-metadata card (Cook timing + pressure/natural-release inputs) and the updateBuildField handler, and flattened BuildSummary into the single Cooking-timeline level (dropped the summary-panel card wrapper and the Stage-grouped summary heading). This removed the ONLY UI to set pressureMinutes/naturalReleaseMinutes - the data fields remain and relocation is already a Phase 6 punch-list item. (6) IngredientDetail: moved Place-in-stage up under the title, before the metadata. (7) AnalysisPanel: removed redundant per-item severity badges (INFO/suggest/timing), kept section headings. Remaining follow-through: commit these changes, add test coverage plus a real-browser check, and remove the now-unused onUpdateBuild wiring in BuildSummary/App. Update 2026-07-12: (7 revised) AnalysisPanel now MERGES warnings + suggestions + timing findings into one Advisories list with a per-card type badge (info/warning/suggestion/timing) and no per-type headers (supersedes the earlier de-badge). (8) analysis.ts Option-A fold: freshness advisories name the suggested ingredient inside the warning (rich -> add acid or fresh herbs like lemon juice; no-greens -> add a leafy green like spinach); the two standalone spinach/lemon_juice suggestions were removed; analysis.suggestions is now always empty until the Phase-6 suggested-next-ingredient ranking is built (addSuggestion kept dormant); phase-4 tests stay green (assert on warnings / warning-OR-suggestion fallbacks). (9) Timeline rows are a single grid row: name | cook-time (fixed 5.5rem, right-aligned so timings scan) | small X remove (was two rows + big Remove button). (10) Library shows nothing until a tab or search is used (was dumping all 119); prompt: Pick a category to browse ingredients. (11) Header KPI stats card removed (hero-stats + now-dead groupedStageCount memo); Save/Clear kept. (12) Detail: Place-in-stage moved directly under the ingredient title; title recased to Build-a-Stew.",
+    "trigger": "Operator supervised visual review of the post-Phase-6 live build (served from the Pi, tunneled to the laptop): layout was width-capped and cramped with duplicated headers.",
+    "priority": "now",
+    "files": [
+      "src/styles.css",
+      "src/App.tsx",
+      "src/components/BuildSummary.tsx",
+      "src/components/IngredientDetail.tsx",
+      "src/components/AnalysisPanel.tsx",
+      "src/components/IngredientLibrary.tsx",
+      "src/components/InstructionsPanel.tsx",
+      "src/components/SavedBuildsPanel.tsx",
+      "src/analysis.ts"
+    ],
+    "refs": [
+      "D-18",
+      "D-20",
+      "D-33"
+    ]
+  }
+]

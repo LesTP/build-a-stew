@@ -42,6 +42,7 @@ export type SaltRisk = (typeof SALT_RISKS)[number];
 export type GroupTag = (typeof GROUP_TAGS)[number];
 export type IngredientId = string;
 export type IngredientRef = GroupTag | IngredientId;
+export type AnalysisSeverity = 'info' | 'warning';
 
 type GroupDefinition = { category: IngredientCategory } | { ids: string[] };
 
@@ -54,7 +55,7 @@ export const GROUP_DEFINITIONS: Record<GroupTag, GroupDefinition> = {
   spices:       { category: 'spice' },
   herbs:        { ids: ['parsley', 'dill', 'cilantro', 'mint', 'chives', 'bay_leaf', 'thyme', 'rosemary', 'oregano'] },
   wine:         { ids: ['white_wine', 'red_wine'] },
-  vinegar:      { ids: ['red_wine_vinegar', 'sherry_vinegar', 'apple_cider_vinegar', 'white_wine_vinegar'] },
+  vinegar:      { ids: ['red_wine_vinegar', 'sherry_vinegar', 'cider_vinegar'] },
   beans:        { ids: ['dried_black_beans', 'cooked_black_beans', 'dried_white_beans', 'cooked_white_beans'] },
   black_beans:  { ids: ['dried_black_beans', 'cooked_black_beans'] },
   white_beans:  { ids: ['dried_white_beans', 'cooked_white_beans'] },
@@ -76,4 +77,55 @@ export interface Ingredient {
   pairsWith?: IngredientRef[];
   avoidWith?: IngredientRef[];
   notes?: string;
+}
+
+export interface BuildIngredient {
+  ingredientId: IngredientId;
+  stage: CookingStage;
+  quantity?: number;
+  unit?: string;
+}
+
+export interface StewBuild {
+  id: string;
+  name?: string;
+  servings?: number;
+  ingredients: BuildIngredient[];
+  pressureMinutes?: number;
+  naturalReleaseMinutes?: number;
+  liquidAmount?: number;
+  notes?: string;
+}
+
+export interface SavedBuildRecord {
+  id: string;
+  name?: string;
+  savedAt: string;
+  schemaVersion: number;
+}
+
+export interface AnalysisMessage {
+  id: string;
+  severity: AnalysisSeverity;
+  message: string;
+  relatedIngredientIds?: IngredientId[];
+}
+
+export interface IngredientSuggestion {
+  ingredientId: IngredientId;
+  message: string;
+  relatedIngredientIds?: IngredientId[];
+}
+
+export interface TimingFinding {
+  ingredientId: IngredientId;
+  message: string;
+}
+
+export interface AnalysisResult {
+  balanceScores: Record<BalanceAxis, number>;
+  cuisineScores: Record<CuisineTag, number>;
+  warnings: AnalysisMessage[];
+  suggestions: IngredientSuggestion[];
+  timingFindings: TimingFinding[];
 }

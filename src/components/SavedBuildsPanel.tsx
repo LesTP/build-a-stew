@@ -155,7 +155,6 @@ export function SavedBuildsPanel() {
   return (
     <section className="composer-panel composer-panel--saved-builds" aria-labelledby="saved-builds-title">
       <div className="panel-heading">
-        <p className="eyebrow">Persistence</p>
         <h2 id="saved-builds-title">Saved builds</h2>
       </div>
 

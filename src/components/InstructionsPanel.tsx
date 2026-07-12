@@ -24,7 +24,6 @@ export function InstructionsPanel({ build, catalog, analysis }: InstructionsPane
   return (
     <div className="instructions-section">
       <div className="panel-heading">
-        <p className="eyebrow">Generated output</p>
         <h2 id="instructions-panel-title">Instructions</h2>
       </div>
 

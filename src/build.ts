@@ -20,7 +20,7 @@ function cloneIngredient(ingredient: BuildIngredient): BuildIngredient {
 
 function cloneBuild(build: StewBuild, ingredients: BuildIngredient[] = build.ingredients): StewBuild {
   return {
-    id: build.id,
+    ...build,
     ingredients: ingredients.map(cloneIngredient),
   };
 }
@@ -60,6 +60,10 @@ export function addIngredient(build: StewBuild, ingredientId: IngredientId, cata
 }
 
 export function removeIngredient(build: StewBuild, ingredientId: IngredientId): StewBuild {
+  const index = findBuildIndex(build, ingredientId);
+  if (index === -1) {
+    throw new UnknownIngredientError(ingredientId);
+  }
   const ingredients = build.ingredients.filter(ingredient => ingredient.ingredientId !== ingredientId);
   return cloneBuild(build, ingredients);
 }

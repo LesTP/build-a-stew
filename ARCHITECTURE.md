@@ -250,45 +250,54 @@ The ingredient catalog is immutable at runtime in the MVP. The build store owns 
 
 ### User Actions
 
-- Browse or search ingredients.
-- Filter ingredients by category, stage, cuisine, or pantry availability.
-- Add an ingredient to the current build.
-- Drag or move a selected card between valid stage lanes.
-- Remove an ingredient from the build.
+- Browse ingredients by category tab, or search by name.
+- Click an ingredient to open it in the Detail column.
+- Place the inspected ingredient into a chosen cooking stage (its default stage is suggested).
+- Move a placed ingredient to another stage, or remove it.
 - Set an optional quantity and unit.
 - Set pressure and natural-release times.
-- Inspect an ingredient card's details.
-- Review balance, cuisine affinities, warnings, and suggestions.
+- Review balance, cuisine affinities, warnings, and suggestions in the Analysis column.
 - Save, duplicate, rename, delete, import, or export a build.
 - Copy generated cooking instructions.
 
 ### UI States
 
-- **Empty Build** — no ingredients selected; the app emphasizes browsing and starter suggestions.
-- **Editing Build** — cards are being added, removed, reordered, or moved between stages.
-- **Ingredient Detail Open** — a side panel or modal shows full metadata for one ingredient.
+- **Empty Build** — no ingredients placed; the app emphasizes browsing and starter suggestions.
+- **Browsing** — a category tab is active, listing its ingredients.
+- **Ingredient Detail Open** — the center Detail column shows full metadata plus stage-placement controls for the selected ingredient; clicking within the Library or pressing Escape closes it.
+- **Editing Build** — ingredients are being placed, moved between stages, or removed.
 - **Saved Builds View** — local builds are listed and can be restored.
 - **Import Error** — imported JSON fails schema validation.
 
 ### Layout Zones
 
-Desktop layout:
+Desktop layout — four equal-width columns:
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Header: app name, build name, save/import/export                    │
-├───────────────────────┬──────────────────────────────────────────────┤
-│ Ingredient Library    │ Cooking Timeline                             │
-│ search + filters      │ Brown → Aromatics → Deglaze → Pressure ... │
-│ card grid             │ staged ingredient cards                     │
-├───────────────────────┴──────────────────────────────────────────────┤
-│ Analysis: balance | cuisine | timing | warnings | suggestions       │
-├──────────────────────────────────────────────────────────────────────┤
-│ Generated Instructions                                               │
-└──────────────────────────────────────────────────────────────────────┘
+Header: app name · build name · save / import / export
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│ Library     │ Detail      │ Cooking     │ Analysis    │
+│ category    │ selected    │ Timeline    │ balance     │
+│ tabs +      │ ingredient  │ (vertical:  │ cuisine     │
+│ ingredient  │ + place-in- │ 8 stages,   │ warnings /  │
+│ list        │ stage chips │ canonical   │ suggestions │
+│             │             │ order)      │             │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+click ingredient → Detail → pick stage → Timeline
 ```
 
-Mobile layout stacks the same zones vertically. Stage lanes become vertically ordered sections rather than a horizontally scrolling board.
+The four columns are equal width. The Cooking Timeline is a vertical list of the eight stages in canonical order (not a horizontal board), even on desktop; each placed card shows the ingredient name and its cook-time range. Mobile stacks the four columns vertically in the same order.
+
+### Composer Flow (Phase 3 contract)
+
+- **Browse → inspect → place → assess**, left to right across the four columns.
+- **Library** groups ingredients by `category` tabs; a name search filters the list. Card faces stay compact — name plus a salt-risk flag; full metadata lives in Detail.
+- Clicking a library ingredient loads it into the **Detail** column, which shows roles, traits, balance scores (as labeled bars), cuisines, salt risk, cook time, pairs/avoid, and notes, plus a **place-in-stage** control.
+- The ingredient's default `stage` is suggested, but the user **picks the target stage explicitly**. Choosing a stage places the ingredient — or moves it if already in the build — and returns to Browsing. Clicking within the Library, or pressing Escape, dismisses the open Detail card.
+- **Placement is click + keyboard for the MVP; no drag is required.** Every place, move, and remove action is reachable by pointer and keyboard (tab to a card/chip/stage, Enter/Space to activate, Escape to cancel). Drag-and-drop, if added later, is layered on top and never the only path (see Escalation Triggers).
+- **Stage placement is unconstrained:** any ingredient may go in any stage; the default is only a suggestion, and intentional overrides surface warnings in Analysis rather than being blocked (see Provisional Contracts: Stage override policy).
+- **Analysis** recomputes on every change: balance as presence-summed axis bars (no quantity weighting), ranked cuisine affinity (excluding `universal`, no percentages), and deterministic warnings/suggestions.
+- Visual language (color, typography, spacing) is out of scope here and deferred to Phase 6 polish.
 
 ## Public API
 
@@ -298,7 +307,8 @@ The MVP is a browser application rather than a published library, but internal m
 
 ```ts
 getIngredient(id: IngredientId): Ingredient | undefined
-listIngredients(filters?: IngredientFilters): Ingredient[]
+listIngredients(filters?: CatalogFilter): Ingredient[]
+// CatalogFilter = { stage?: string; category?: string }
 ```
 
 Guarantees:
@@ -309,7 +319,7 @@ Guarantees:
 ### Build Mutation
 
 ```ts
-addIngredient(build: StewBuild, ingredientId: IngredientId): StewBuild
+addIngredient(build: StewBuild, ingredientId: IngredientId, catalog: readonly Ingredient[]): StewBuild
 removeIngredient(build: StewBuild, ingredientId: IngredientId): StewBuild
 moveIngredient(
   build: StewBuild,
@@ -325,6 +335,7 @@ updateBuildIngredient(
 
 Guarantees:
 - Functions return a new build value; they do not mutate their input.
+- `addIngredient` takes the catalog to resolve an ingredient's default stage and reject unknown IDs; the UI binds the catalog via the store (see D-15), so components call a two-argument form. `removeIngredient`, `moveIngredient`, and `updateBuildIngredient` validate against the build and need no catalog.
 - Unknown ingredient IDs produce a typed error.
 - The same ingredient ID appears at most once in a build in the MVP.
 
@@ -474,7 +485,7 @@ The MVP should include deterministic rules for at least these cases:
 
 - High richness with low acidity or freshness suggests acid or fresh herbs.
 - Legume + grain + multiple roots warns about excessive body/starch.
-- Ham hock or smoked sausage plus stock, miso, or Parmesan warns about salt.
+- High aggregate salt risk (generic heuristic: total SALT_RISK_SCORE >= 3) warns about over-salting. This is the salt-load heuristic; specific cured-protein gating was considered but deferred (see D-34).
 - Dried beans plus acidic tomato ingredients warns that old beans may soften slowly.
 - No selected greens and low freshness suggests spinach, peas, herbs, or scallions.
 - Miso in a pre-finish stage suggests moving it to `finish`.
@@ -557,10 +568,10 @@ The generator must not invent quantities, temperatures, or cooking times absent 
 |---|---|---|---|---|---|
 | 1 | Project Bootstrap | Create the React + TypeScript + Vite application, test harness, controlled vocabularies, schema types, runtime schema validation, and an offline CSV→JSON catalog build step proven on a small validated ingredient fixture. | Build | — | Complete |
 | 2 | Catalog and Build Core | Run the CSV→JSON build step on the full ingredient catalog to produce the bundled `ingredients.json`, implement the catalog loader and validation, immutable build operations, and local in-memory store. Deliver a text-only or minimally styled build editor proving catalog → build flow. | Build | Project Bootstrap | Complete |
-| 3 | Interactive Composer | Implement ingredient search/filtering, card presentation, stage timeline, add/remove/move interactions, ingredient detail view, and accessible non-drag controls. | Build | Catalog and Build Core | Not started |
-| 4 | Analysis and Guidance | Implement role scoring, cuisine affinity, pairing logic, timing findings, initial warning rules, and suggested-next-ingredient ranking. Validate against representative builds from the original cooking discussion. | Build | Interactive Composer | Not started |
-| 5 | Instructions and Persistence | Generate ordered cooking instructions, add pressure/release controls, implement local save/load and JSON import/export, and add schema versioning. | Build | Analysis and Guidance | Not started |
-| 6 | MVP Polish and Validation | Complete responsive layout, accessibility pass, catalog expansion to 50–80 ingredients, end-to-end tests, and operator review of real generated stew builds. | Refine | Instructions and Persistence | Not started |
+| 3 | Interactive Composer | Implement ingredient search/filtering, card presentation, stage timeline, add/remove/move interactions, ingredient detail view, and accessible non-drag controls. | Build | Catalog and Build Core | Complete |
+| 4 | Analysis and Guidance | Implement role scoring, cuisine affinity, pairing logic, timing findings, initial warning rules, and suggested-next-ingredient ranking. Validate against representative builds from the original cooking discussion. | Build | Interactive Composer | Complete |
+| 5 | Instructions and Persistence | Generate ordered cooking instructions, add pressure/release controls, implement local save/load and JSON import/export, and add schema versioning. | Build | Analysis and Guidance | Complete |
+| 6 | MVP Polish and Validation | Complete responsive layout, accessibility pass, catalog expansion to 50–80 ingredients, end-to-end tests, and operator review of real generated stew builds. | Refine | Instructions and Persistence | Complete |
 
 ### Phase 1: Project Bootstrap
 
@@ -606,6 +617,38 @@ The generator must not invent quantities, temperatures, or cooking times absent 
 - Confirm mobile stage stacking.
 - Confirm every card operation has a keyboard/click alternative.
 - Cook or retrospectively evaluate several builds generated by the app and record mismatches as catalog or rule corrections.
+
+The following punch list was surfaced by the end-of-phase-5 architecture review. Items marked ✓ were resolved in the Phase 6 review pass.
+
+**Analysis rule corrections (contract drift):**
+- ✓ Salt warning: amended to generic salt-load heuristic (`saltScore >= 3`); ARCHITECTURE.md Initial Rule Set updated to match. See D-34.
+- ✓ Richness warning/suggestion: changed to OR-branch (`richness >= 4 && (freshness <= 2 || acidity <= 2)`), predicate extracted to `isRichAndLow` variable to eliminate duplication.
+
+**Suggested-next-ingredient ranking:**
+- Suggestions are condition-driven (greens + freshness check for spinach; richness OR-branch for lemon_juice). Full ranked-next logic deferred — see D-35.
+
+**Layout reconciliation to the Composer Flow contract (D-18):**
+- ✓ `App.tsx` folded to four columns: InstructionsPanel now renders inside the Analysis column wrapper; CSS grid updated to `repeat(4, minmax(0, 1fr))`; SavedBuildsPanel spans all columns below the main grid.
+- Column min-widths enforced by CSS `minmax(0, 1fr)`; mobile stacks via single-column default (no media override needed below 1120px).
+- Pressure/release controls remain in BuildSummary (Timeline column) — relocating to Detail deferred (see D-36).
+
+**UI display:**
+- ✓ Library card salt badge now renders only for `high` salt risk ingredients.
+
+**Validation (real-browser smoke check):**
+- Deferred — operator-level validation outside loop scope.
+
+**Accessibility pass:**
+- ✓ Added `role="tabpanel"` and `aria-controls` to complete the tab pattern in IngredientLibrary.
+- Click-within-Library dismisses Detail: deferred (see D-36).
+- Focus return after Detail close and saved-build restore: deferred (see D-36).
+
+**Test-coverage gaps:**
+- localStorage quota test, pairing dedup test, OR-branch test: deferred (see D-36).
+
+**Minor code-quality cleanups:**
+- ✓ `InstructionsPanel` now accepts memoized `analysis` prop instead of recomputing.
+- STAGE_LABELS dedup and saveBuild index-write order: deferred (see D-36).
 
 ## Key Decisions
 

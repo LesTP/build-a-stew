@@ -93,10 +93,8 @@ describe('Immutable build operations — Phase 2', () => {
     expect(removed.ingredients).toHaveLength(0);
   });
 
-  it('removeIngredient on an ID not in the build returns a build with unchanged ingredients', () => {
-    const build = emptyBuild();
-    const result = removeIngredient(build, 'chicken_thighs');
-    expect(result.ingredients).toHaveLength(0);
+  it('removeIngredient with an ID not in the build throws UnknownIngredientError', () => {
+    expect(() => removeIngredient(emptyBuild(), 'chicken_thighs')).toThrow(UnknownIngredientError);
   });
 
   it('add + remove round-trip produces a build with empty ingredients', () => {
@@ -178,5 +176,34 @@ describe('Immutable build operations — Phase 2', () => {
     expect(b2.id).toBe(id);
     expect(b3.id).toBe(id);
     expect(b4.id).toBe(id);
+  });
+
+  it('all top-level StewBuild contract fields are retained across every mutation', () => {
+    const base: StewBuild = {
+      id: 'retention-build',
+      name: 'Sunday Stew',
+      servings: 4,
+      ingredients: [],
+      pressureMinutes: 30,
+      naturalReleaseMinutes: 10,
+      liquidAmount: 2,
+      notes: 'keep me',
+    };
+    const assertMeta = (b: StewBuild) => {
+      expect(b.name).toBe('Sunday Stew');
+      expect(b.servings).toBe(4);
+      expect(b.pressureMinutes).toBe(30);
+      expect(b.naturalReleaseMinutes).toBe(10);
+      expect(b.liquidAmount).toBe(2);
+      expect(b.notes).toBe('keep me');
+    };
+    const b1 = addIngredient(base, 'chicken_thighs', catalog);
+    assertMeta(b1);
+    const b2 = updateBuildIngredient(b1, 'chicken_thighs', { quantity: 1, unit: 'lb' });
+    assertMeta(b2);
+    const b3 = moveIngredient(b2, 'chicken_thighs', 'pressure');
+    assertMeta(b3);
+    const b4 = removeIngredient(b3, 'chicken_thighs');
+    assertMeta(b4);
   });
 });

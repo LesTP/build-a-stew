@@ -1,9 +1,16 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { addIngredient } from './build';
+import { analyzeBuild } from './analysis';
 import { loadCatalog } from './catalog';
+import { AnalysisPanel } from './components/AnalysisPanel';
 import { BuildSummary } from './components/BuildSummary';
+import { InstructionsPanel } from './components/InstructionsPanel';
 import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
-import type { Ingredient } from './types';
+import { IngredientDetail } from './components/IngredientDetail';
+import { IngredientLibrary } from './components/IngredientLibrary';
+import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
+import { saveBuild } from './persistence';
+import type { CookingStage, Ingredient, IngredientCategory } from './types';
 
 const DEMO_INGREDIENT_IDS = ['chicken_thighs', 'onion', 'white_wine', 'carrot'] as const;
 
@@ -15,100 +22,131 @@ function createDemoBuild(catalog: readonly Ingredient[]) {
 }
 
 function AppContent() {
-  const { build, catalog, resetBuild } = useBuildStore();
-  const groupedStageCount = useMemo(() => {
-    return new Set(build.ingredients.map(ingredient => ingredient.stage)).size;
-  }, [build.ingredients]);
+  const {
+    build,
+    catalog,
+    resetBuild,
+    addIngredient: insertIngredient,
+    moveIngredient,
+    removeIngredient,
+    updateBuild,
+  } = useBuildStore();
+  const [selectedCategory, setSelectedCategory] = useState<IngredientCategory | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedIngredientId, setSelectedIngredientId] = useState<string | null>(null);
+  const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
+
+  const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
+
+  const selectedIngredient = useMemo(() => {
+    if (selectedIngredientId === null) {
+      return null;
+    }
+
+    return catalog.find(ingredient => ingredient.id === selectedIngredientId) ?? null;
+  }, [catalog, selectedIngredientId]);
+
+  useEffect(() => {
+    if (!selectedIngredientId) {
+      return undefined;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedIngredientId(null);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedIngredientId]);
+
+  function placeIngredient(ingredientId: string, stage: CookingStage) {
+    const catalogIngredient = catalog.find(ingredient => ingredient.id === ingredientId);
+    const buildIngredient = build.ingredients.find(ingredient => ingredient.ingredientId === ingredientId);
+
+    if (buildIngredient) {
+      moveIngredient(ingredientId, stage);
+      return;
+    }
+
+    insertIngredient(ingredientId);
+    if (catalogIngredient && catalogIngredient.stage !== stage) {
+      moveIngredient(ingredientId, stage);
+    }
+  }
+
+  function handleSaveCurrentBuild() {
+    try {
+      saveBuild(build);
+      setSaveFeedback(`Saved ${build.name ?? build.id}.`);
+      notifySavedBuildsChanged();
+    } catch (error) {
+      setSaveFeedback(error instanceof Error ? error.message : 'Unable to save build.');
+    }
+  }
 
   return (
     <>
       <header className="app-header">
         <div className="brand-block">
-          <p className="eyebrow">Build-a-Stew</p>
-          <h1>Insta the Pot</h1>
-          <p className="hero-copy">
-            A catalog-driven stew composer with four working columns for browsing, inspecting, staging,
-            and analysis.
-          </p>
+          <h1>Build-a-Stew</h1>
         </div>
 
         <div className="header-toolbar" aria-label="Build controls">
-          <div className="hero-stats" aria-label="Build overview">
-            <div>
-              <span className="stat-value">{build.ingredients.length}</span>
-              <span className="stat-label">ingredients</span>
-            </div>
-            <div>
-              <span className="stat-value">{groupedStageCount}</span>
-              <span className="stat-label">active stages</span>
-            </div>
-            <div>
-              <span className="stat-value">{catalog.length}</span>
-              <span className="stat-label">catalog items</span>
-            </div>
+          <div className="header-actions">
+            <button type="button" className="primary-action" onClick={handleSaveCurrentBuild}>
+              Save current build
+            </button>
+            <button type="button" className="secondary-action" onClick={resetBuild}>
+              Clear demo build
+            </button>
           </div>
-          <button type="button" className="primary-action" onClick={resetBuild}>
-            Clear demo build
-          </button>
+          {saveFeedback ? (
+            <p className="header-feedback" role="status">
+              {saveFeedback}
+            </p>
+          ) : null}
         </div>
       </header>
 
       <main className="app-shell">
-        <section className="composer-panel composer-panel--library" aria-labelledby="library-title">
-          <div className="panel-heading">
-            <p className="eyebrow">Library</p>
-            <h2 id="library-title">Ingredient browser</h2>
-          </div>
-          <p className="panel-copy">
-            Phase 3 will add category tabs, search, and ingredient cards here. The catalog is already
-            loaded and ready for filtering.
-          </p>
-          <dl className="panel-metrics" aria-label="Library summary">
-            <div>
-              <dt>Catalog size</dt>
-              <dd>{catalog.length}</dd>
-            </div>
-            <div>
-              <dt>Demo picks</dt>
-              <dd>{build.ingredients.length}</dd>
-            </div>
-          </dl>
-        </section>
+        <IngredientLibrary
+          catalog={catalog}
+          selectedCategory={selectedCategory}
+          searchTerm={searchTerm}
+          onCategoryChange={setSelectedCategory}
+          onSearchTermChange={setSearchTerm}
+          onSelectIngredient={setSelectedIngredientId}
+          selectedIngredientId={selectedIngredientId}
+        />
 
-        <section className="composer-panel composer-panel--detail" aria-labelledby="detail-title">
-          <div className="panel-heading">
-            <p className="eyebrow">Detail</p>
-            <h2 id="detail-title">Ingredient inspector</h2>
-          </div>
-          <p className="panel-copy">
-            Selecting an ingredient will surface metadata, stage placement controls, and action buttons
-            in this column.
-          </p>
-          <div className="panel-placeholder" aria-hidden="true">
-            Click an ingredient card to inspect its notes, tags, and stage options.
-          </div>
-        </section>
+        <IngredientDetail
+          ingredient={selectedIngredient}
+          build={build}
+          onClearSelection={() => setSelectedIngredientId(null)}
+          onPlaceIngredient={placeIngredient}
+        />
 
-        <section className="composer-panel composer-panel--timeline" aria-labelledby="timeline-title">
+        <section className="composer-panel composer-panel--timeline" aria-label="Cooking timeline">
           <div className="panel-heading">
-            <p className="eyebrow">Timeline</p>
             <h2 id="timeline-title">Cooking timeline</h2>
           </div>
-          <BuildSummary build={build} catalog={catalog} />
+          <BuildSummary
+            build={build}
+            catalog={catalog}
+            onRemoveIngredient={removeIngredient}
+            onUpdateBuild={updateBuild}
+            showEmptyStages
+          />
         </section>
 
-        <section className="composer-panel composer-panel--analysis" aria-labelledby="analysis-title">
-          <div className="panel-heading">
-            <p className="eyebrow">Analysis</p>
-            <h2 id="analysis-title">Guidance placeholder</h2>
-          </div>
-          <p className="panel-copy">
-            Phase 4 will fill this lane with scoring, affinity hints, and next-step recommendations.
-          </p>
-          <div className="panel-placeholder panel-placeholder--soft" aria-hidden="true">
-            Analysis is intentionally empty in Phase 3.
-          </div>
+        <section className="composer-panel composer-panel--analysis" aria-label="Analysis">
+          <AnalysisPanel build={build} analysis={analysis} />
+          <InstructionsPanel build={build} catalog={catalog} analysis={analysis} />
         </section>
+
+        <SavedBuildsPanel />
       </main>
     </>
   );

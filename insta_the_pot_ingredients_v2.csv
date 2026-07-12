@@ -37,7 +37,7 @@ apple_cider,Apple cider,liquid,deglaze,liquid; acid,fruity,"{""sweetness"":3,""a
 rutabaga,Rutabaga,roots,pressure,starch; body; texture,earthy,"{""body"":2,""sweetness"":2,""texture"":2}",scandinavian; british; universal,20,40,low,chicken_thighs; pork_shoulder; pearl_barley; thyme,,Holds up better than potatoes.
 celery_root,Celery root,roots,pressure,starch; body,earthy; herbaceous,"{""body"":2,""sweetness"":1,""aromatic_intensity"":2}",french; central_european,15,30,low,chicken_thighs; white_beans; pearl_barley; parsley,,Can partly dissolve and thicken broth.
 parsnip,Parsnip,roots,pressure,starch; body,earthy,"{""body"":2,""sweetness"":4}",french; british; scandinavian,15,25,low,chicken_thighs; celery_root; thyme; lemon_juice,,Use moderately; gets quite sweet.
-carrot,Carrot,roots,pressure,body,earthy,"{""sweetness"":3,""texture"":1}",universal,10,20,low,,,Core root vegetable.
+carrot,Carrot,roots,aromatics,body,earthy,"{""sweetness"":3,""texture"":1}",universal,10,20,low,,,Core root vegetable.
 potato,Potato,roots,pressure,starch; body; thickener,earthy,"{""body"":4,""texture"":2}",universal,8,15,low,chicken_thighs; beef_chuck; herbs; greens,,Breaks down during long cooks.
 sweet_potato,Sweet potato,roots,pressure,starch; body; thickener,,"{""body"":3,""sweetness"":5}",american; north_african; west_african,8,15,low,chicken_thighs; peanut; dried_chickpeas; chile,,Dissolves easily.
 turnip,Turnip,roots,pressure,body; texture,earthy,"{""body"":1,""sweetness"":1,""texture"":2}",scandinavian; french,10,20,low,chicken_thighs; ham_hock; greens,,Lighter than potato.

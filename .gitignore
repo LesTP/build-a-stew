@@ -1,2 +1,5 @@
 logs/loop/
 dashboard.html
+dist/
+node_modules
+serve-lan.sh

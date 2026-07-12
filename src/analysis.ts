@@ -303,7 +303,7 @@ function addCompositionSignals(
     addWarning(warnings, seenWarnings, {
       id: 'composition:richness:freshness',
       severity: 'info',
-      message: 'This build is rich but light on freshness or acidity. Consider adding acid or fresh herbs.',
+      message: 'This build is rich but light on freshness or acidity. Add acid or fresh herbs like lemon juice.',
     });
   }
 
@@ -345,18 +345,7 @@ function addCompositionSignals(
     addWarning(warnings, seenWarnings, {
       id: 'composition:greens:missing',
       severity: 'info',
-      message: 'This build has low freshness and no greens. Add a leafy green for lift.',
-    });
-    addSuggestion(suggestions, seenSuggestions, {
-      ingredientId: 'spinach',
-      message: 'Add a leafy green for freshness.',
-    });
-  }
-
-  if (isRichAndLow) {
-    addSuggestion(suggestions, seenSuggestions, {
-      ingredientId: 'lemon_juice',
-      message: 'Add acid or fresh herbs to brighten the pot.',
+      message: 'This build has low freshness and no greens. Add a leafy green like spinach for lift.',
     });
   }
 }

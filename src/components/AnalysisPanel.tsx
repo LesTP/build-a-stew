@@ -39,7 +39,6 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
   return (
     <div>
       <div className="panel-heading">
-        <p className="eyebrow">Analysis</p>
         <h2 id="analysis-title">Analysis</h2>
       </div>
 
@@ -87,9 +86,9 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
       </div>
 
       <div className="detail-section">
-        <h3 className="analysis-section-title">Warnings</h3>
-        {analysis.warnings.length === 0 ? (
-          <p className="analysis-empty-note">No warnings for the current build.</p>
+        <h3 className="analysis-section-title">Advisories</h3>
+        {analysis.warnings.length === 0 && analysis.suggestions.length === 0 && analysis.timingFindings.length === 0 ? (
+          <p className="analysis-empty-note">No advisories for the current build.</p>
         ) : (
           <ul className="analysis-list">
             {analysis.warnings.map(warning => (
@@ -98,37 +97,17 @@ export function AnalysisPanel({ build, analysis }: AnalysisPanelProps) {
                 <p className="analysis-list__message">{warning.message}</p>
               </li>
             ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="detail-section">
-        <h3 className="analysis-section-title">Suggestions</h3>
-        {analysis.suggestions.length === 0 ? (
-          <p className="analysis-empty-note">No ingredient suggestions right now.</p>
-        ) : (
-          <ul className="analysis-list">
             {analysis.suggestions.map(suggestion => (
-              <li key={`${suggestion.ingredientId}:${suggestion.message}`} className="analysis-list__item">
-                <span className="analysis-list__severity">suggest</span>
+              <li key={`suggestion:${suggestion.ingredientId}:${suggestion.message}`} className="analysis-list__item analysis-list__item--suggestion">
+                <span className="analysis-list__severity">suggestion</span>
                 <p className="analysis-list__message">
                   {suggestion.message}
                   <span className="analysis-list__meta">{` ${suggestion.ingredientId.replaceAll('_', ' ')}`}</span>
                 </p>
               </li>
             ))}
-          </ul>
-        )}
-      </div>
-
-      <div className="detail-section">
-        <h3 className="analysis-section-title">Timing findings</h3>
-        {analysis.timingFindings.length === 0 ? (
-          <p className="analysis-empty-note">No pressure timing mismatches.</p>
-        ) : (
-          <ul className="analysis-list">
             {analysis.timingFindings.map(finding => (
-              <li key={`${finding.ingredientId}:${finding.message}`} className="analysis-list__item">
+              <li key={`timing:${finding.ingredientId}:${finding.message}`} className="analysis-list__item analysis-list__item--timing">
                 <span className="analysis-list__severity">timing</span>
                 <p className="analysis-list__message">{finding.message}</p>
               </li>

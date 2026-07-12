@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insta the Pot — UI spike v2 (design mockup)</title>
+<!--
+  UI SPIKE v2 — throwaway design mockup. NOT production code.
+  Four-column flow: Library -> Detail -> Timeline -> Analysis.
+    - Library: tabs grouped by CATEGORY; click a tab to list its ingredients.
+    - Click a library ingredient -> loads it into the center Detail column.
+    - Detail shows full card; "Place in stage" lets you PICK the target stage
+      (the ingredient's default stage is suggested) -> sends it to the Timeline.
+    - Clicking anywhere in the Library area hides the Detail card again.
+    - Timeline is a vertical COLUMN of the 8 stages (even on desktop).
+    - Analysis (balance / cuisine / warnings) is the fourth column.
+  Placement is fully click + keyboard (no drag). Theming deferred to Phase 6.
+-->
+<style>
+  :root { --edge:#cbb; --ink:#241f1d; --muted:#6b615c; --accent:#7a4; --warn:#b5651d; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui,sans-serif; color:var(--ink); background:#faf7f4; }
+  header { padding:10px 16px; border-bottom:1px solid var(--edge); display:flex; gap:12px; align-items:baseline; }
+  header h1 { font-size:18px; margin:0; }
+  header .hint { color:var(--muted); font-size:13px; }
+  main { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; padding:14px; align-items:start; }
+  @media (max-width:900px) { main { grid-template-columns:1fr; } }
+  section { border:1px solid var(--edge); border-radius:10px; background:#fff; padding:10px; min-height:120px; }
+  section > h2 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin:0 0 8px; }
+
+  /* Library */
+  .tabs { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+  .tab { font-size:12px; padding:3px 8px; border:1px solid var(--edge); border-radius:14px; background:#faf7f4; cursor:pointer; text-transform:capitalize; }
+  .tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .lib-list { list-style:none; margin:0; padding:0; }
+  .lib-list li { padding:6px 8px; border-radius:6px; cursor:pointer; display:flex; justify-content:space-between; gap:6px; align-items:center; }
+  .lib-list li:hover, .lib-list li:focus-visible { background:#f2efe9; outline:none; }
+  .lib-list .salt { font-size:10px; color:var(--warn); }
+
+  /* Detail */
+  .detail-empty { color:#bbb; font-style:italic; }
+  .detail h3 { margin:0 0 2px; font-size:17px; }
+  .detail .cat { color:var(--muted); font-size:12px; text-transform:capitalize; margin-bottom:8px; }
+  .detail dl { margin:0; }
+  .detail dt { font-size:10px; text-transform:uppercase; color:var(--muted); margin-top:8px; }
+  .detail dd { margin:2px 0 0; font-size:13px; }
+  .axis { display:grid; grid-template-columns:110px 1fr 22px; align-items:center; gap:6px; font-size:11px; margin:2px 0; }
+  .axis .bar { background:#eee; border-radius:3px; height:8px; overflow:hidden; }
+  .axis .bar i { display:block; height:100%; background:var(--accent); }
+  .place { margin-top:12px; border-top:1px solid #f0ebe6; padding-top:8px; }
+  .place .lbl { font-size:11px; color:var(--muted); margin-bottom:4px; }
+  .stage-chips { display:flex; flex-wrap:wrap; gap:4px; }
+  .stage-chip { font-size:11px; padding:3px 7px; border:1px solid var(--edge); border-radius:6px; background:#faf7f4; cursor:pointer; text-transform:capitalize; }
+  .stage-chip.default { border-color:var(--accent); font-weight:600; }
+  .stage-chip:hover, .stage-chip:focus-visible { background:var(--accent); color:#fff; outline:none; }
+
+  /* Timeline (vertical column) */
+  .timeline .stage { border:1px dashed var(--edge); border-radius:8px; padding:6px 8px; margin-bottom:6px; }
+  .timeline .stage.armed { border-style:solid; border-color:var(--accent); background:#f6faf3; }
+  .timeline .stage h3 { font-size:11px; margin:0 0 4px; text-transform:capitalize; color:var(--muted); display:flex; justify-content:space-between; }
+  .timeline .chip { display:flex; justify-content:space-between; gap:6px; font-size:13px; border:1px solid var(--edge); border-radius:6px; padding:3px 6px; margin-bottom:3px; background:#fffdfb; }
+  .timeline .chip button { border:none; background:none; color:var(--muted); cursor:pointer; }
+  .timeline .ct { color:var(--muted); font-size:11px; margin-left:6px; }
+  .timeline .empty { color:#ccc; font-size:11px; font-style:italic; }
+
+  /* Analysis */
+  .cuisine { display:grid; grid-template-columns:1fr 28px; font-size:13px; padding:2px 0; border-bottom:1px solid #f0ebe6; }
+  .cuisine b { text-align:right; }
+  .warnings { list-style:none; margin:0; padding:0; }
+  .warnings li { font-size:13px; margin-bottom:6px; }
+  .warnings .warn { color:var(--warn); }
+  .status { padding:6px 16px; font-size:12px; color:var(--muted); border-top:1px solid var(--edge); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Insta the Pot</h1>
+  <span class="hint">Library → click an ingredient → Detail → pick a stage → Timeline. All click + keyboard.</span>
+</header>
+
+<main>
+  <section aria-label="Ingredient library" id="library">
+    <h2>Library</h2>
+    <div class="tabs" id="tabs"></div>
+    <ul class="lib-list" id="libList"></ul>
+  </section>
+
+  <section class="detail" aria-label="Ingredient detail" id="detail"></section>
+
+  <section class="timeline" aria-label="Cooking timeline">
+    <h2>Cooking timeline</h2>
+    <div id="timeline"></div>
+  </section>
+
+  <section aria-label="Analysis">
+    <h2>Analysis</h2>
+    <div style="margin-bottom:12px"><strong style="font-size:12px">Balance</strong><div id="balance"></div></div>
+    <div style="margin-bottom:12px"><strong style="font-size:12px">Cuisine affinity</strong><div id="cuisine"></div></div>
+    <div><strong style="font-size:12px">Warnings &amp; suggestions</strong><ul class="warnings" id="warnings"></ul></div>
+  </section>
+</main>
+
+<div class="status" id="status"></div>
+
+<script>
+const AXES = ['body','richness','umami','sweetness','acidity','heat','smoke','freshness','texture','aromatic_intensity'];
+const STAGES = ['brown','aromatics','deglaze','pressure','simmer_after','stir_in','finish','serve_over'];
+const CATALOG = [
+  {id:'chicken_thighs',name:'Chicken thighs',category:'protein',stage:'brown',roles:['protein','fat','body'],traits:['savory'],balanceScores:{body:2,richness:3,umami:2},cuisines:['universal','french','italian','mexican','east_asian','indian'],saltRisk:'low',cook:'15–25m',pairsWith:['pearl_barley','rutabaga','spinach','lemon_juice'],notes:'Cheap and forgiving; at long pressure times expect shredded texture.'},
+  {id:'ham_hock',name:'Ham hock',category:'protein',stage:'pressure',roles:['protein','collagen','fat','seasoning','body'],traits:['savory'],balanceScores:{body:5,richness:4,umami:4,smoke:4},cuisines:['american','french','central_european'],saltRisk:'high',cook:'45–60m',pairsWith:['beans','pearl_barley'],avoidWith:['chicken_stock','miso'],notes:'Salt only after cooking.'},
+  {id:'onion',name:'Onion',category:'aromatics',stage:'aromatics',roles:['aromatic'],traits:['pungent','savory'],balanceScores:{sweetness:2,umami:1,aromatic_intensity:3},cuisines:['universal'],saltRisk:'low',cook:'5–10m',notes:'Core aromatic.'},
+  {id:'pearl_barley',name:'Pearl barley',category:'grains',stage:'pressure',roles:['starch','body','thickener','texture'],traits:['nutty'],balanceScores:{body:3,texture:4,richness:1},cuisines:['french','central_european','british'],saltRisk:'low',cook:'20–30m',notes:'Strong fit for long-cook stews.'},
+  {id:'rutabaga',name:'Rutabaga',category:'roots',stage:'pressure',roles:['starch','body','texture'],traits:['earthy'],balanceScores:{body:2,sweetness:2,texture:2},cuisines:['scandinavian','british','universal'],saltRisk:'low',cook:'20–40m',notes:'Holds up better than potatoes.'},
+  {id:'carrot',name:'Carrot',category:'roots',stage:'aromatics',roles:['body'],traits:['earthy'],balanceScores:{sweetness:3,texture:1},cuisines:['universal'],saltRisk:'low',cook:'10–20m',notes:'Core root vegetable.'},
+  {id:'spinach',name:'Spinach',category:'greens',stage:'stir_in',roles:['freshener'],traits:['herbaceous'],balanceScores:{freshness:4,texture:1},cuisines:['italian','east_asian','indian','universal'],saltRisk:'low',cook:'1–3m',notes:'Add after opening.'},
+  {id:'miso',name:'Miso',category:'topping',stage:'finish',roles:['seasoning'],traits:['fermented','savory'],balanceScores:{umami:5,richness:1,aromatic_intensity:2},cuisines:['east_asian'],saltRisk:'high',cook:'—',avoidWith:['ham_hock','parmesan'],notes:'Dissolve in hot broth after pressure cooking.'},
+  {id:'parmesan',name:'Parmesan',category:'topping',stage:'finish',roles:['topping','seasoning','fat'],traits:['savory','nutty'],balanceScores:{richness:3,umami:4,texture:1},cuisines:['italian'],saltRisk:'high',cook:'—',notes:'Best added per bowl.'},
+  {id:'lemon_juice',name:'Lemon juice',category:'topping',stage:'finish',roles:['acid','freshener','seasoning'],traits:['citrusy'],balanceScores:{acidity:5,freshness:4,aromatic_intensity:2},cuisines:['french','mediterranean','middle_eastern'],saltRisk:'low',cook:'—',notes:'Major anti-heaviness tool.'},
+];
+const byId = Object.fromEntries(CATALOG.map(c => [c.id, c]));
+const CATEGORIES = [...new Set(CATALOG.map(c => c.category))];
+
+let activeCat = CATEGORIES[0];
+let detailId = null;      // ingredient loaded in the center column
+let build = [];           // [{id, stage}]
+const $ = s => document.querySelector(s);
+
+function renderLibrary() {
+  $('#tabs').innerHTML = CATEGORIES.map(cat =>
+    `<button class="tab ${cat===activeCat?'active':''}" data-tab="${cat}">${cat}</button>`).join('');
+  $('#libList').innerHTML = CATALOG.filter(c => c.category===activeCat).map(c =>
+    `<li tabindex="0" data-pick="${c.id}">${c.name}${c.saltRisk==='high'?'<span class="salt">salt ⚠</span>':''}</li>`).join('');
+}
+function renderDetail() {
+  const el = $('#detail');
+  if (!detailId) { el.innerHTML = '<h2>Detail</h2><div class="detail-empty">Select an ingredient from the library.</div>'; return; }
+  const c = byId[detailId];
+  const inBuild = build.find(b => b.id===c.id);
+  const bars = Object.entries(c.balanceScores).sort((a,b)=>b[1]-a[1]).map(([ax,v]) =>
+    `<div class="axis"><span>${ax.replace('_',' ')}</span><span class="bar"><i style="width:${v*20}%"></i></span><span>${v}</span></div>`).join('');
+  const chips = STAGES.map(s =>
+    `<button class="stage-chip ${s===c.stage?'default':''}" data-place="${s}">${s.replace('_',' ')}${s===c.stage?' ★':''}</button>`).join('');
+  el.innerHTML = `<h2>Detail</h2>
+    <h3>${c.name}</h3><div class="cat">${c.category} · default stage: ${c.stage}</div>
+    <dl>
+      <dt>Roles</dt><dd>${c.roles.join(', ')}</dd>
+      <dt>Traits</dt><dd>${c.traits.join(', ')}</dd>
+      <dt>Balance</dt><dd>${bars}</dd>
+      <dt>Cuisines</dt><dd>${c.cuisines.join(', ')}</dd>
+      <dt>Salt risk · cook</dt><dd>${c.saltRisk} · ${c.cook}</dd>
+      ${c.pairsWith?`<dt>Pairs with</dt><dd>${c.pairsWith.join(', ')}</dd>`:''}
+      ${c.avoidWith?`<dt>Caution with</dt><dd>${c.avoidWith.join(', ')}</dd>`:''}
+      ${c.notes?`<dt>Notes</dt><dd>${c.notes}</dd>`:''}
+    </dl>
+    <div class="place">
+      <div class="lbl">${inBuild?'Move to stage (★ = default):':'Place in stage (★ = default):'}</div>
+      <div class="stage-chips">${chips}</div>
+    </div>`;
+}
+function renderTimeline() {
+  $('#timeline').innerHTML = STAGES.map(stage => {
+    const placed = build.filter(b => b.stage===stage);
+    return `<div class="stage ${detailId?'armed':''}" data-stage="${stage}">
+      <h3>${stage.replace('_',' ')}<span>${placed.length||''}</span></h3>
+      ${placed.length ? placed.map(b=>`<div class="chip"><span>${byId[b.id].name}<span class="ct">${byId[b.id].cook}</span></span><button data-remove="${b.id}" aria-label="Remove">×</button></div>`).join('')
+        : '<div class="empty">—</div>'}</div>`;
+  }).join('');
+}
+function renderAnalysis() {
+  const totals = Object.fromEntries(AXES.map(a=>[a,0])); const cuisines={};
+  build.forEach(b => { const c=byId[b.id];
+    for (const [ax,v] of Object.entries(c.balanceScores)) totals[ax]+=v;
+    c.cuisines.forEach(cz => cuisines[cz]=(cuisines[cz]||0)+1); });
+  const max = Math.max(1, ...Object.values(totals));
+  $('#balance').innerHTML = AXES.map(a=>`<div class="axis"><span>${a.replace('_',' ')}</span><span class="bar"><i style="width:${totals[a]/max*100}%"></i></span><span>${totals[a]||''}</span></div>`).join('');
+  const ranked = Object.entries(cuisines).filter(([k])=>k!=='universal').sort((a,b)=>b[1]-a[1]).slice(0,6);
+  $('#cuisine').innerHTML = ranked.length ? ranked.map(([k,v])=>`<div class="cuisine"><span>${k.replace('_',' ')}</span><b>${v}</b></div>`).join('') : '<div class="detail-empty">—</div>';
+  const w=[]; const hasGreens=build.some(b=>byId[b.id].category==='greens'); const salty=build.filter(b=>byId[b.id].saltRisk==='high').length;
+  if (totals.richness>=4 && (totals.freshness+totals.acidity)<=2) w.push({t:'High richness, low acidity/freshness — add lemon, vinegar, or fresh herbs.',warn:true});
+  if (!hasGreens && build.length>=3) w.push({t:'No greens — spinach, peas, or herbs would lift the build.'});
+  if (salty>=2) w.push({t:`${salty} high-salt ingredients — season at the end and taste first.`,warn:true});
+  if (build.find(b=>b.id==='miso'&&b.stage!=='finish')) w.push({t:'Miso is best at the finish stage, not pressure-cooked.',warn:true});
+  $('#warnings').innerHTML = w.length ? w.map(x=>`<li class="${x.warn?'warn':''}">${x.warn?'⚠ ':'💡 '}${x.t}</li>`).join('') : '<li class="detail-empty">No warnings.</li>';
+}
+function renderStatus() {
+  $('#status').textContent = detailId ? `Inspecting ${byId[detailId].name} — pick a stage to place it, or click the library to go back.` :
+    (build.length ? `${build.length} ingredient(s) in the build.` : 'Pick a category tab, then an ingredient.');
+}
+function render() { renderLibrary(); renderDetail(); renderTimeline(); renderAnalysis(); renderStatus(); }
+
+function place(stage) {
+  if (!detailId) return;
+  const ex = build.find(b => b.id===detailId);
+  if (ex) ex.stage = stage; else build.push({ id: detailId, stage });
+  detailId = null; render();
+}
+
+// Library: tab switch, ingredient pick, and clicking the column background hides detail
+$('#library').addEventListener('click', e => {
+  const tab = e.target.closest('[data-tab]'); if (tab) { activeCat = tab.dataset.tab; detailId = null; render(); return; }
+  const pick = e.target.closest('[data-pick]'); if (pick) { detailId = pick.dataset.pick; render(); return; }
+  detailId = null; render(); // clicked empty library area -> hide detail
+});
+$('#library').addEventListener('keydown', e => {
+  if (e.key==='Enter'||e.key===' ') { const pick=e.target.closest('[data-pick]'); const tab=e.target.closest('[data-tab]');
+    if (pick){e.preventDefault();detailId=pick.dataset.pick;render();} else if (tab){e.preventDefault();activeCat=tab.dataset.tab;detailId=null;render();} }
+});
+// Detail: pick a stage chip to place/move
+$('#detail').addEventListener('click', e => { const s=e.target.closest('[data-place]'); if (s) place(s.dataset.place); });
+$('#detail').addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { const s=e.target.closest('[data-place]'); if (s){e.preventDefault();place(s.dataset.place);} } });
+// Timeline: armed stages are also click targets; remove chips
+$('#timeline').addEventListener('click', e => {
+  const rm=e.target.closest('[data-remove]'); if (rm){ build=build.filter(b=>b.id!==rm.dataset.remove); render(); return; }
+  const st=e.target.closest('[data-stage]'); if (st && detailId) place(st.dataset.stage);
+});
+document.addEventListener('keydown', e => { if (e.key==='Escape' && detailId){ detailId=null; render(); } });
+
+render();
+</script>
+</body>
+</html>

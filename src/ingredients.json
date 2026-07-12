@@ -751,10 +751,6 @@
       "universal"
     ],
     "saltRisk": "low",
-    "cookMinutes": {
-      "min": 1,
-      "max": 3
-    },
     "notes": "Add after onion; do not scorch."
   },
   {
@@ -1311,7 +1307,7 @@
     "id": "carrot",
     "name": "Carrot",
     "category": "roots",
-    "stage": "pressure",
+    "stage": "aromatics",
     "roles": [
       "body"
     ],
