@@ -26,5 +26,28 @@
     ],
     "closed": "2026-07-12",
     "resolution": "Follow-through complete: committed as 7bbb352 (visual batch + recovered source) and 6e717f9 (responsive presets + modals); test coverage added for the FU-1 UI and analysis-fold changes; build-serve smoke check added (npm run smoke). Full suite 297 passing; smoke passing."
+  },
+  {
+    "id": "FU-2",
+    "title": "Mobile UX + visual language: mobile shell (bottom-nav + Detail bottom-sheet) and a color/shade classification system",
+    "kind": "structural-refactor",
+    "status": "open",
+    "opened": "2026-07-12",
+    "context": "Mobile UX + visual-language workstream, from an operator UX review (post-FU-1). Two intertwined problems. (1) Mobile interaction model: the mobile view stacks the desktop four columns into one long scroll, so browse -> inspect -> place -> review becomes scroll-heavy and forces manual closing to reach the next action. UX principles from the operator: sequential actions should be visually grouped; minimize scrolling; never require manually closing something to get to the next action. Proposed direction: a mobile shell with a bottom nav / segmented control of about 3 views (Build = Library, Pot = Timeline, Read = Balance/Cuisine/Advisories), header actions (How/Recipe/Save/Load) moved to a top app-bar or menu; and Detail becomes a bottom sheet that opens on card tap, shows metadata plus the Place-in-stage chips, and auto-dismisses on placement so the user returns to browsing with no manual close. (2) Visual language: the theme is near-monochrome dark with a single orange accent, so navigation and content read as one plane. Introduce color and shade in three roles: classification hues for the 11 categories and 8 cooking stages (a stage color reused consistently across its place-in-stage chip, its timeline lane, and any reference so color teaches the mapping); severity colors for advisories (info / warning / suggestion / timing); and elevation/shade so nav and section headers are visually distinct from content. Recommended approach: start with a static HTML mockup/spike (like design/ui-spike.html) to lock the mobile shell and color palette before rewiring components, then implement and iterate on-device. Open decisions: confirm the bottom-nav + bottom-sheet model vs alternatives (wizard/step flow, or single-scroll with sticky section jumps); mockup-first vs live prototype. Also fold in stale-mobile-CSS cleanup: the column presets switch at 768px but an old max-width:720px block still sets flex-direction:column on .ingredient-row, .stage-card__header, and .summary-header (now grids, largely inert), leaving a 721-767px dead zone - realign the breakpoints and purge the stale rules as part of this.",
+    "trigger": "Operator UX review of the mobile version: not actively broken, but the stacked-columns model is scroll-heavy and requires manually closing panels to advance, and the near-monochrome dark theme lacks navigation and classification cues.",
+    "priority": "next",
+    "files": [
+      "src/App.tsx",
+      "src/styles.css",
+      "src/components/IngredientDetail.tsx",
+      "src/components/IngredientLibrary.tsx",
+      "src/components/BuildSummary.tsx",
+      "src/components/AnalysisPanel.tsx",
+      "design/"
+    ],
+    "refs": [
+      "D-18",
+      "D-20"
+    ]
   }
 ]
