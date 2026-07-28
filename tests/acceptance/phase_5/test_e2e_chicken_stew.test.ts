@@ -121,7 +121,6 @@ describe('E2E — chicken/roots/barley/spinach/lemon stew', () => {
     expect(result).toHaveProperty('balanceScores');
     expect(result).toHaveProperty('cuisineScores');
     expect(result).toHaveProperty('warnings');
-    expect(result).toHaveProperty('suggestions');
     expect(result).toHaveProperty('timingFindings');
   });
 

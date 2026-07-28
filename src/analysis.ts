@@ -6,7 +6,6 @@ import type {
   CuisineTag,
   Ingredient,
   IngredientId,
-  IngredientSuggestion,
   SaltRisk,
   StewBuild,
   TimingFinding,
@@ -94,19 +93,6 @@ function addWarning(
   }
   seen.add(warning.id);
   warnings.push(warning);
-}
-
-function addSuggestion(
-  suggestions: IngredientSuggestion[],
-  seen: Set<string>,
-  suggestion: IngredientSuggestion,
-): void {
-  const key = `${suggestion.ingredientId}:${suggestion.message}`;
-  if (seen.has(key)) {
-    return;
-  }
-  seen.add(key);
-  suggestions.push(suggestion);
 }
 
 function makePairKey(kind: 'pair' | 'avoid', left: IngredientId, right: IngredientId): string {
@@ -275,9 +261,7 @@ function addPairingSignals(
 
 function addCompositionSignals(
   warnings: AnalysisMessage[],
-  suggestions: IngredientSuggestion[],
   seenWarnings: Set<string>,
-  seenSuggestions: Set<string>,
   build: StewBuild,
   catalog: readonly Ingredient[],
   byId: Map<IngredientId, Ingredient>,
@@ -355,10 +339,8 @@ export function analyzeBuild(build: StewBuild, catalog: readonly Ingredient[]): 
   const balanceScores = cloneBalanceScores();
   const cuisineScores = cloneCuisineScores();
   const warnings: AnalysisMessage[] = [];
-  const suggestions: IngredientSuggestion[] = [];
   const timingFindings: TimingFinding[] = [];
   const seenWarnings = new Set<string>();
-  const seenSuggestions = new Set<string>();
 
   for (const buildIngredient of build.ingredients) {
     const ingredient = byId.get(buildIngredient.ingredientId);
@@ -376,13 +358,12 @@ export function analyzeBuild(build: StewBuild, catalog: readonly Ingredient[]): 
   addStageWarnings(warnings, seenWarnings, build, byId);
   addTimingFindings(timingFindings, build, byId);
   addPairingSignals(warnings, seenWarnings, build, catalog, byId);
-  addCompositionSignals(warnings, suggestions, seenWarnings, seenSuggestions, build, catalog, byId, balanceScores);
+  addCompositionSignals(warnings, seenWarnings, build, catalog, byId, balanceScores);
 
   return {
     balanceScores,
     cuisineScores,
     warnings,
-    suggestions,
     timingFindings,
   };
 }

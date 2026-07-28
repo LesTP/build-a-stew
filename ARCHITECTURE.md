@@ -625,7 +625,7 @@ The following punch list was surfaced by the end-of-phase-5 architecture review.
 - ✓ Richness warning/suggestion: changed to OR-branch (`richness >= 4 && (freshness <= 2 || acidity <= 2)`), predicate extracted to `isRichAndLow` variable to eliminate duplication.
 
 **Suggested-next-ingredient ranking:**
-- Suggestions are condition-driven (greens + freshness check for spinach; richness OR-branch for lemon_juice). Full ranked-next logic deferred — see D-35.
+- Retired (supervised): the two condition-driven suggestions were folded into their warnings, then the suggestions output was removed entirely (IngredientSuggestion type, AnalysisResult.suggestions, addSuggestion, and the Advisories render branch). Ranked suggestions, if wanted later, are a fresh feature - not dormant scaffolding. Supersedes D-35.
 
 **Layout reconciliation to the Composer Flow contract (D-18):**
 - ✓ `App.tsx` folded to four columns: InstructionsPanel now renders inside the Analysis column wrapper; CSS grid updated to `repeat(4, minmax(0, 1fr))`; SavedBuildsPanel spans all columns below the main grid.

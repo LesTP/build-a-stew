@@ -49,5 +49,26 @@
       "D-18",
       "D-20"
     ]
+  },
+  {
+    "id": "FU-3",
+    "title": "Cook-method model + pressure/release input (relight timing-findings and recipe timing)",
+    "kind": "structural-refactor",
+    "status": "open",
+    "opened": "2026-07-27",
+    "context": "Pressure/release UI was removed during the timeline flatten (FU-1 era). The pressureMinutes and naturalReleaseMinutes fields remain on StewBuild and in persistence, and are actively consumed: analysis.ts timing-findings short-circuit when pressureMinutes is undefined then compare each ingredient cook window against it (the X-is-overcooked-at-N-min-pressure advisories), and instructions.ts uses both to state cook/release times in the generated recipe. With no input to set them, both timing-findings and recipe timing are currently DARK for user-created builds. onUpdateBuild is now dead wiring in BuildSummary/App. During the Phase-6 reconcile the operator deferred this as its own item because the design is broader than one input: pressure-cooking is Instant-Pot-specific, but the app could also target dutch oven, slow cooker, or stovetop, where pressure minutes does not apply. The real question is a cook-method model (method selector -> method-appropriate timing inputs -> method-aware timing-findings + recipe), not just re-adding a pressure box. Options: (a) re-add pressure/release input as-is to relight timing for pressure builds; (b) build a cook-method model; (c) drop pressure/release + timing-findings entirely. Operator needs to think more.",
+    "trigger": "Phase-6 punch-list reconcile: pressure/release input was removed, leaving timing-findings analysis and recipe timing dark; operator wants a broader cook-method design before re-adding.",
+    "priority": "eventually",
+    "files": [
+      "src/types.ts",
+      "src/analysis.ts",
+      "src/instructions.ts",
+      "src/persistence.ts",
+      "src/components/BuildSummary.tsx",
+      "src/App.tsx"
+    ],
+    "refs": [
+      "D-36"
+    ]
   }
 ]

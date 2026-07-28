@@ -387,13 +387,9 @@ describe('Phase 4 fixture builds', () => {
     const b5 = addIngredient(b4, 'garlic', catalog);
     const result = analyzeBuild(b5, catalog);
 
-    const greensSuggestion =
-      result.warnings.find(
-        w => w.severity === 'info' && w.message.toLowerCase().includes('green')
-      ) ||
-      result.suggestions.find(s =>
-        ['spinach', 'kale', 'swiss_chard', 'frozen_peas', 'napa_cabbage', 'green_onions'].includes(s.ingredientId)
-      );
+    const greensSuggestion = result.warnings.find(
+      w => w.severity === 'info' && w.message.toLowerCase().includes('green')
+    );
     expect(greensSuggestion).toBeDefined();
   });
 

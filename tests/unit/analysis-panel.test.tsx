@@ -30,7 +30,6 @@ function createAnalysis(): AnalysisResult {
         message: 'This build has low freshness and no greens. Add a leafy green like spinach for lift.',
       },
     ],
-    suggestions: [],
     timingFindings: [
       {
         ingredientId: 'spinach',

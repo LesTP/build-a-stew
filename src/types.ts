@@ -122,12 +122,6 @@ export interface AnalysisMessage {
   relatedIngredientIds?: IngredientId[];
 }
 
-export interface IngredientSuggestion {
-  ingredientId: IngredientId;
-  message: string;
-  relatedIngredientIds?: IngredientId[];
-}
-
 export interface TimingFinding {
   ingredientId: IngredientId;
   message: string;
@@ -137,6 +131,5 @@ export interface AnalysisResult {
   balanceScores: Record<BalanceAxis, number>;
   cuisineScores: Record<CuisineTag, number>;
   warnings: AnalysisMessage[];
-  suggestions: IngredientSuggestion[];
   timingFindings: TimingFinding[];
 }

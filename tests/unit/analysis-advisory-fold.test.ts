@@ -28,8 +28,6 @@ describe('analysis advisory fold (Option A)', () => {
     const richWarning = result.warnings.find(w => w.message.toLowerCase().includes('lemon juice'));
     expect(richWarning).toBeDefined();
     expect(richWarning?.severity).toBe('info');
-    // Folded: the mirror suggestion no longer exists.
-    expect(result.suggestions).toHaveLength(0);
   });
 
   it('names spinach inside the missing-greens warning', () => {
@@ -43,6 +41,5 @@ describe('analysis advisory fold (Option A)', () => {
 
     const greensWarning = result.warnings.find(w => w.message.toLowerCase().includes('spinach'));
     expect(greensWarning).toBeDefined();
-    expect(result.suggestions).toHaveLength(0);
   });
 });

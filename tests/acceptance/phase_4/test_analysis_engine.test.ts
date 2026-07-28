@@ -40,10 +40,8 @@ describe('analyzeBuild — core contract', () => {
     expect(result).toHaveProperty('balanceScores');
     expect(result).toHaveProperty('cuisineScores');
     expect(result).toHaveProperty('warnings');
-    expect(result).toHaveProperty('suggestions');
     expect(result).toHaveProperty('timingFindings');
     expect(Array.isArray(result.warnings)).toBe(true);
-    expect(Array.isArray(result.suggestions)).toBe(true);
     expect(Array.isArray(result.timingFindings)).toBe(true);
   });
 

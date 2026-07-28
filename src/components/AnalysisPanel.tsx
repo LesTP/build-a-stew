@@ -31,7 +31,6 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
   const rankedCuisines = rankCuisineScores(analysis.cuisineScores);
   const noAdvisories =
     analysis.warnings.length === 0 &&
-    analysis.suggestions.length === 0 &&
     analysis.timingFindings.length === 0;
 
   return (
@@ -86,15 +85,6 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
               <li key={warning.id} className={`analysis-list__item analysis-list__item--${warning.severity}`}>
                 <span className="analysis-list__severity">{warning.severity}</span>
                 <p className="analysis-list__message">{warning.message}</p>
-              </li>
-            ))}
-            {analysis.suggestions.map(suggestion => (
-              <li key={`suggestion:${suggestion.ingredientId}:${suggestion.message}`} className="analysis-list__item analysis-list__item--suggestion">
-                <span className="analysis-list__severity">suggestion</span>
-                <p className="analysis-list__message">
-                  {suggestion.message}
-                  <span className="analysis-list__meta">{` ${suggestion.ingredientId.replaceAll('_', ' ')}`}</span>
-                </p>
               </li>
             ))}
             {analysis.timingFindings.map(finding => (

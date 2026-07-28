@@ -206,14 +206,10 @@ describe('Pairing synergies', () => {
     const result = analyzeBuild(b2, catalog);
     // The pairing should produce a positive synergy signal — either a suggestion or an info message
     // The contract doesn't mandate a specific field name for synergy, but it must be observable
-    const hasSynergySignal =
-      result.warnings.some(
-        w => w.severity === 'info' &&
-          (w.relatedIngredientIds?.includes('chicken_thighs') || w.relatedIngredientIds?.includes('spinach'))
-      ) ||
-      result.suggestions.some(
-        s => s.ingredientId === 'chicken_thighs' || s.ingredientId === 'spinach'
-      );
+    const hasSynergySignal = result.warnings.some(
+      w => w.severity === 'info' &&
+        (w.relatedIngredientIds?.includes('chicken_thighs') || w.relatedIngredientIds?.includes('spinach'))
+    );
     // At minimum, the result should not produce a warning against the pairing
     const avoidanceWarning = result.warnings.some(
       w => w.severity === 'warning' &&
@@ -427,21 +423,20 @@ describe('Composition rules', () => {
     const b3 = addIngredient(b2, 'onion', catalog);
     const result = analyzeBuild(b3, catalog);
     const greensSuggestion =
-      result.warnings.find(w => w.severity === 'info' && w.message.toLowerCase().includes('green')) ||
-      result.suggestions.find(s =>
-        ['spinach', 'kale', 'swiss_chard', 'frozen_peas', 'green_onions'].includes(s.ingredientId)
-      );
+      result.warnings.find(w => w.severity === 'info' && w.message.toLowerCase().includes('green'));
     expect(greensSuggestion).toBeDefined();
   });
 
-  it('build with greens already present does not emit the greens suggestion', () => {
+  it('build with greens already present does not emit the greens warning', () => {
     const b1 = addIngredient(emptyBuild(), 'beef_chuck', catalog);
     const b2 = addIngredient(b1, 'potato', catalog);
     const b3 = addIngredient(b2, 'spinach', catalog);
     const result = analyzeBuild(b3, catalog);
-    // spinach is a greens-category ingredient; suggestion should not fire
-    const spinachSuggestion = result.suggestions.find(s => s.ingredientId === 'spinach');
-    expect(spinachSuggestion).toBeUndefined();
+    // spinach is a greens-category ingredient; the missing-greens warning should not fire
+    const greensWarning = result.warnings.find(
+      w => w.severity === 'info' && w.message.toLowerCase().includes('green'),
+    );
+    expect(greensWarning).toBeUndefined();
   });
 
   it('multiple composition rules fire simultaneously in a single result', () => {
@@ -452,6 +447,6 @@ describe('Composition rules', () => {
     const b4 = addIngredient(b3, 'potato', catalog);
     const result = analyzeBuild(b4, catalog);
     // Expect at least 2 distinct warning sources: salt + freshness
-    expect(result.warnings.length + result.suggestions.length).toBeGreaterThanOrEqual(2);
+    expect(result.warnings.length).toBeGreaterThanOrEqual(2);
   });
 });
