@@ -125,11 +125,24 @@ export function saveBuild(build: StewBuild): void {
   const storage = getStorage();
   const exported = exportBuild(build);
   const record = toSavedBuildRecord(build);
+  const key = buildStorageKey(build.id);
   const records = readSavedBuildIndex(storage).filter(existing => existing.id !== build.id);
-
-  storage.setItem(buildStorageKey(build.id), exported);
   records.push(record);
-  writeSavedBuildIndex(storage, records);
+
+  // Write the blob, then the index. If the index write fails (e.g. quota), roll
+  // the blob back so a failed save never leaves an orphaned build behind.
+  const previousBlob = storage.getItem(key);
+  storage.setItem(key, exported);
+  try {
+    writeSavedBuildIndex(storage, records);
+  } catch (error) {
+    if (previousBlob === null) {
+      storage.removeItem(key);
+    } else {
+      storage.setItem(key, previousBlob);
+    }
+    throw error;
+  }
 }
 
 export function loadBuild(id: string): StewBuild | undefined {

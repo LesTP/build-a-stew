@@ -44,6 +44,17 @@ export type IngredientId = string;
 export type IngredientRef = GroupTag | IngredientId;
 export type AnalysisSeverity = 'info' | 'warning';
 
+export const STAGE_LABELS: Record<CookingStage, string> = {
+  brown: 'Brown',
+  aromatics: 'Aromatics',
+  deglaze: 'Deglaze',
+  pressure: 'Pressure',
+  simmer_after: 'Simmer after',
+  stir_in: 'Stir in',
+  finish: 'Finish',
+  serve_over: 'Serve over',
+};
+
 type GroupDefinition = { category: IngredientCategory } | { ids: string[] };
 
 export const GROUP_DEFINITIONS: Record<GroupTag, GroupDefinition> = {

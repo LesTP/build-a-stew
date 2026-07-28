@@ -1,5 +1,5 @@
 import { groupBuildByStage } from '../build';
-import { COOKING_STAGES, type CookingStage, type Ingredient, type StewBuild } from '../types';
+import { COOKING_STAGES, STAGE_LABELS, type Ingredient, type StewBuild } from '../types';
 
 interface BuildSummaryProps {
   build: StewBuild;
@@ -8,17 +8,6 @@ interface BuildSummaryProps {
   onUpdateBuild?: (patch: Partial<StewBuild>) => void;
   showEmptyStages?: boolean;
 }
-
-const STAGE_LABELS: Record<CookingStage, string> = {
-  brown: 'Brown',
-  aromatics: 'Aromatics',
-  deglaze: 'Deglaze',
-  pressure: 'Pressure',
-  simmer_after: 'Simmer after',
-  stir_in: 'Stir in',
-  finish: 'Finish',
-  serve_over: 'Serve over',
-};
 
 function ingredientNameMap(catalog: readonly Ingredient[]): Map<string, Ingredient> {
   return new Map(catalog.map(ingredient => [ingredient.id, ingredient]));

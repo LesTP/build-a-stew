@@ -629,14 +629,14 @@ The following punch list was surfaced by the end-of-phase-5 architecture review.
 
 **Layout reconciliation to the Composer Flow contract (D-18):**
 - ✓ `App.tsx` folded to four columns: InstructionsPanel now renders inside the Analysis column wrapper; CSS grid updated to `repeat(4, minmax(0, 1fr))`; SavedBuildsPanel spans all columns below the main grid.
-- Column min-widths enforced by CSS `minmax(0, 1fr)`; mobile stacks via single-column default (no media override needed below 1120px).
+- Layout has since evolved (supervised, post-Phase-6): the Analysis column was split into separate Balance / Cuisine / Advisories cards, and the grid uses explicit responsive presets - 1 column (phone) / 3 columns (laptop) / 4 columns (>=1600px, with the analysis cards grouped into the 4th) - in `styles.css`. Generated Instructions, saved-builds (Load), and How now open as modal dialogs rather than columns; SavedBuildsPanel is no longer a full-width row. See commits 6e717f9 / 5c38cf8.
 - Pressure/release controls remain in BuildSummary (Timeline column) — relocating to Detail deferred (see D-36).
 
 **UI display:**
 - ✓ Library card salt badge now renders only for `high` salt risk ingredients.
 
 **Validation (real-browser smoke check):**
-- Deferred — operator-level validation outside loop scope.
+- Done (supervised): added `npm run smoke` (`scripts/smoke.mjs`) - builds with the deploy base, serves `dist/`, and asserts the page + referenced JS asset load correctly, catching the base-path blank-page class. A jsdom App-mount test also guards against mount crashes. Full headless-browser assertions (Playwright) remain out of scope.
 
 **Accessibility pass:**
 - ✓ Added `role="tabpanel"` and `aria-controls` to complete the tab pattern in IngredientLibrary.
@@ -648,7 +648,7 @@ The following punch list was surfaced by the end-of-phase-5 architecture review.
 
 **Minor code-quality cleanups:**
 - ✓ `InstructionsPanel` now accepts memoized `analysis` prop instead of recomputing.
-- STAGE_LABELS dedup and saveBuild index-write order: deferred (see D-36).
+- Done (supervised): `STAGE_LABELS` extracted to a shared constant in `types.ts` (was duplicated in `BuildSummary`/`InstructionsPanel`); `saveBuild` now writes the blob then the index and rolls the blob back if the index write fails, so a failed save cannot orphan a stored build.
 
 ## Key Decisions
 
