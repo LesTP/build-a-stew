@@ -22,7 +22,7 @@
  *   - SavedBuildRecord includes at least the build id, name, and a timestamp
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   saveBuild,
   loadBuild,
@@ -255,5 +255,36 @@ describe('persistence adapter — save / load / list / delete', () => {
 
   it('deleteBuild on an unknown id does not throw', () => {
     expect(() => deleteBuild('nonexistent-id')).not.toThrow();
+  });
+});
+
+describe('persistence adapter — saveBuild storage-quota failure', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('surfaces the error and rolls the blob back when the index write fails', () => {
+    const store: Record<string, string> = {};
+    const quotaStorage: Storage = {
+      getItem: (key: string) => store[key] ?? null,
+      setItem: (key: string, value: string) => {
+        // Simulate storage filling up exactly on the index write.
+        if (key.includes('saved-build-index')) {
+          throw new Error('QuotaExceededError: storage is full');
+        }
+        store[key] = value;
+      },
+      removeItem: (key: string) => { delete store[key]; },
+      clear: () => { for (const k of Object.keys(store)) delete store[k]; },
+      key: (index: number) => Object.keys(store)[index] ?? null,
+      get length() { return Object.keys(store).length; },
+    };
+    vi.stubGlobal('localStorage', quotaStorage);
+
+    const build = sampleBuild();
+    // The failed index write must surface, not be silently swallowed.
+    expect(() => saveBuild(build)).toThrow(/quota/i);
+    // ...and the build blob must be rolled back, leaving no orphan.
+    expect(loadBuild(build.id)).toBeUndefined();
   });
 });

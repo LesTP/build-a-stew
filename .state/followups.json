@@ -70,5 +70,24 @@
     "refs": [
       "D-36"
     ]
+  },
+  {
+    "id": "FU-4",
+    "title": "Phase-6 polish: Detail dismiss + focus-return a11y and pairing count-once test",
+    "kind": "other",
+    "status": "open",
+    "opened": "2026-07-27",
+    "context": "Deferred from the Phase-6 punch-list reconcile as low-priority MVP polish. (a) Library-click-dismiss: clicking within the Library should dismiss the open Detail panel; currently only Escape and the Close button do. (b) Focus-return: after the Detail panel closes, and after a saved-build restore via the Load modal, keyboard focus should return to a sensible element rather than being lost. (c) Pairing count-once test: assert a pairing advisory fires exactly once when a build contains both a group and one of its members and the ingredient pairsWith both refs, guarding the makePairKey seen-set dedup (already works, covered indirectly). Keyboard and click alternatives already exist, so none of these block the MVP.",
+    "trigger": "Phase-6 punch-list reconcile: small a11y (Detail dismiss / focus-return) and one dedup regression test, not worth blocking the MVP close.",
+    "priority": "eventually",
+    "files": [
+      "src/App.tsx",
+      "src/components/IngredientDetail.tsx",
+      "src/components/IngredientLibrary.tsx",
+      "tests/acceptance/phase_4/test_analysis_rules.test.ts"
+    ],
+    "refs": [
+      "D-36"
+    ]
   }
 ]
