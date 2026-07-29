@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Build a Stew — UI spike v3 (technique-first mockup)</title>
+<!--
+  UI SPIKE v3 — throwaway design mockup for the technique-first redesign (design v2.md).
+  NOT production code. Purpose: lock the layout, the ranked step-picker flow, the
+  dynamic detail card, the responsive balance panel, and the category color system
+  BEFORE rewiring React.
+
+  Flow:  choose technique (braise only for now) + optional cuisine
+         -> pick a TIMELINE step (col 1)
+         -> col 2 lists ONLY step-appropriate ingredients, ranked into
+            Top / Okay / Fallback with reason icons (cuisine / balance / timing / caution)
+         -> row: [+ add]  name  icons  [detail >]   (add inline, or open the card)
+         -> col 3 DETAIL card explains *why this ingredient, in this build* (dynamic)
+         -> col 4 (or bottom bar) BALANCE, translated to cooking language, step-aware.
+
+  Responsive (per operator):
+    wide  (>=1200): 4 columns  Timeline | Step | Detail | Balance
+    laptop(768-1199): 3 columns + Balance as a sticky bottom bar
+    mobile(<768): one panel at a time (tab bar) + Balance sticky bottom bar
+
+  Decisions baked in:  technique-owned timeline (reopens D-3);  ranked suggestions
+  are the core feature again (reopens D-35);  no separate "anchors" — the already
+  selected ingredients ARE the context;  cook-time fit is judged only at the long-cook
+  step, against the longest selected ingredient (not a user pressure input, so FU-3
+  stays deferred);  cuisine is a SOFT re-rank, never a filter;  3 buckets;  the "why"
+  lives on the detail card, not a column.
+-->
+<style>
+  :root{
+    --bg:#f6f1ea; --panel:#fffdfa; --edge:#e3d8c9; --edge2:#efe7db;
+    --ink:#2b2320; --muted:#7c6f64; --faint:#a89b8d;
+    --accent:#b5551d; --accent-soft:#f3e4d6;
+    --good:#3f7d47; --warn:#b5651d; --bad:#b23c2e;
+    --top:#eaf4ea; --okay:#fbf6ec; --fall:#f3eee9;
+    /* category colors (design v2 §12) */
+    --c-protein:#8a3b2e; --c-aromatics:#c99a2e; --c-liquid:#3f6fa8; --c-roots:#d07d2c;
+    --c-vegetable:#6f7a33; --c-legumes:#b0834f; --c-grains:#c2a44e; --c-greens:#4c8a4a;
+    --c-fat:#cbb46a; --c-topping:#7d5aa0; --c-spice:#c0503a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font:14.5px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);}
+  button{font:inherit;color:inherit;cursor:pointer;}
+
+  /* ---- top strip ---- */
+  .topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--edge);}
+  .brand{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-right:4px;}
+  .brand small{font-weight:400;color:var(--faint);font-size:12px;}
+  .sel{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);}
+  .sel select{font:inherit;padding:5px 8px;border:1px solid var(--edge);border-radius:8px;background:#fff;color:var(--ink);}
+  .sel select:disabled{color:var(--faint);}
+  .spacer{flex:1;}
+  .topbtn{padding:6px 12px;border:1px solid var(--edge);border-radius:8px;background:#fff;font-size:13px;}
+  .topbtn:hover{background:var(--accent-soft);border-color:var(--accent);}
+  .mocknote{font-size:11px;color:var(--faint);padding:3px 16px;background:var(--bg);border-bottom:1px solid var(--edge2);}
+
+  /* ---- mobile tab bar (hidden on >=768) ---- */
+  .mobtabs{display:none;gap:6px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--edge);position:sticky;top:0;z-index:5;}
+  .mobtabs button{flex:1;padding:8px;border:1px solid var(--edge);border-radius:8px;background:#fff;font-size:13px;}
+  .mobtabs button.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  /* ---- columns ---- */
+  .cols{display:grid;gap:10px;padding:10px;align-items:start;}
+  .side{display:flex;flex-direction:column;gap:10px;}
+  /* wide: 4 equal columns; balance + legend stacked in the 4th column */
+  @media(min-width:1600px){ .cols{grid-template-columns:repeat(4, minmax(0,1fr));} }
+  /* laptop: 3 equal columns; balance + legend side by side in a full-width bottom strip */
+  @media(min-width:768px) and (max-width:1599px){
+    .cols{grid-template-columns:repeat(3, minmax(0,1fr));}
+    .side{grid-column:1/-1;flex-direction:row;align-items:start;}
+    .side .p-balance{flex:2;} .side .p-legend{flex:1;}
+  }
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:12px;padding:9px 11px;min-height:0;}
+  .panel > h2{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 7px;display:flex;justify-content:space-between;align-items:center;}
+  .panel .sub{font-size:11px;color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0;}
+
+  /* ---- timeline ---- */
+  .step{border:1px solid var(--edge2);border-radius:9px;padding:6px 9px;margin-bottom:5px;cursor:pointer;transition:.08s;}
+  .step:hover{border-color:var(--accent);}
+  .step.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);}
+  .step .name{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;}
+  .step .name .go{color:var(--accent);font-size:15px;}
+  .step .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+  .step .empty{color:var(--faint);font-size:11px;font-style:italic;margin-top:4px;}
+
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 7px 2px 6px;border-radius:20px;
+    background:#fff;border:1px solid var(--edge);cursor:pointer;}
+  .chip:hover{border-color:var(--accent);}
+  .chip .dot{width:8px;height:8px;border-radius:50%;flex:none;}
+  .chip .x{border:none;background:none;color:var(--faint);padding:0 0 0 2px;font-size:13px;line-height:1;}
+  .chip .x:hover{color:var(--bad);}
+
+  /* ---- step picker ---- */
+  .bucket{margin-bottom:9px;}
+  .bucket h3{font-size:11px;letter-spacing:.03em;margin:0 0 4px;display:flex;align-items:center;gap:6px;color:var(--muted);}
+  .bucket h3 .tag{font-size:9.5px;text-transform:uppercase;padding:1px 6px;border-radius:10px;font-weight:700;letter-spacing:.04em;}
+  .tag.t-top{background:#dcefdc;color:#2f6b38;}
+  .tag.t-okay{background:#f2e6cf;color:#8a6a24;}
+  .tag.t-fall{background:#e8e0d8;color:#7c6f64;}
+  .pick{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:8px;
+    padding:6px 8px;border:1px solid var(--edge2);border-radius:9px;margin-bottom:5px;
+    background:color-mix(in srgb, var(--catcolor,#fff) 10%, #fff);
+    border-left:5px solid var(--catcolor,var(--edge));margin-bottom:4px;padding:5px 8px;}
+  .pick:hover{border-color:var(--accent);}
+  .pick.sel{border-color:var(--accent);background:color-mix(in srgb, var(--catcolor,#fff) 16%, var(--accent-soft));}
+  .pick .addbtn{width:26px;height:26px;border-radius:50%;border:1px solid var(--accent);background:#fff;color:var(--accent);font-size:16px;line-height:1;padding:0;}
+  .pick .addbtn:hover{background:var(--accent);color:#fff;}
+  .pick .mid{min-width:0;cursor:pointer;display:flex;align-items:center;gap:7px;}
+  .pick .mid .nm{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pick .mid .cook{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap;padding-left:6px;}
+  .pick .det{border:none;background:none;color:var(--accent);font-size:12px;white-space:nowrap;padding:2px 4px;}
+  .pick .det:hover{text-decoration:underline;}
+  .catlabel{font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:#fff;padding:2px 7px;border-radius:9px;font-weight:600;white-space:nowrap;}
+
+  /* reason badges (color-coded, legible) */
+  .icons{display:inline-flex;gap:3px;flex:none;}
+  .rb{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:6px;font-size:11px;line-height:1;border:1px solid rgba(0,0,0,.06);}
+  .r-cuisine{background:#ece2f6;} .r-balance{background:#dbeedd;} .r-timing{background:#f6e6c8;} .r-caution{background:#f7d9cd;}
+  .empty-note{color:var(--faint);font-style:italic;font-size:12px;}
+
+  /* ---- detail ---- */
+  .d-empty{color:var(--faint);font-style:italic;}
+  .detail h3{margin:0 0 2px;font-size:19px;}
+  .detail .kicker{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .why{list-style:none;margin:0 0 8px;padding:8px 10px;background:var(--top);border-radius:9px;}
+  .why li{font-size:13px;margin:0 0 5px;display:flex;gap:7px;}
+  .why li:last-child{margin-bottom:0;}
+  .why .ic{flex:none;}
+  .caution-box{background:#fbeee6;border:1px solid #f0d2be;border-radius:9px;padding:8px 10px;margin-bottom:8px;font-size:13px;color:#8a4a2a;}
+  .drow{display:flex;gap:8px;font-size:12.5px;margin:4px 0;}
+  .drow b{color:var(--muted);font-weight:600;min-width:74px;text-transform:uppercase;font-size:10px;letter-spacing:.04em;padding-top:2px;}
+  .addbig{margin-top:10px;width:100%;padding:9px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;}
+  .addbig:hover{filter:brightness(1.05);}
+  .addbig.placed{background:#fff;color:var(--good);border:1px solid var(--good);}
+
+  /* ---- balance ---- */
+  .b-compact{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;}
+  .b-stat{font-size:13px;}
+  .b-stat b{font-weight:700;}
+  .b-hi b{color:var(--bad);} .b-lo b{color:var(--accent);}
+  .b-sentence{font-size:12.5px;color:var(--muted);margin:8px 0 6px;}
+  .b-sentence .cause{color:var(--ink);}
+  .b-try{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-size:12px;}
+  .b-try .lbl{color:var(--muted);}
+  .b-try button{border:1px dashed var(--accent);background:#fff;color:var(--accent);border-radius:16px;padding:2px 9px;font-size:12px;}
+  .b-try button:hover{background:var(--accent-soft);}
+  .axes{margin-top:10px;}
+  .axis{display:grid;grid-template-columns:118px 1fr 26px;align-items:center;gap:10px;font-size:12px;margin:4px 0;}
+  .axis .bar{background:#ece4da;border-radius:6px;height:10px;overflow:hidden;}
+  .axis .bar i{display:block;height:100%;background:linear-gradient(90deg,#8fc79a,#e3b264);border-radius:6px;}
+  .axis .val{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .stepnote{margin-top:9px;font-size:12px;color:var(--good);background:#eaf4ea;border-radius:8px;padding:7px 9px;}
+
+  /* ---- legend ---- */
+  .legend{margin:0;padding:12px 14px;background:var(--panel);border:1px solid var(--edge);border-radius:12px;
+    display:flex;flex-direction:column;gap:11px;}
+  .legend .grp{display:flex;flex-direction:column;gap:6px;}
+  .legend .grp + .grp{border-top:1px solid var(--edge2);padding-top:11px;}
+  .legend .grp h4{margin:0;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .legend .items{display:flex;flex-wrap:wrap;gap:6px 14px;}
+  .legend .item{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink);}
+  .legend .ic{font-size:14px;width:16px;text-align:center;}
+  .legend .sw{width:12px;height:12px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.12);}
+
+  @media(max-width:767px){
+    .mobtabs{display:flex;}
+    .cols{grid-template-columns:1fr;}
+    .p-timeline,.p-step,.p-detail{display:none;}
+    .cols[data-mob="timeline"] .p-timeline{display:block;}
+    .cols[data-mob="step"] .p-step{display:block;}
+    .cols[data-mob="detail"] .p-detail{display:block;}
+    .p-balance{position:fixed;left:0;right:0;bottom:0;border-radius:0;border-left:none;border-right:none;
+      box-shadow:0 -6px 18px rgba(0,0,0,.08);max-height:45vh;overflow:auto;z-index:6;}
+    .legend{margin-bottom:48vh;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Build a Stew <small>technique-first</small></div>
+  <label class="sel">Technique
+    <select id="technique">
+      <option value="braise" selected>Braise / stew</option>
+      <option value="curry" disabled>Curry (soon)</option>
+      <option value="pasta" disabled>Pasta (soon)</option>
+      <option value="tacos" disabled>Tacos (soon)</option>
+    </select>
+  </label>
+  <label class="sel">Cuisine
+    <select id="cuisine">
+      <option value="">Any</option>
+      <option value="french">French-ish</option>
+      <option value="italian">Italian-ish</option>
+      <option value="mediterranean">Mediterranean-ish</option>
+      <option value="mexican">Mexican-ish</option>
+      <option value="latin_american">Latin American-ish</option>
+      <option value="american">American-ish</option>
+      <option value="central_european">Central European-ish</option>
+      <option value="eastern_european">Eastern European-ish</option>
+      <option value="scandinavian">Scandinavian-ish</option>
+      <option value="middle_eastern">Middle Eastern-ish</option>
+      <option value="north_african">North African-ish</option>
+      <option value="indian">Indian-ish</option>
+      <option value="east_asian">East Asian-ish</option>
+    </select>
+  </label>
+  <div class="spacer"></div>
+  <button class="topbtn" id="howBtn">How</button>
+  <button class="topbtn">Load</button>
+  <button class="topbtn">Save</button>
+  <button class="topbtn">Clear</button>
+  <button class="topbtn" id="recipeBtn">Recipe →</button>
+</div>
+<div class="mocknote">Design mockup (throwaway) · sample of 35 real ingredients · scoring is illustrative and will be fixture-tuned</div>
+
+<nav class="mobtabs" id="mobtabs">
+  <button data-mob="timeline" class="on">Timeline</button>
+  <button data-mob="step">Step</button>
+  <button data-mob="detail">Detail</button>
+</nav>
+
+<main class="cols" id="cols" data-mob="timeline">
+  <section class="panel p-timeline" aria-label="Timeline">
+    <h2>Timeline <span class="sub">braise</span></h2>
+    <div id="timeline"></div>
+  </section>
+
+  <section class="panel p-step" aria-label="Step ingredients">
+    <h2 id="stepHead">This step</h2>
+    <div id="picker"></div>
+  </section>
+
+  <section class="panel p-detail detail" aria-label="Ingredient detail" id="detail"></section>
+
+  <div class="side">
+    <section class="panel p-balance" aria-label="Balance" id="balancePanel"></section>
+    <footer class="legend p-legend" id="legend"></footer>
+  </div>
+</main>
+
+<script>
+// ---------------- data ----------------
+const CATALOG = [{"id":"chicken_thighs","name":"Chicken thighs","category":"protein","stage":"brown","roles":["protein","fat","body"],"traits":["savory"],"balanceScores":{"body":2,"richness":3,"umami":2},"cuisines":["universal","french","italian","mexican","east_asian","indian"],"saltRisk":"low","cookMinutes":{"min":15,"max":25},"pairsWith":["pearl_barley","rutabaga","cooked_chickpeas","spinach","lemon_juice"],"avoidWith":null,"notes":"Cheap and forgiving; at long pressure times expect shredded texture."},{"id":"chicken_feet","name":"Chicken feet","category":"protein","stage":"pressure","roles":["collagen","body"],"traits":[],"balanceScores":{"body":5,"richness":2,"umami":2},"cuisines":["east_asian","eastern_european","universal"],"saltRisk":"low","cookMinutes":{"min":45,"max":60},"pairsWith":["chicken_thighs","dried_mushrooms","pearl_barley","ginger"],"avoidWith":null,"notes":"Stock builder, not a substantial meat portion."},{"id":"beef_chuck","name":"Beef chuck","category":"protein","stage":"brown","roles":["protein","collagen","fat","body"],"traits":["savory"],"balanceScores":{"body":4,"richness":4,"umami":3},"cuisines":["french","american","universal"],"saltRisk":"low","cookMinutes":{"min":45,"max":60},"pairsWith":["pearl_barley","fresh_mushrooms","red_wine","celery_root"],"avoidWith":null,"notes":"Reliable long-cook beef."},{"id":"oxtail","name":"Oxtail","category":"protein","stage":"brown","roles":["protein","collagen","fat","body"],"traits":["savory"],"balanceScores":{"body":5,"richness":5,"umami":4},"cuisines":["latin_american","east_asian","french"],"saltRisk":"low","cookMinutes":{"min":60,"max":90},"pairsWith":["beans","roots","red_wine","thyme"],"avoidWith":["ham_hock","smoked_sausage"],"notes":"Excellent body, usually expensive."},{"id":"ham_hock","name":"Ham hock","category":"protein","stage":"pressure","roles":["protein","collagen","fat","seasoning","body"],"traits":["savory"],"balanceScores":{"body":5,"richness":4,"umami":4,"smoke":4},"cuisines":["american","french","central_european"],"saltRisk":"high","cookMinutes":{"min":45,"max":60},"pairsWith":["dried_white_beans","split_peas","cabbage","pearl_barley"],"avoidWith":["chicken_stock","bacon","smoked_sausage","miso"],"notes":"Salt only after cooking."},{"id":"onion","name":"Onion","category":"aromatics","stage":"aromatics","roles":["aromatic"],"traits":["pungent","savory"],"balanceScores":{"sweetness":2,"umami":1,"aromatic_intensity":3},"cuisines":["universal"],"saltRisk":"low","cookMinutes":{"min":5,"max":10},"pairsWith":null,"avoidWith":null,"notes":"Core aromatic."},{"id":"garlic","name":"Garlic","category":"aromatics","stage":"aromatics","roles":["aromatic","seasoning"],"traits":["garlicky","pungent"],"balanceScores":{"umami":1,"aromatic_intensity":4},"cuisines":["universal"],"saltRisk":"low","cookMinutes":null,"pairsWith":null,"avoidWith":null,"notes":"Add after onion; do not scorch."},{"id":"ginger","name":"Ginger","category":"aromatics","stage":"aromatics","roles":["aromatic","freshener"],"traits":["pungent","citrusy"],"balanceScores":{"freshness":2,"heat":1,"aromatic_intensity":4},"cuisines":["indian","east_asian","north_african"],"saltRisk":"low","cookMinutes":{"min":1,"max":3},"pairsWith":["chicken_thighs","dried_chickpeas","miso","coconut_milk"],"avoidWith":["parmesan"],"notes":"Bloom briefly."},{"id":"tomato_paste","name":"Tomato paste","category":"aromatics","stage":"aromatics","roles":["seasoning","thickener"],"traits":["savory"],"balanceScores":{"body":1,"richness":1,"umami":3,"sweetness":1,"acidity":1},"cuisines":["italian","french","universal"],"saltRisk":"medium","cookMinutes":{"min":1,"max":3},"pairsWith":["beef_chuck","beans","wine","roots"],"avoidWith":null,"notes":"Brown briefly before liquid."},{"id":"chicken_stock","name":"Chicken stock","category":"liquid","stage":"deglaze","roles":["liquid","seasoning"],"traits":["savory"],"balanceScores":{"umami":2,"richness":1},"cuisines":["universal"],"saltRisk":"medium","cookMinutes":null,"pairsWith":["chicken_thighs","grains","roots","greens"],"avoidWith":["ham_hock","smoked_sausage","miso"],"notes":"Prefer low-sodium."},{"id":"white_wine","name":"White wine","category":"liquid","stage":"deglaze","roles":["liquid","acid"],"traits":["fruity"],"balanceScores":{"acidity":2,"freshness":1,"aromatic_intensity":3},"cuisines":["french","italian"],"saltRisk":"low","cookMinutes":null,"pairsWith":["chicken_thighs","white_beans","roots","thyme"],"avoidWith":["miso"],"notes":"Cook off alcohol before pressure."},{"id":"red_wine","name":"Red wine","category":"liquid","stage":"deglaze","roles":["liquid","acid"],"traits":["fruity","bitter"],"balanceScores":{"acidity":2,"richness":2,"aromatic_intensity":3},"cuisines":["french","italian"],"saltRisk":"low","cookMinutes":null,"pairsWith":["beef_chuck","fresh_mushrooms","roots","rosemary"],"avoidWith":null,"notes":"Best with dark meats; can overpower delicate chicken builds."},{"id":"rutabaga","name":"Rutabaga","category":"roots","stage":"pressure","roles":["starch","body","texture"],"traits":["earthy"],"balanceScores":{"body":2,"sweetness":2,"texture":2},"cuisines":["scandinavian","british","universal"],"saltRisk":"low","cookMinutes":{"min":20,"max":40},"pairsWith":["chicken_thighs","pork_shoulder","pearl_barley","thyme"],"avoidWith":null,"notes":"Holds up better than potatoes."},{"id":"celery_root","name":"Celery root","category":"roots","stage":"pressure","roles":["starch","body"],"traits":["earthy","herbaceous"],"balanceScores":{"body":2,"sweetness":1,"aromatic_intensity":2},"cuisines":["french","central_european"],"saltRisk":"low","cookMinutes":{"min":15,"max":30},"pairsWith":["chicken_thighs","white_beans","pearl_barley","parsley"],"avoidWith":null,"notes":"Can partly dissolve and thicken broth."},{"id":"parsnip","name":"Parsnip","category":"roots","stage":"pressure","roles":["starch","body"],"traits":["earthy"],"balanceScores":{"body":2,"sweetness":4},"cuisines":["french","british","scandinavian"],"saltRisk":"low","cookMinutes":{"min":15,"max":25},"pairsWith":["chicken_thighs","celery_root","thyme","lemon_juice"],"avoidWith":null,"notes":"Use moderately; gets quite sweet."},{"id":"carrot","name":"Carrot","category":"roots","stage":"aromatics","roles":["body"],"traits":["earthy"],"balanceScores":{"sweetness":3,"texture":1},"cuisines":["universal"],"saltRisk":"low","cookMinutes":{"min":10,"max":20},"pairsWith":null,"avoidWith":null,"notes":"Core root vegetable."},{"id":"potato","name":"Potato","category":"roots","stage":"pressure","roles":["starch","body","thickener"],"traits":["earthy"],"balanceScores":{"body":4,"texture":2},"cuisines":["universal"],"saltRisk":"low","cookMinutes":{"min":8,"max":15},"pairsWith":["chicken_thighs","beef_chuck","herbs","greens"],"avoidWith":null,"notes":"Breaks down during long cooks."},{"id":"sweet_potato","name":"Sweet potato","category":"roots","stage":"pressure","roles":["starch","body","thickener"],"traits":[],"balanceScores":{"body":3,"sweetness":5},"cuisines":["american","north_african","west_african"],"saltRisk":"low","cookMinutes":{"min":8,"max":15},"pairsWith":["chicken_thighs","peanut","dried_chickpeas","chile"],"avoidWith":null,"notes":"Dissolves easily."},{"id":"cabbage","name":"Cabbage","category":"vegetable","stage":"pressure","roles":["body","texture"],"traits":["savory"],"balanceScores":{"sweetness":2,"freshness":1,"texture":2},"cuisines":["central_european","american","east_asian"],"saltRisk":"low","cookMinutes":{"min":5,"max":15},"pairsWith":["ham_hock","smoked_sausage","pearl_barley","cider_vinegar"],"avoidWith":null,"notes":"Move to simmer_after if you want more texture."},{"id":"dried_mushrooms","name":"Dried mushrooms","category":"vegetable","stage":"pressure","roles":["body","seasoning"],"traits":["earthy","savory"],"balanceScores":{"body":2,"umami":5,"aromatic_intensity":3},"cuisines":["east_asian","french"],"saltRisk":"low","cookMinutes":{"min":20,"max":60},"pairsWith":["water","chicken_feet","pearl_barley","miso"],"avoidWith":null,"notes":"Check for grit."},{"id":"cooked_chickpeas","name":"Cooked chickpeas","category":"legumes","stage":"stir_in","roles":["protein","starch","body","texture"],"traits":["nutty"],"balanceScores":{"body":2,"texture":3,"umami":1},"cuisines":["north_african","indian","mediterranean"],"saltRisk":"medium","cookMinutes":{"min":3,"max":5},"pairsWith":["chicken_thighs","spinach","lemon_juice","yogurt"],"avoidWith":null,"notes":"Easy supporting legume."},{"id":"dried_white_beans","name":"Dried white beans","category":"legumes","stage":"pressure","roles":["protein","starch","body","thickener"],"traits":["creamy","savory"],"balanceScores":{"body":4,"umami":2,"texture":2},"cuisines":["italian","french","iberian"],"saltRisk":"low","cookMinutes":{"min":30,"max":45},"pairsWith":["ham_hock","chicken_thighs","kale","rosemary"],"avoidWith":null,"notes":"More neutral than black beans."},{"id":"red_lentils_pressure","name":"Red lentils (pressure)","category":"legumes","stage":"pressure","roles":["protein","starch","body","thickener"],"traits":["earthy"],"balanceScores":{"body":5,"umami":1},"cuisines":["indian","middle_eastern"],"saltRisk":"low","cookMinutes":{"min":5,"max":10},"pairsWith":["chicken_thighs","carrot","ginger","cumin"],"avoidWith":null,"notes":"Disappear completely in long cooks."},{"id":"green_lentils","name":"Green lentils","category":"legumes","stage":"pressure","roles":["protein","starch","body","texture"],"traits":["earthy"],"balanceScores":{"body":3,"texture":3,"umami":1},"cuisines":["french","universal"],"saltRisk":"low","cookMinutes":{"min":12,"max":20},"pairsWith":["smoked_sausage","roots","thyme","vinegar"],"avoidWith":null,"notes":"Hold shape better than red lentils."},{"id":"pearl_barley","name":"Pearl barley","category":"grains","stage":"pressure","roles":["starch","body","thickener","texture"],"traits":["nutty"],"balanceScores":{"body":3,"texture":4,"richness":1},"cuisines":["french","central_european","british"],"saltRisk":"low","cookMinutes":{"min":20,"max":30},"pairsWith":["chicken_thighs","ham_hock","fresh_mushrooms","roots"],"avoidWith":null,"notes":"Strong fit for long-cook stews."},{"id":"farro","name":"Farro","category":"grains","stage":"pressure","roles":["starch","body","texture"],"traits":["nutty"],"balanceScores":{"body":2,"texture":5},"cuisines":["italian","universal"],"saltRisk":"low","cookMinutes":{"min":20,"max":30},"pairsWith":["chicken_thighs","fresh_mushrooms","kale","parmesan"],"avoidWith":null,"notes":"Holds texture well."},{"id":"couscous","name":"Couscous","category":"grains","stage":"serve_over","roles":["starch","body"],"traits":[],"balanceScores":{"body":2,"texture":2},"cuisines":["north_african","mediterranean"],"saltRisk":"low","cookMinutes":{"min":5,"max":5},"pairsWith":["dried_chickpeas","lamb_shoulder","chicken_thighs","roots"],"avoidWith":null,"notes":"Prepare separately."},{"id":"spinach","name":"Spinach","category":"greens","stage":"stir_in","roles":["freshener"],"traits":["herbaceous"],"balanceScores":{"freshness":4,"texture":1},"cuisines":["italian","east_asian","indian","universal"],"saltRisk":"low","cookMinutes":{"min":1,"max":3},"pairsWith":["chicken_thighs","white_beans","miso","lemon_juice"],"avoidWith":null,"notes":"Add after opening."},{"id":"kale","name":"Kale","category":"greens","stage":"simmer_after","roles":["freshener","texture"],"traits":["herbaceous","bitter"],"balanceScores":{"freshness":3,"texture":3},"cuisines":["italian","iberian","universal"],"saltRisk":"low","cookMinutes":{"min":5,"max":10},"pairsWith":["white_beans","smoked_sausage","pearl_barley"],"avoidWith":null,"notes":"Better leftover texture than spinach."},{"id":"parsley","name":"Parsley","category":"topping","stage":"finish","roles":["freshener","topping"],"traits":["herbaceous"],"balanceScores":{"freshness":4,"aromatic_intensity":2},"cuisines":["french","italian","mediterranean"],"saltRisk":"low","cookMinutes":null,"pairsWith":["chicken_thighs","roots","pearl_barley","lemon_juice"],"avoidWith":null,"notes":"Very versatile."},{"id":"dill","name":"Dill","category":"topping","stage":"finish","roles":["freshener","topping"],"traits":["herbaceous"],"balanceScores":{"freshness":4,"aromatic_intensity":4},"cuisines":["eastern_european","scandinavian"],"saltRisk":"low","cookMinutes":null,"pairsWith":["chicken_thighs","roots","sour_cream","lemon_juice"],"avoidWith":["cumin"],"notes":"Strong profile marker."},{"id":"lemon_juice","name":"Lemon juice","category":"topping","stage":"finish","roles":["acid","freshener","seasoning"],"traits":["citrusy"],"balanceScores":{"acidity":5,"freshness":4,"aromatic_intensity":2},"cuisines":["french","mediterranean","middle_eastern"],"saltRisk":"low","cookMinutes":null,"pairsWith":["chicken_thighs","white_beans","greens","pearl_barley"],"avoidWith":null,"notes":"Major anti-heaviness tool."},{"id":"sherry_vinegar","name":"Sherry vinegar","category":"topping","stage":"finish","roles":["acid","freshener","seasoning"],"traits":["tangy"],"balanceScores":{"acidity":5,"freshness":2,"aromatic_intensity":2},"cuisines":["iberian","french"],"saltRisk":"low","cookMinutes":null,"pairsWith":["beef_chuck","lentils","fresh_mushrooms"],"avoidWith":null,"notes":"Use sparingly."},{"id":"parmesan","name":"Parmesan","category":"topping","stage":"finish","roles":["topping","seasoning","fat"],"traits":["savory","nutty"],"balanceScores":{"richness":3,"umami":4,"texture":1},"cuisines":["italian"],"saltRisk":"high","cookMinutes":null,"pairsWith":["pearl_barley","white_beans","spinach","chicken_thighs"],"avoidWith":["miso"],"notes":"Best added per bowl."},{"id":"miso","name":"Miso","category":"topping","stage":"finish","roles":["seasoning"],"traits":["fermented","savory"],"balanceScores":{"umami":5,"richness":1,"aromatic_intensity":2},"cuisines":["east_asian"],"saltRisk":"high","cookMinutes":null,"pairsWith":["chicken_thighs","dried_mushrooms","spinach","green_onions"],"avoidWith":["ham_hock","parmesan"],"notes":"Dissolve in hot broth after pressure cooking."}];
+const byId = Object.fromEntries(CATALOG.map(c=>[c.id,c]));
+
+// braise timeline: technique owns these steps (labels differ from raw stage ids)
+const STEPS = [
+  {id:'brown',        label:'Brown',             timing:'long'},
+  {id:'aromatics',    label:'Aromatics',         timing:'short'},
+  {id:'deglaze',      label:'Deglaze',           timing:'short'},
+  {id:'pressure',     label:'Oven / pressure cook', timing:'long', longCook:true},
+  {id:'simmer_after', label:'Simmer after',      timing:'medium'},
+  {id:'stir_in',      label:'Stir in',           timing:'short'},
+  {id:'finish',       label:'Finish',            timing:'finish'},
+  {id:'serve_over',   label:'Serve over',        timing:'finish'},
+];
+const stepLabel = id => (STEPS.find(s=>s.id===id)||{label:id}).label;
+const AXES = ['body','richness','umami','sweetness','acidity','heat','smoke','freshness','texture','aromatic_intensity'];
+const AXIS_LABEL = {aromatic_intensity:'aromatic'};
+const axisName = a => AXIS_LABEL[a]||a;
+const niceAxis = a => a.replace(/_/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
+const CUISINE_LABEL = {french:'French',italian:'Italian',mediterranean:'Mediterranean',mexican:'Mexican',latin_american:'Latin American',american:'American',central_european:'Central European',eastern_european:'Eastern European',scandinavian:'Scandinavian',middle_eastern:'Middle Eastern',north_african:'North African',indian:'Indian',east_asian:'East Asian',iberian:'Iberian',british:'British',west_african:'West African',southeast_asian:'SE Asian',universal:'universal'};
+
+// group predicates for pairsWith / avoidWith tokens
+const GROUPS = {
+  meat:c=>c.category==='protein', roots:c=>c.category==='roots', vegetables:c=>c.category==='vegetable',
+  greens:c=>c.category==='greens', grains:c=>c.category==='grains', spices:c=>c.category==='spice',
+  herbs:c=>['parsley','dill','cilantro','mint','chives','bay_leaf','thyme','rosemary','oregano'].includes(c.id),
+  wine:c=>c.id.includes('wine'), vinegar:c=>c.id.includes('vinegar'),
+  beans:c=>c.id.includes('bean'), lentils:c=>c.id.includes('lentil'),
+  white_beans:c=>c.id.includes('white_bean'), black_beans:c=>c.id.includes('black_bean'),
+};
+function refMatches(token, ing){ return token===ing.id || (GROUPS[token] && GROUPS[token](ing)); }
+function refLabel(token){ return byId[token] ? byId[token].name : token.replace(/_/g,' '); }
+
+// ---------------- state ----------------
+let cuisine = '';
+let selectedStep = 'pressure';
+let detailId = null;
+// seed a demo build
+// seed a demo build so the picker + balance are alive on load
+let build = [{id:'oxtail',step:'brown'},{id:'pearl_barley',step:'pressure'},{id:'onion',step:'aromatics'}];
+
+const $ = s=>document.querySelector(s);
+const inBuild = id => build.some(b=>b.id===id);
+const catColor = cat => getComputedStyle(document.documentElement).getPropertyValue('--c-'+cat).trim()||'#999';
+
+// ---------------- scoring ----------------
+function totals(){ const t=Object.fromEntries(AXES.map(a=>[a,0]));
+  build.forEach(b=>{ for(const[a,v] of Object.entries(byId[b.id].balanceScores)) t[a]+=v; }); return t; }
+function longestSelectedCook(){ let m=0,name=''; build.forEach(b=>{const c=byId[b.id]; if(c.cookMinutes&&c.cookMinutes.max>m){m=c.cookMinutes.max;name=c.name;}}); return {m,name}; }
+
+// returns {score, reasons:Set, notes:[{ic,txt}], cautions:[txt]}
+function score(c){
+  const t=totals(), r=new Set(), notes=[], cautions=[]; let s=0;
+  const present = build.length;
+  const lowAxes = AXES.filter(a=>t[a]<=1);
+  const highAxes = AXES.filter(a=>t[a]>=6);
+
+  // balance: fills a low axis
+  const fills=[]; for(const[a,v] of Object.entries(c.balanceScores)){ if(v>=2 && lowAxes.includes(a)) fills.push(a); }
+  if(fills.length){ s+=2; r.add('balance'); notes.push({ic:'⚖',txt:`Adds ${fills.map(axisName).join(' & ')} — your build is light on that.`}); }
+  // balance: overloads a high axis
+  for(const[a,v] of Object.entries(c.balanceScores)){ if(v>=3 && highAxes.includes(a)){ s-=1; cautions.push(`Piles more ${axisName(a)} onto an already-heavy build.`); } }
+
+  // pairing with already-selected (folded into ⚖ compatibility)
+  const paired=[]; (c.pairsWith||[]).forEach(tok=>{ build.forEach(b=>{ if(b.id!==c.id && refMatches(tok,byId[b.id])) paired.push(byId[b.id].name); }); });
+  if(paired.length){ const uniq=[...new Set(paired)]; s+=2; r.add('balance'); notes.push({ic:'⚖',txt:`Pairs with ${uniq.slice(0,3).join(', ')} already in the pot.`}); }
+  // avoid conflict
+  const clash=[]; (c.avoidWith||[]).forEach(tok=>{ build.forEach(b=>{ if(refMatches(tok,byId[b.id])) clash.push(byId[b.id].name); }); });
+  if(clash.length){ s-=4; r.add('caution'); cautions.push(`Best avoided with ${[...new Set(clash)].join(', ')} (already selected).`); }
+
+  // cuisine soft re-rank
+  if(cuisine && c.cuisines.includes(cuisine)){ s+=2; r.add('cuisine'); notes.push({ic:'🍽',txt:`Fits your ${CUISINE_LABEL[cuisine]}-ish direction.`}); }
+
+  // timing — only at the long-cook step, judged vs the longest selected ingredient
+  const step = STEPS.find(s=>s.id===selectedStep);
+  if(step && step.longCook && c.cookMinutes){
+    const L=longestSelectedCook();
+    if(c.cookMinutes.max>=20){ s+=2; r.add('timing'); notes.push({ic:'⏱',txt:L.name?`Survives the long cook alongside ${L.name} (${L.m} min).`:'Sturdy enough for the long cook.'}); }
+    else if(L.m>=40 && c.cookMinutes.max<15){ s-=2; r.add('caution'); cautions.push(`Cooks in ${c.cookMinutes.min}–${c.cookMinutes.max} min — likely to dissolve over the long cook. Consider Stir in.`); }
+  }
+
+  // high-salt nudge
+  if(c.saltRisk==='high'){ cautions.push('High salt risk — season the pot only after tasting.'); r.add('caution'); }
+
+  if(!notes.length && !cautions.length) notes.push({ic:'·',txt:'Reasonable option for this step.'});
+  return {score:s, reasons:r, notes, cautions};
+}
+
+function bucketOf(sc){ return sc>=4?'top': sc>=1?'okay':'fall'; }
+const RMETA={cuisine:{ic:'🍽',label:'cuisine fit'},balance:{ic:'⚖',label:'balance / pairing fit'},timing:{ic:'⏱',label:'timing fit'},caution:{ic:'⚠',label:'caution'}};
+const RORDER=['cuisine','balance','timing','caution'];
+function badge(k){ return `<span class="rb r-${k}" title="${RMETA[k].label}">${RMETA[k].ic}</span>`; }
+function iconStr(r){ return RORDER.filter(k=>r.has(k)).map(badge).join(''); }
+
+// ---------------- renders ----------------
+function chipHTML(id, step){ const c=byId[id];
+  return `<span class="chip" data-detail="${id}" title="${c.name} — details"><span class="dot" style="background:${catColor(c.category)}"></span>${c.name}<button class="x" data-remove="${id}" aria-label="Remove ${c.name}">×</button></span>`; }
+
+function renderTimeline(){
+  $('#timeline').innerHTML = STEPS.map(st=>{
+    const placed = build.filter(b=>b.step===st.id);
+    return `<div class="step ${st.id===selectedStep?'on':''}" data-step="${st.id}" tabindex="0">
+      <div class="name">${st.label} <span class="go">›</span></div>
+      ${placed.length?`<div class="chips">${placed.map(b=>chipHTML(b.id,st.id)).join('')}</div>`
+        :`<div class="empty">tap to add…</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderPicker(){
+  $('#stepHead').innerHTML = `${stepLabel(selectedStep)} <span class="sub">ranked for your build</span>`;
+  const items = CATALOG.filter(c=>c.stage===selectedStep && !inBuild(c.id))
+    .map(c=>({c, ...score(c)}))
+    .sort((a,b)=>b.score-a.score);
+  if(!items.length){ $('#picker').innerHTML=`<div class="empty-note">Everything suited to ${stepLabel(selectedStep)} is already in your build.</div>`; return; }
+  const groups={top:[],okay:[],fall:[]};
+  items.forEach(it=>groups[bucketOf(it.score)].push(it));
+  const titles={top:['Top picks','t-top'],okay:['Okay','t-okay'],fall:['Fallback','t-fall']};
+  $('#picker').innerHTML = ['top','okay','fall'].filter(k=>groups[k].length).map(k=>`
+    <div class="bucket"><h3><span class="tag ${titles[k][1]}">${titles[k][0]}</span></h3>
+      ${groups[k].map(it=>rowHTML(it)).join('')}
+    </div>`).join('');
+}
+function rowHTML(it){ const c=it.c;
+  return `<div class="pick ${detailId===c.id?'sel':''}" style="--catcolor:${catColor(c.category)}">
+    <button class="addbtn" data-add="${c.id}" title="Add to ${stepLabel(selectedStep)}">+</button>
+    <div class="mid" data-detail="${c.id}">
+      <span class="catlabel" style="background:${catColor(c.category)}">${c.category}</span>
+      <span class="nm">${c.name}</span>
+      <span class="icons">${iconStr(it.reasons)}</span>
+      <span class="cook">${cookText(c)}</span>
+    </div>
+    <button class="det" data-detail="${c.id}">detail ›</button>
+  </div>`;
+}
+function cookText(c){ if(!c.cookMinutes) return 'no cook'; const {min,max}=c.cookMinutes; return (min===max?`${min}`:`${min}–${max}`)+' min'; }
+
+function renderDetail(){
+  const el=$('#detail');
+  if(!detailId){ el.innerHTML=`<h2>Detail</h2><div class="d-empty">Pick an ingredient from the step list to see why it fits — or tap a timeline chip.</div>`; return; }
+  const c=byId[detailId]; const sc=score(c);
+  const placed=inBuild(c.id); const cook=c.cookMinutes?`${c.cookMinutes.min}–${c.cookMinutes.max} min`:'no cook';
+  const goodWith=(c.pairsWith||[]).map(refLabel).slice(0,5).join(', ')||'—';
+  el.innerHTML=`<h2>Detail</h2>
+    <h3>${c.name}</h3>
+    <div class="kicker"><span class="catlabel" style="background:${catColor(c.category)}">${c.category}</span>
+      <span style="color:var(--muted);font-size:12px">best at <b>${stepLabel(c.stage)}</b> · ${cook}</span></div>
+    <ul class="why"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:6px">Why it appears here</div>
+      ${sc.notes.map(n=>`<li><span class="ic">${n.ic}</span><span>${n.txt}</span></li>`).join('')}
+    </ul>
+    ${sc.cautions.length?`<div class="caution-box"><b>⚠ Heads up</b><br>${sc.cautions.join('<br>')}</div>`:''}
+    <div class="drow"><b>Good with</b><span>${goodWith}</span></div>
+    ${c.notes?`<div class="drow"><b>Note</b><span>${c.notes}</span></div>`:''}
+    <button class="addbig ${placed?'placed':''}" data-add="${c.id}">${placed?'✓ In the build':'Add to '+stepLabel(selectedStep)}</button>`;
+}
+
+function renderBalance(){
+  const t=totals(); const el=$('#balancePanel');
+  const rank=[...AXES].sort((a,b)=>t[b]-t[a]);
+  const hi=rank.filter(a=>t[a]>=6).slice(0,3);
+  const lo=['acidity','freshness','texture'].filter(a=>t[a]<=2);
+  const compact = build.length? `<div class="b-compact">
+      ${hi.map(a=>`<span class="b-stat b-hi">${axisName(a)} <b>high</b></span>`).join('')}
+      ${lo.map(a=>`<span class="b-stat b-lo">${axisName(a)} <b>low</b></span>`).join('')||'<span class="b-stat" style="color:var(--muted)">balanced so far</span>'}
+    </div>` : `<div class="d-empty">Add ingredients to see the balance.</div>`;
+
+  // cooking-language sentence
+  const heavy=(t.body+t.richness)>=10;
+  const causes=[...build].map(b=>byId[b.id]).sort((a,b)=>((b.balanceScores.body||0)+(b.balanceScores.richness||0))-((a.balanceScores.body||0)+(a.balanceScores.richness||0))).slice(0,3).map(c=>c.name);
+  let sentence=''; if(heavy) sentence=`<div class="b-sentence">This may become thick and heavy. <span class="cause">Caused by: ${causes.join(', ')}.</span></div>`;
+
+  // try-fixes: finishers that lift a low axis
+  const fixes=CATALOG.filter(c=>c.stage==='finish' && lo.some(a=>(c.balanceScores[a]||0)>=3) && !inBuild(c.id)).slice(0,4);
+  const tryRow = (lo.length && fixes.length)? `<div class="b-try"><span class="lbl">Try:</span>${fixes.map(c=>`<button data-fix="${c.id}">${c.name}</button>`).join('')}</div>`:'';
+
+  // step-aware note
+  const step=STEPS.find(s=>s.id===selectedStep);
+  let stepNote=''; if((t.acidity+t.freshness)<=2 && step && step.timing!=='finish') stepNote=`<div class="stepnote">Brightness is low — add lemon or herbs at <b>Finish</b>, not here.</div>`;
+
+  // per-axis bars (always visible)
+  const bars = build.length? `<div class="axes">${AXES.map(a=>
+      `<div class="axis"><span>${niceAxis(a)}</span><span class="bar"><i style="width:${Math.min(100,t[a]*8)}%"></i></span><span class="val">${t[a]}</span></div>`).join('')}</div>`:'';
+
+  el.innerHTML=`<h2>Balance</h2>
+    ${compact}${sentence}${tryRow}${stepNote}${bars}`;
+}
+
+function render(){ renderTimeline(); renderPicker(); renderDetail(); renderBalance(); }
+
+// ---------------- actions ----------------
+function addIngredient(id){ if(inBuild(id))return;
+  build.push({id, step:selectedStep});
+  detailId=id;
+  if(window.innerWidth<768) setMob('timeline'); // mobile: return to the timeline after placing
+  render(); }
+function removeIngredient(id){ build=build.filter(b=>b.id!==id); if(detailId===id)detailId=null; render(); }
+function openDetail(id){ detailId=id; if(window.innerWidth<768) setMob('detail'); render(); }
+function setMob(tab){ $('#cols').dataset.mob=tab; [...$('#mobtabs').children].forEach(b=>b.classList.toggle('on',b.dataset.mob===tab)); }
+
+// timeline: select a step (and on mobile jump to the step panel)
+$('#timeline').addEventListener('click',e=>{
+  const rm=e.target.closest('[data-remove]'); if(rm){e.stopPropagation();removeIngredient(rm.dataset.remove);return;}
+  const ch=e.target.closest('[data-detail]'); if(ch){ openDetail(ch.dataset.detail); return; }
+  const st=e.target.closest('[data-step]'); if(st){ selectedStep=st.dataset.step; if(window.innerWidth<768) setMob('step'); render(); }
+});
+$('#timeline').addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')){const st=e.target.closest('[data-step]'); if(st){e.preventDefault();selectedStep=st.dataset.step; if(window.innerWidth<768) setMob('step'); render();}}});
+
+// picker: add inline, or open detail
+$('#picker').addEventListener('click',e=>{
+  const a=e.target.closest('[data-add]'); if(a){addIngredient(a.dataset.add);return;}
+  const d=e.target.closest('[data-detail]'); if(d){openDetail(d.dataset.detail);}
+});
+// detail: add
+$('#detail').addEventListener('click',e=>{ const a=e.target.closest('[data-add]'); if(a){addIngredient(a.dataset.add);} });
+// balance: toggle + try-fix chips + step note
+$('#balancePanel').addEventListener('click',e=>{
+  const f=e.target.closest('[data-fix]'); if(f){ selectedStep='finish'; openDetail(f.dataset.fix); }
+});
+// top strip
+$('#cuisine').addEventListener('change',e=>{cuisine=e.target.value;render();});
+$('#howBtn').addEventListener('click',()=>alert('Build a Stew — technique-first mockup.\n\n1. Pick a technique (braise) and optional cuisine.\n2. Tap a timeline step.\n3. The middle column ranks ingredients that fit THAT step and your current build.\n4. Tap + to add, or open the detail card to see why.\n5. Watch Balance update and translate into cooking language.'));
+$('#recipeBtn').addEventListener('click',()=>{
+  const lines=STEPS.filter(s=>build.some(b=>b.step===s.id)).map((s,i)=>`${i+1}. ${s.label}: ${build.filter(b=>b.step===s.id).map(b=>byId[b.id].name).join(', ')}.`);
+  alert('Generated method (mockup):\n\n'+(lines.join('\n')||'Add some ingredients first.'));
+});
+// mobile tabs
+$('#mobtabs').addEventListener('click',e=>{const b=e.target.closest('[data-mob]'); if(b)setMob(b.dataset.mob);});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&detailId){detailId=null;render();} });
+
+// legend (rendered once)
+const CATS=['protein','aromatics','liquid','roots','vegetable','legumes','grains','greens','fat','topping','spice'];
+function renderLegend(){
+  $('#legend').innerHTML=`
+    <div class="grp"><h4>Why it's a good choice</h4>
+      <div class="items">${RORDER.map(k=>`<span class="item">${badge(k)}${RMETA[k].label}</span>`).join('')}</div>
+    </div>
+    <div class="grp"><h4>Ingredient category</h4>
+      <div class="items">${CATS.map(c=>`<span class="item"><span class="sw" style="background:${catColor(c)}"></span>${c}</span>`).join('')}</div>
+    </div>`;
+}
+renderLegend();
+render();
+</script>
+</body>
+</html>

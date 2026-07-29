@@ -241,5 +241,55 @@
     "decision": "The following Phase 6 punch list items are deferred: (1) pressure/release relocation from Timeline to Detail/header; (2) click-within-Library to dismiss Detail; (3) focus return after Detail close and saved-build restore; (4) test-coverage gaps (localStorage quota, richness OR-branch test, pairing dedup); (5) STAGE_LABELS dedup; (6) saveBuild index-write order.",
     "rationale": "These are Should/Optional items with no failing tests or correctness bugs. The three Must items (richness OR-branch, 4-column layout, salt rule documentation) and three Should items (salt badge high-only, tabpanel addition, memoized analysis prop) were addressed in this review pass. Remaining items require separate EXECUTE or can be batched in a subsequent pass.",
     "revisit_if": "Next EXECUTE iteration for Phase 6."
+  },
+  {
+    "id": "D-37",
+    "phase": 7,
+    "title": "Adopt technique-first redesign (v2, Phases 7-10)",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Rebuild the composer as a technique-first workbench per design v2.md and design/ui-spike-v2.html, delivered as Build Phases 7-10 (schema foundation -> scoring engine -> UI -> persistence/e2e). Supersedes the v1 interaction/layout decisions D-18, D-19, D-20, D-33 and absorbs FU-2 (mobile shell + visual language). FU-3 (cook-method/pressure input) stays deferred.",
+    "rationale": "The v1 schema-browser flow (Library->Detail->Timeline->Analysis) exposed the data model and forced scrolling; a technique-first timeline with ranked per-step suggestions matches how a cook thinks and uses the full-width layout better.",
+    "revisit_if": "A second technique reveals the braise-shaped abstraction is too narrow, or users reject the ranked-picker flow."
+  },
+  {
+    "id": "D-38",
+    "phase": 7,
+    "title": "Re-activate D-3: technique-owned timeline + ingredient compatibleSteps",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Stage is no longer a single global vocabulary: a Technique owns its CookingStep[], and ingredients gain compatibleSteps. Braise reuses the current 8 stage ids so the catalog needs no re-authoring; stage remains the default/suggested step and step-appropriateness for braise is derived from it.",
+    "rationale": "Supporting multiple techniques (curry/pasta/tacos) later requires per-technique timelines; reusing the braise ids keeps the migration cheap.",
+    "revisit_if": "A technique needs steps that do not map onto the existing stage ids, requiring per-technique step vocabularies."
+  },
+  {
+    "id": "D-39",
+    "phase": 8,
+    "title": "Re-activate D-35: ranked suggestion engine is the core interaction",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Reverse D-35/D-32: implement a pure, deterministic scoring engine that ranks step-appropriate ingredients into Top/Okay/Fallback buckets with reason tags (cuisine/balance/timing/caution). Explicit TS functions, no rules DSL; weights/thresholds provisional and fixture-tuned.",
+    "rationale": "Ranked per-step suggestions are the heart of the technique-first flow, not the dormant scaffolding D-35 removed; this is a fresh feature built to the v2 contract.",
+    "revisit_if": "Scoring becomes non-deterministic or requires a general rules engine (rule-explosion halt trigger) - reduce scope instead."
+  },
+  {
+    "id": "D-40",
+    "phase": 8,
+    "title": "Scoring model: selected-ingredients context, cuisine soft re-rank, timing vs longest at long-cook only",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "No separate anchor feature - the already-selected ingredients are the scoring context. Dimensions: balance/pairing compatibility, cuisine as a soft re-rank (never a filter), and cook-time fit scored ONLY at the long-cook step against the longest selected ingredients window. No user pressure input, so FU-3 stays deferred.",
+    "rationale": "Keeps the model simple and avoids reviving the removed pressure input while still giving meaningful timing guidance; matches the operators stated scoring inputs.",
+    "revisit_if": "Users need explicit anchors/useMode, or a cook-method model (FU-3) is picked up."
+  },
+  {
+    "id": "D-41",
+    "phase": 10,
+    "title": "Persistence schemaVersion bump + v1->braise migration",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Bump schemaVersion and migrate legacy v1 builds (single stage per ingredient, pressure/release fields) to load as the braise technique with stage->step mapping; previously exported builds must remain importable.",
+    "rationale": "The technique/compatibleSteps change alters the persisted shape; the persistence-format halt trigger requires a deliberate migration rather than a silent break.",
+    "revisit_if": "A later technique change makes the braise-assumption migration lossy."
   }
 ]

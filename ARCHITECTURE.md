@@ -562,6 +562,107 @@ The generator must not invent quantities, temperatures, or cooking times absent 
 - **Duplicate ingredient policy** — MVP permits only one row per ingredient ID in a build. Revisit if users need the same ingredient in multiple stages, such as bacon rendered early and reserved for finishing.
 - **Stage override policy** — the catalog stage is a default. The MVP may initially use constrained placement, but the long-term UI should permit intentional overrides with warnings. Resolve during Phase 3 usability testing.
 
+## Technique-First Redesign (v2) — Phases 7–10
+
+> Status: planned (Phases 7–10, Build). This section is the **v2 contract** and
+> **supersedes** the v1 interaction model where they conflict: D-18 (four-column
+> Library→Detail→Timeline→Analysis), D-19 (select-to-detail placement), D-20
+> (card/detail split), and D-33 (v1 layout reconciliation). It **re-activates**
+> D-3 and D-35 (see below), **absorbs FU-2** (mobile shell + visual language),
+> and keeps **FU-3 deferred** — v2 does not re-add a pressure input.
+>
+> Worker references: `design v2.md` (full narrative) and
+> `design/ui-spike-v2.html` (interactive layout + behavior mockup). The mockup is
+> the visual/interaction source of truth; this section is the contract.
+
+### Concept
+
+The app becomes a **technique-first cooking workbench**: choose a cooking
+technique → optionally a cuisine direction → then work a technique-specific
+timeline where each step offers **ranked ingredient suggestions** based on cuisine
+fit, balance, cook-time compatibility, and what is already selected. MVP registers
+**braise/stew only**; the model is data-driven so curry/pasta/tacos are drop-in
+later.
+
+### Data model changes
+
+- **Technique** owns the timeline (re-activates D-3 — stage is no longer a single
+  global vocabulary):
+  ```ts
+  interface Technique { id: string; name: string; steps: CookingStep[]; }
+  interface CookingStep { id: string; label: string; timing: "short" | "medium" | "long" | "finish"; longCook?: boolean; }
+  ```
+  Braise reuses the current 8 `CookingStage` ids so the existing catalog needs no
+  re-authoring: brown, aromatics, deglaze, pressure (label "Oven / pressure cook",
+  `longCook`), simmer_after, stir_in, finish, serve_over.
+- **Ingredient** gains **`compatibleSteps: string[]`** — the steps an ingredient
+  may appear in. For braise MVP, derive step-appropriateness from the existing
+  single `stage` (which stays as the default/suggested step). The step picker
+  shows **only step-appropriate** ingredients.
+
+### Suggestion & scoring engine (re-activates D-35; supersedes D-32)
+
+Pure, deterministic module (no React, no randomness — the non-determinism halt
+trigger still applies; explicit TS functions, **no rules DSL**). For the selected
+step it ranks step-appropriate, not-yet-placed ingredients:
+
+- **Context = the already-selected ingredients** — no separate "anchor" feature;
+  the first picks naturally drive scoring.
+- **Dimensions:** ⚖ balance/pairing compatibility (fills low axes, penalizes
+  overloading high axes; `pairsWith` matches boost, `avoidWith` matches caution),
+  🍽 cuisine fit (soft boost when the chosen cuisine matches — **never a filter**),
+  ⏱ timing fit (**only at the long-cook step**, judged against the longest
+  currently-selected ingredient's cook window; delicate items that would dissolve
+  are cautioned; **no user pressure input**, so FU-3 stays deferred).
+- **Output:** three buckets **Top / Okay / Fallback** plus per-item reason tags.
+  Rows show reason **icons**; the full contextual "why" renders dynamically in the
+  Detail card.
+  ```ts
+  type Reason = "cuisine" | "balance" | "timing" | "caution";
+  interface Suggestion { ingredientId: string; bucket: "top" | "okay" | "fallback"; reasons: Reason[]; notes: string[]; cautions: string[]; score: number; }
+  ```
+- Bucket thresholds and dimension weights are **provisional** — tune against
+  fixture builds (as in Phase 4), do not hand-wave.
+
+### Interaction model & layout (supersedes D-18/D-19/D-20)
+
+Per `design/ui-spike-v2.html`:
+
+- **Top strip:** title · technique selector · optional cuisine selector · How ·
+  load/save/clear · Recipe.
+- **Columns:** Timeline · Step picker · Detail · Balance. Selecting a timeline
+  step drives the picker; tapping a placed chip opens its Detail. Picker rows are
+  single-line (add(+) · category · name · reason icons · cook · detail); add is
+  inline, row/detail opens the Detail card. Detail is dynamic: "why it appears
+  here" + cautions + best step + good-with + Add-to-step.
+- **Responsive:** wide (≥1600) = 4 equal columns with Balance + legend stacked in
+  the 4th; laptop (768–1599) = 3 equal columns with Balance + legend as a
+  full-width bottom strip; mobile (<768) = one panel at a time (Timeline/Step/
+  Detail tabs) + Balance as a persistent bottom bar, and adding an ingredient
+  returns to Timeline. Placement stays **click + keyboard** (drag remains out; the
+  accessibility halt trigger still applies).
+
+### Balance panel
+
+Global, always-visible per-axis bars **plus** a translation into cooking language
+(e.g. "This may become thick and heavy. Caused by: … Try: …"), a high/low summary,
+actionable "Try:" finisher chips, and a step-aware note (e.g. "add lemon at
+Finish, not here"). Presence-summed axes only — the quantity halt trigger still
+holds.
+
+### Visual system
+
+Category color coding for the 11 categories, applied consistently to picker rows,
+chips, and the legend; reason-icon badges (🍽 ⚖ ⏱ ⚠). A persistent **legend**
+documents both the reason icons and the category colors.
+
+### Persistence (re-activates the versioning contract)
+
+Bump `schemaVersion` and add a **migration**: legacy v1 builds (single `stage` per
+ingredient, `pressureMinutes`/`naturalReleaseMinutes`) load as the **braise**
+technique with each ingredient's `stage` mapped to the matching braise step. Do
+not break previously exported builds (persistence-format halt trigger).
+
 ## Implementation Sequence
 
 | # | Module / Phase | Description | Regime | Depends on | Status |
@@ -572,6 +673,10 @@ The generator must not invent quantities, temperatures, or cooking times absent 
 | 4 | Analysis and Guidance | Implement role scoring, cuisine affinity, pairing logic, timing findings, initial warning rules, and suggested-next-ingredient ranking. Validate against representative builds from the original cooking discussion. | Build | Interactive Composer | Complete |
 | 5 | Instructions and Persistence | Generate ordered cooking instructions, add pressure/release controls, implement local save/load and JSON import/export, and add schema versioning. | Build | Analysis and Guidance | Complete |
 | 6 | MVP Polish and Validation | Complete responsive layout, accessibility pass, catalog expansion to 50–80 ingredients, end-to-end tests, and operator review of real generated stew builds. | Refine | Instructions and Persistence | Complete |
+| 7 | Technique & Schema Foundation | Introduce the `Technique`/`CookingStep` model (braise registered as the sole technique) and ingredient `compatibleSteps`/step-appropriateness; update the CSV→JSON converter and load-time validation to emit/validate the new field; keep the app building and tests green. See Technique-First Redesign (v2). | Build | MVP Polish and Validation | Planned |
+| 8 | Suggestion & Scoring Engine | Pure, deterministic `scoreStep` → Top/Okay/Fallback buckets with reason tags (cuisine / balance / timing-vs-longest / caution); fixture builds to tune provisional weights and thresholds. Re-activates D-35. | Build | Technique & Schema Foundation | Planned |
+| 9 | Technique-First Composer UI | 4-column responsive layout, technique/cuisine selectors, timeline, ranked single-line step picker, dynamic Detail, balance-in-cooking-language, and the category color system + legend — built to `design/ui-spike-v2.html`. Supersedes D-18/D-19/D-20. | Build | Suggestion & Scoring Engine | Planned |
+| 10 | Persistence Migration, Instructions & E2E | `schemaVersion` bump + v1→braise migration, technique-aware generated method, responsive/a11y pass, and an end-to-end test of the new technique-first flow. | Build | Technique-First Composer UI | Planned |
 
 ### Phase 1: Project Bootstrap
 
@@ -649,6 +754,45 @@ The following punch list was surfaced by the end-of-phase-5 architecture review.
 **Minor code-quality cleanups:**
 - ✓ `InstructionsPanel` now accepts memoized `analysis` prop instead of recomputing.
 - Done (supervised): `STAGE_LABELS` extracted to a shared constant in `types.ts` (was duplicated in `BuildSummary`/`InstructionsPanel`); `saveBuild` now writes the blob then the index and rolls the blob back if the index write fails, so a failed save cannot orphan a stored build.
+
+### Phase 7: Technique & Schema Foundation
+
+- Add the `Technique` / `CookingStep` model and register braise (8 steps reusing
+  the current `CookingStage` ids; `pressure` is the `longCook` step labelled
+  "Oven / pressure cook").
+- Add `compatibleSteps` to the ingredient schema; for braise, derive
+  step-appropriateness from the existing `stage` (default = suggested step).
+- Update the CSV→JSON converter + zod validation to emit/validate
+  `compatibleSteps`; `ingredients.json` stays a build output (never hand-edited).
+- No UI change beyond keeping the app building; migrate/extend existing tests to
+  the new schema.
+
+### Phase 8: Suggestion & Scoring Engine
+
+- Implement pure `scoreStep(step, build, catalog, cuisine)` → ranked
+  `Suggestion[]` with Top/Okay/Fallback buckets and reason tags, per the v2
+  Scoring contract.
+- Timing is scored only at the long-cook step, against the longest selected
+  ingredient — no pressure input.
+- Add fixture builds + expected buckets; tune provisional weights/thresholds
+  before closing (as in Phase 4).
+
+### Phase 9: Technique-First Composer UI
+
+- Build the 4-column responsive layout, technique/cuisine selectors, timeline,
+  ranked single-line step picker (reason icons), dynamic Detail card, and the
+  balance-in-cooking-language panel with category colors + legend — to
+  `design/ui-spike-v2.html`.
+- Keep placement click + keyboard; wire chip→Detail, add→place, and mobile
+  return-to-Timeline after adding.
+
+### Phase 10: Persistence Migration, Instructions & E2E
+
+- Bump `schemaVersion`; migrate v1 builds to the braise technique (map
+  `stage`→step); round-trip import/export.
+- Make the generated method technique-aware (canonical step order for the active
+  technique).
+- Responsive/a11y pass; one end-to-end test of the new technique-first flow.
 
 ## Key Decisions
 
