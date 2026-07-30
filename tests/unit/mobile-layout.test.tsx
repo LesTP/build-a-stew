@@ -59,4 +59,19 @@ describe('mobile composer layout', () => {
       'detail',
     ]);
   });
+
+  it('returns focus to the Timeline tab after adding an ingredient on mobile', async () => {
+    const user = userEvent.setup();
+    restoreViewport = setViewportWidth(375);
+    render(<App />);
+
+    await user.click(screen.getByRole('tab', { name: /step picker/i }));
+
+    const addButton = screen.getByRole('button', { name: /^add /i });
+    await user.click(addButton);
+
+    const timelineTab = screen.getByRole('tab', { name: /timeline/i });
+    expect(screen.getByRole('region', { name: /timeline/i })).toBeDefined();
+    expect(document.activeElement).toBe(timelineTab);
+  });
 });

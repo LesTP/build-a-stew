@@ -1,6 +1,7 @@
 import { groupBuildByStage } from '../build';
 import { COOKING_STAGES, STAGE_LABELS, type Ingredient, type StewBuild } from '../types';
 import type { CookingStep } from '../techniques';
+import { handleTablistKeyDown } from './tablist';
 
 interface BuildSummaryProps {
   build: StewBuild;
@@ -64,7 +65,7 @@ export function BuildSummary({
         </div>
       ) : (
         <div className="stage-lane-list">
-          <div className="timeline-step-strip" role="tablist" aria-label="Cooking steps">
+          <div className="timeline-step-strip" role="tablist" aria-label="Cooking steps" onKeyDown={handleTablistKeyDown}>
             {timelineSteps.map(step => {
               const active = step.id === activeStepId;
 
@@ -120,6 +121,7 @@ export function BuildSummary({
                               className="ingredient-chip"
                               onClick={() => onSelectIngredient?.(ingredient.ingredientId)}
                               aria-label={`Open detail for ${ingredientName}`}
+                              data-ingredient-id={ingredient.ingredientId}
                             >
                               <span className="ingredient-chip__name">{ingredientName}</span>
                               {cookMinutes ? (
@@ -132,8 +134,6 @@ export function BuildSummary({
                                 className="remove-button"
                                 onClick={() => onRemoveIngredient(ingredient.ingredientId)}
                                 aria-label={`Remove ${ingredientName}`}
-                                aria-hidden="true"
-                                tabIndex={-1}
                                 data-ingredient-id={ingredient.ingredientId}
                               >
                                 ×

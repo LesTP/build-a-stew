@@ -47,7 +47,7 @@ describe('Phase 9 timeline', () => {
     render(<App />);
 
     const timeline = screen.getByRole('region', { name: /timeline/i });
-    const chickenChip = within(timeline).getByRole('button', { name: /chicken thigh/i });
+    const chickenChip = within(timeline).getByRole('button', { name: /open detail for chicken thigh/i });
 
     await user.click(chickenChip);
 

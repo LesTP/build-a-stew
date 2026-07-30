@@ -60,4 +60,45 @@ describe('App shell — header controls and popups', () => {
     await user.click(within(banner).getByRole('button', { name: /^load$/i }));
     expect(screen.getAllByRole('heading', { name: /saved builds/i, hidden: true }).length).toBeGreaterThan(0);
   });
+
+  it('supports keyboard navigation across the panel tabs and library categories', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const timelineTab = screen.getByRole('tab', { name: /^timeline$/i });
+    timelineTab.focus();
+    await user.keyboard('{ArrowRight}');
+
+    const stepPickerTab = screen.getByRole('tab', { name: /^step picker$/i });
+    expect(document.activeElement).toBe(stepPickerTab);
+    expect(stepPickerTab.getAttribute('aria-selected')).toBe('true');
+
+    const library = screen.getByRole('region', { name: /library/i });
+    const proteinTab = within(library).getByRole('tab', { name: /^protein$/i });
+    proteinTab.focus();
+    await user.keyboard('{ArrowRight}');
+
+    const aromaticsTab = within(library).getByRole('tab', { name: /^aromatics$/i });
+    expect(document.activeElement).toBe(aromaticsTab);
+    expect(aromaticsTab.getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('returns focus to the opener after closing the Recipe popup', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const banner = screen.getByRole('banner');
+    const recipeButton = within(banner).getByRole('button', { name: /^recipe$/i });
+
+    await user.click(recipeButton);
+    await user.click(screen.getByRole('button', { name: /close/i, hidden: true }));
+
+    expect(document.activeElement).toBe(recipeButton);
+  });
+
+  it('exposes the timeline remove control as a native button', () => {
+    render(<App />);
+    const timeline = screen.getByRole('region', { name: /timeline/i });
+
+    expect(within(timeline).getByRole('button', { name: /remove chicken thighs/i })).toBeDefined();
+  });
 });

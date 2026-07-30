@@ -1,4 +1,5 @@
 import { INGREDIENT_CATEGORIES, type Ingredient, type IngredientCategory } from '../types';
+import { handleTablistKeyDown } from './tablist';
 
 interface IngredientLibraryProps {
   catalog: readonly Ingredient[];
@@ -67,7 +68,7 @@ export function IngredientLibrary({
           />
         </div>
 
-        <div className="category-tabs" role="tablist" aria-label="Ingredient categories">
+        <div className="category-tabs" role="tablist" aria-label="Ingredient categories" onKeyDown={handleTablistKeyDown}>
           {INGREDIENT_CATEGORIES.map(category => {
             const active = category === selectedCategory;
 

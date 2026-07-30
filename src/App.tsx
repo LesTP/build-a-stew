@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { addIngredient } from './build';
 import { analyzeBuild } from './analysis';
 import { loadCatalog } from './catalog';
@@ -12,6 +12,7 @@ import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
 import { IngredientDetail } from './components/IngredientDetail';
 import { IngredientLibrary } from './components/IngredientLibrary';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
+import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
 import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
@@ -57,6 +58,16 @@ function AppContent() {
   const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
   const [activePanelId, setActivePanelId] = useState<ComposerPanelId>('timeline');
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < MOBILE_LAYOUT_BREAKPOINT);
+  const panelTabRefs = useRef<Record<ComposerPanelId, HTMLButtonElement | null>>({
+    timeline: null,
+    'step-picker': null,
+    detail: null,
+  });
+  const detailTriggerRef = useRef<HTMLElement | null>(null);
+  const overlayTriggerRef = useRef<HTMLElement | null>(null);
+  const pendingPanelFocusRef = useRef<ComposerPanelId | null>(null);
+  const pendingIngredientFocusRef = useRef<string | null>(null);
+  const didOpenDetailRef = useRef(false);
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
   const selectedTechnique = TECHNIQUES[selectedTechniqueId as keyof typeof TECHNIQUES] ?? AVAILABLE_TECHNIQUES[0];
@@ -91,7 +102,41 @@ function AppContent() {
   useEffect(() => {
     if (selectedIngredientId) {
       setActivePanelId('detail');
+      return;
     }
+
+    const pendingPanelId = pendingPanelFocusRef.current;
+    if (pendingPanelId) {
+      const panelTab = panelTabRefs.current[pendingPanelId];
+      pendingPanelFocusRef.current = null;
+      panelTab?.focus({ preventScroll: true });
+      return;
+    }
+
+    const trigger = detailTriggerRef.current;
+    if (trigger && trigger.isConnected && !trigger.closest('[hidden]')) {
+      trigger.focus({ preventScroll: true });
+      return;
+    }
+
+    if (isMobileLayout) {
+      panelTabRefs.current.timeline?.focus({ preventScroll: true });
+    }
+  }, [isMobileLayout, selectedIngredientId]);
+
+  useEffect(() => {
+    if (selectedIngredientId === null) {
+      didOpenDetailRef.current = false;
+      return;
+    }
+
+    if (didOpenDetailRef.current) {
+      return;
+    }
+
+    didOpenDetailRef.current = true;
+    const closeButton = document.querySelector<HTMLButtonElement>('#detail-panel .close-button');
+    closeButton?.focus({ preventScroll: true });
   }, [selectedIngredientId]);
 
   useEffect(() => {
@@ -128,6 +173,46 @@ function AppContent() {
     return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
+  useEffect(() => {
+    if (overlay !== null) {
+      return;
+    }
+
+    const trigger = overlayTriggerRef.current;
+    if (trigger && trigger.isConnected) {
+      trigger.focus({ preventScroll: true });
+      overlayTriggerRef.current = null;
+    }
+  }, [overlay]);
+
+  useEffect(() => {
+    const pendingPanelId = pendingPanelFocusRef.current;
+    if (!pendingPanelId) {
+      return;
+    }
+
+    const panelTab = panelTabRefs.current[pendingPanelId];
+    if (panelTab) {
+      panelTab.focus({ preventScroll: true });
+      pendingPanelFocusRef.current = null;
+    }
+  }, [activePanelId, isMobileLayout]);
+
+  useEffect(() => {
+    const ingredientId = pendingIngredientFocusRef.current;
+    if (!ingredientId) {
+      return;
+    }
+
+    const chip = document.querySelector<HTMLButtonElement>(
+      `.ingredient-chip[data-ingredient-id="${ingredientId}"]`,
+    );
+    if (chip && !chip.closest('[hidden]')) {
+      chip.focus({ preventScroll: true });
+      pendingIngredientFocusRef.current = null;
+    }
+  }, [activePanelId, build, isMobileLayout]);
+
   function placeIngredient(ingredientId: string, stage: CookingStage, selectIngredient = true) {
     const catalogIngredient = catalog.find(ingredient => ingredient.id === ingredientId);
     const buildIngredient = build.ingredients.find(ingredient => ingredient.ingredientId === ingredientId);
@@ -147,6 +232,34 @@ function AppContent() {
     if (selectIngredient) {
       setSelectedIngredientId(ingredientId);
     }
+  }
+
+  function focusCurrentElementAsTrigger(ref: { current: HTMLElement | null }) {
+    ref.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  }
+
+  function openIngredientDetail(ingredientId: string) {
+    focusCurrentElementAsTrigger(detailTriggerRef);
+    setActivePanelId('detail');
+    setSelectedIngredientId(ingredientId);
+  }
+
+  function closeIngredientDetail() {
+    if (isMobileLayout) {
+      pendingPanelFocusRef.current = 'timeline';
+    }
+
+    setActivePanelId('timeline');
+    setSelectedIngredientId(null);
+  }
+
+  function openOverlay(nextOverlay: 'how' | 'recipe' | 'load') {
+    focusCurrentElementAsTrigger(overlayTriggerRef);
+    setOverlay(nextOverlay);
+  }
+
+  function closeOverlay() {
+    setOverlay(null);
   }
 
   function handleSaveCurrentBuild() {
@@ -199,10 +312,10 @@ function AppContent() {
             </label>
           </div>
           <div className="header-actions header-actions--info">
-            <button type="button" className="secondary-action" onClick={() => setOverlay('how')}>
+            <button type="button" className="secondary-action" onClick={() => openOverlay('how')}>
               How
             </button>
-            <button type="button" className="secondary-action" onClick={() => setOverlay('recipe')}>
+            <button type="button" className="secondary-action" onClick={() => openOverlay('recipe')}>
               Recipe
             </button>
           </div>
@@ -213,7 +326,7 @@ function AppContent() {
             <button type="button" className="secondary-action" onClick={resetBuild}>
               Clear
             </button>
-            <button type="button" className="secondary-action" onClick={() => setOverlay('load')}>
+            <button type="button" className="secondary-action" onClick={() => openOverlay('load')}>
               Load
             </button>
           </div>
@@ -237,7 +350,12 @@ function AppContent() {
         />
       </aside>
 
-      <nav className="composer-panel composer-panel--panel-tabs" role="tablist" aria-label="Composer panels">
+      <nav
+        className="composer-panel composer-panel--panel-tabs"
+        role="tablist"
+        aria-label="Composer panels"
+        onKeyDown={handleTablistKeyDown}
+      >
         {([
           ['timeline', 'Timeline'],
           ['step-picker', 'Step picker'],
@@ -250,7 +368,12 @@ function AppContent() {
             aria-selected={activePanelId === panelId}
             className={activePanelId === panelId ? 'panel-tab panel-tab--active' : 'panel-tab'}
             aria-controls={`${panelId}-panel`}
-            onClick={() => setActivePanelId(panelId)}
+            ref={button => {
+              panelTabRefs.current[panelId] = button;
+            }}
+            onClick={() => {
+              setActivePanelId(panelId);
+            }}
           >
             {label}
           </button>
@@ -273,10 +396,7 @@ function AppContent() {
             steps={selectedTechnique.steps}
             activeStepId={activeStepId}
             onRemoveIngredient={removeIngredient}
-            onSelectIngredient={ingredientId => {
-              setActivePanelId('detail');
-              setSelectedIngredientId(ingredientId);
-            }}
+            onSelectIngredient={openIngredientDetail}
             onStepChange={stepId => {
               setActivePanelId(isMobileLayout ? 'step-picker' : 'timeline');
               setActiveStepId(stepId);
@@ -300,19 +420,19 @@ function AppContent() {
               suggestions={stepSuggestions}
               onAddIngredient={ingredientId => {
                 if (isMobileLayout) {
+                  pendingPanelFocusRef.current = 'timeline';
                   setSelectedIngredientId(null);
                   setActivePanelId('timeline');
                   placeIngredient(ingredientId, activeStep.id, false);
                   return;
                 }
 
+                focusCurrentElementAsTrigger(detailTriggerRef);
+                pendingIngredientFocusRef.current = ingredientId;
                 setActivePanelId('detail');
                 placeIngredient(ingredientId, activeStep.id);
               }}
-              onSelectIngredient={ingredientId => {
-                setActivePanelId('detail');
-                setSelectedIngredientId(ingredientId);
-              }}
+              onSelectIngredient={openIngredientDetail}
             />
           ) : (
             <>
@@ -332,18 +452,18 @@ function AppContent() {
           build={build}
           candidateSuggestion={selectedSuggestion}
           selectedStepId={activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown'}
-          onClearSelection={() => {
-            setActivePanelId('timeline');
-            setSelectedIngredientId(null);
-          }}
+          onClearSelection={closeIngredientDetail}
           onPlaceIngredient={(ingredientId, stage) => {
             if (isMobileLayout) {
+              pendingPanelFocusRef.current = 'timeline';
               setSelectedIngredientId(null);
               setActivePanelId('timeline');
               placeIngredient(ingredientId, stage, false);
               return;
             }
 
+            focusCurrentElementAsTrigger(detailTriggerRef);
+            pendingIngredientFocusRef.current = ingredientId;
             setActivePanelId('detail');
             placeIngredient(ingredientId, stage);
           }}
@@ -356,12 +476,15 @@ function AppContent() {
             stepSuggestions={stepSuggestions}
             onTryIngredient={ingredientId => {
               if (isMobileLayout) {
+                pendingPanelFocusRef.current = 'timeline';
                 setSelectedIngredientId(null);
                 setActivePanelId('timeline');
                 placeIngredient(ingredientId, activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown', false);
                 return;
               }
 
+              focusCurrentElementAsTrigger(detailTriggerRef);
+              pendingIngredientFocusRef.current = ingredientId;
               setActivePanelId('detail');
               placeIngredient(ingredientId, activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown');
             }}
@@ -369,13 +492,13 @@ function AppContent() {
         </div>
       </main>
 
-      <Modal open={overlay === 'how'} onClose={() => setOverlay(null)} title="How it works">
+      <Modal open={overlay === 'how'} onClose={closeOverlay} title="How it works">
         <HowContent />
       </Modal>
-      <Modal open={overlay === 'recipe'} onClose={() => setOverlay(null)} title="Recipe">
+      <Modal open={overlay === 'recipe'} onClose={closeOverlay} title="Recipe">
         <InstructionsPanel build={build} catalog={catalog} analysis={analysis} />
       </Modal>
-      <Modal open={overlay === 'load'} onClose={() => setOverlay(null)} title="Saved builds">
+      <Modal open={overlay === 'load'} onClose={closeOverlay} title="Saved builds">
         <SavedBuildsPanel />
       </Modal>
     </>

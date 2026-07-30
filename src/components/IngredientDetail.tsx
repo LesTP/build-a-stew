@@ -114,28 +114,28 @@ export function IngredientDetail({
               )}
             </div>
           </>
-        ) : (
-          <div className="detail-section">
-            <h4>Place in stage</h4>
-            <div className="stage-picker" role="group" aria-label="Place ingredient in stage">
-              {COOKING_STAGES.map(stage => {
-                const active = stage === selectedStage;
+        ) : null}
 
-                return (
-                  <button
-                    key={stage}
-                    type="button"
-                    className={active ? 'stage-chip stage-chip--active' : 'stage-chip'}
-                    aria-pressed={active}
-                    onClick={() => onPlaceIngredient(ingredient.id, stage)}
-                  >
-                    {formatRef(stage)}
-                  </button>
-                );
-              })}
-            </div>
+        <div className="detail-section">
+          <h4>Place in stage</h4>
+          <div className="stage-picker" role="group" aria-label="Place ingredient in stage">
+            {COOKING_STAGES.map(stage => {
+              const active = stage === selectedStage;
+
+              return (
+                <button
+                  key={stage}
+                  type="button"
+                  className={active ? 'stage-chip stage-chip--active' : 'stage-chip'}
+                  aria-pressed={active}
+                  onClick={() => onPlaceIngredient(ingredient.id, stage)}
+                >
+                  {formatRef(stage)}
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         <dl className="detail-meta">
           <div>
