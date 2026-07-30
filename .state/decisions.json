@@ -338,5 +338,15 @@
     "priority": "medium",
     "decision": "The balance-panel cooking-language description is implemented as a set of explicit TypeScript if-statements mapping axis value ranges to English phrases (e.g. body>=4 -> heavy description; acidity<=1 -> flat description). No DSL, no template engine. The rule mapping is defined in Step 5 notes and frozen in the TESTS suite before EXECUTE.",
     "rationale": "Consistent with the no-rules-DSL escalation trigger. The output is deterministic and fully testable: identical balance scores must always produce identical cooking-language output."
+  },
+  {
+    "id": "D-42",
+    "phase": 9,
+    "title": "Acceptance-oracle correction for the technique-first redesign (resolves the 9.8 escalation)",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Two supervised corrections to the frozen acceptance suite, which was self-contradictory against the v2 layout: (1) retired the Phase 3 v1 DOM-order test (Library->Detail->Timeline->Analysis) in test_composer_layout.test.tsx - that order is superseded by D-37/D-18; region-presence assertions retained and the v2 order is covered by phase_9/test_shell_and_layout. (2) Disambiguated the timeline placed-chip query in phase_9/test_timeline_and_placement.test.tsx from /chicken thigh/i to /open detail for chicken thigh/i so it targets the chip open-detail button, not the sibling Remove <name> button. No production code changed; the v2 layout and the two clearly-labelled chip buttons are correct.",
+    "rationale": "The worker correctly escalated (audit_escalation at 9.8) rather than editing the frozen Build-regime acceptance suite. The suite encoded the superseded v1 composer contract and an ambiguous accessible-name query, both unsatisfiable with the v2 UI. Same class as D-22/D-23: a human corrects a decommissioned/buggy oracle with a recorded decision. Full suite now 420 passing.",
+    "revisit_if": "Never for the DOM-order test; the chip query is fine unless the chip aria-label scheme changes."
   }
 ]
