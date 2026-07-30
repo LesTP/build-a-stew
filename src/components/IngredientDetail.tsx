@@ -69,7 +69,7 @@ export function IngredientDetail({
         <div className="detail-card__header">
           <div>
             <h3>{ingredient.name}</h3>
-            <p className="detail-subtitle">{ingredient.category}</p>
+            <p className={`detail-subtitle detail-subtitle--${ingredient.category}`}>{ingredient.category}</p>
           </div>
           <button type="button" className="close-button" onClick={onClearSelection}>
             Close

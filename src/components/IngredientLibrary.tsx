@@ -49,7 +49,7 @@ export function IngredientLibrary({
   const nothingSelected = selectedCategory === null && searchTerm.trim() === '';
 
   return (
-    <aside className="composer-panel composer-panel--library" aria-label="Library">
+    <aside className="composer-panel composer-panel--library" role="region" aria-labelledby="library-title">
       <div className="panel-heading">
         <h2 id="library-title">Library</h2>
       </div>
@@ -78,7 +78,11 @@ export function IngredientLibrary({
                 role="tab"
                 aria-selected={active}
                 aria-controls="library-results-panel"
-                className={active ? 'category-tab category-tab--active' : 'category-tab'}
+                className={
+                  active
+                    ? `category-tab category-tab--${category} category-tab--active`
+                    : `category-tab category-tab--${category}`
+                }
                 onClick={() => onCategoryChange(active ? null : category)}
               >
                 {category}
@@ -102,11 +106,20 @@ export function IngredientLibrary({
                 <div key={ingredient.id} role="listitem">
                   <button
                     type="button"
-                    className={selected ? 'ingredient-card ingredient-card--selected' : 'ingredient-card'}
+                    className={
+                      selected
+                        ? `ingredient-card ingredient-card--${ingredient.category} ingredient-card--selected`
+                        : `ingredient-card ingredient-card--${ingredient.category}`
+                    }
                     onClick={() => onSelectIngredient(ingredient.id)}
                     aria-pressed={selected}
                   >
-                    <span className="ingredient-card__name">{ingredient.name}</span>
+                    <span className="ingredient-card__copy">
+                      <span className="ingredient-card__name">{ingredient.name}</span>
+                      <span className={`ingredient-card__category ingredient-card__category--${ingredient.category}`}>
+                        {ingredient.category}
+                      </span>
+                    </span>
                     {ingredient.saltRisk === 'high' && (
                       <span className="salt-risk salt-risk--high">high salt</span>
                     )}

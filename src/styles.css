@@ -36,6 +36,149 @@ button {
   border: 0;
 }
 
+:is(
+  .category-tab--protein,
+  .ingredient-card__category--protein,
+  .detail-subtitle--protein,
+  .step-picker-row__category--protein,
+  .legend-swatch--protein
+) {
+  --category-accent: #e7a36b;
+  --category-accent-soft: rgba(231, 163, 107, 0.18);
+  --category-accent-faint: rgba(231, 163, 107, 0.1);
+  --category-accent-border: rgba(231, 163, 107, 0.36);
+}
+
+:is(
+  .category-tab--aromatics,
+  .ingredient-card__category--aromatics,
+  .detail-subtitle--aromatics,
+  .step-picker-row__category--aromatics,
+  .legend-swatch--aromatics
+) {
+  --category-accent: #de8f91;
+  --category-accent-soft: rgba(222, 143, 145, 0.18);
+  --category-accent-faint: rgba(222, 143, 145, 0.1);
+  --category-accent-border: rgba(222, 143, 145, 0.36);
+}
+
+:is(
+  .category-tab--liquid,
+  .ingredient-card__category--liquid,
+  .detail-subtitle--liquid,
+  .step-picker-row__category--liquid,
+  .legend-swatch--liquid
+) {
+  --category-accent: #79b8ff;
+  --category-accent-soft: rgba(121, 184, 255, 0.18);
+  --category-accent-faint: rgba(121, 184, 255, 0.1);
+  --category-accent-border: rgba(121, 184, 255, 0.36);
+}
+
+:is(
+  .category-tab--roots,
+  .ingredient-card__category--roots,
+  .detail-subtitle--roots,
+  .step-picker-row__category--roots,
+  .legend-swatch--roots
+) {
+  --category-accent: #d6a15f;
+  --category-accent-soft: rgba(214, 161, 95, 0.18);
+  --category-accent-faint: rgba(214, 161, 95, 0.1);
+  --category-accent-border: rgba(214, 161, 95, 0.36);
+}
+
+:is(
+  .category-tab--vegetable,
+  .ingredient-card__category--vegetable,
+  .detail-subtitle--vegetable,
+  .step-picker-row__category--vegetable,
+  .legend-swatch--vegetable
+) {
+  --category-accent: #79c78b;
+  --category-accent-soft: rgba(121, 199, 139, 0.18);
+  --category-accent-faint: rgba(121, 199, 139, 0.1);
+  --category-accent-border: rgba(121, 199, 139, 0.36);
+}
+
+:is(
+  .category-tab--legumes,
+  .ingredient-card__category--legumes,
+  .detail-subtitle--legumes,
+  .step-picker-row__category--legumes,
+  .legend-swatch--legumes
+) {
+  --category-accent: #b79bdc;
+  --category-accent-soft: rgba(183, 155, 220, 0.18);
+  --category-accent-faint: rgba(183, 155, 220, 0.1);
+  --category-accent-border: rgba(183, 155, 220, 0.36);
+}
+
+:is(
+  .category-tab--grains,
+  .ingredient-card__category--grains,
+  .detail-subtitle--grains,
+  .step-picker-row__category--grains,
+  .legend-swatch--grains
+) {
+  --category-accent: #d7c37f;
+  --category-accent-soft: rgba(215, 195, 127, 0.18);
+  --category-accent-faint: rgba(215, 195, 127, 0.1);
+  --category-accent-border: rgba(215, 195, 127, 0.36);
+}
+
+:is(
+  .category-tab--greens,
+  .ingredient-card__category--greens,
+  .detail-subtitle--greens,
+  .step-picker-row__category--greens,
+  .legend-swatch--greens
+) {
+  --category-accent: #77c9b2;
+  --category-accent-soft: rgba(119, 201, 178, 0.18);
+  --category-accent-faint: rgba(119, 201, 178, 0.1);
+  --category-accent-border: rgba(119, 201, 178, 0.36);
+}
+
+:is(
+  .category-tab--fat,
+  .ingredient-card__category--fat,
+  .detail-subtitle--fat,
+  .step-picker-row__category--fat,
+  .legend-swatch--fat
+) {
+  --category-accent: #f0c76a;
+  --category-accent-soft: rgba(240, 199, 106, 0.18);
+  --category-accent-faint: rgba(240, 199, 106, 0.1);
+  --category-accent-border: rgba(240, 199, 106, 0.36);
+}
+
+:is(
+  .category-tab--topping,
+  .ingredient-card__category--topping,
+  .detail-subtitle--topping,
+  .step-picker-row__category--topping,
+  .legend-swatch--topping
+) {
+  --category-accent: #f3a8d8;
+  --category-accent-soft: rgba(243, 168, 216, 0.18);
+  --category-accent-faint: rgba(243, 168, 216, 0.1);
+  --category-accent-border: rgba(243, 168, 216, 0.36);
+}
+
+:is(
+  .category-tab--spice,
+  .ingredient-card__category--spice,
+  .detail-subtitle--spice,
+  .step-picker-row__category--spice,
+  .legend-swatch--spice
+) {
+  --category-accent: #ef947a;
+  --category-accent-soft: rgba(239, 148, 122, 0.18);
+  --category-accent-faint: rgba(239, 148, 122, 0.1);
+  --category-accent-border: rgba(239, 148, 122, 0.36);
+}
+
 #root {
   min-height: 100vh;
 }
@@ -362,6 +505,12 @@ button {
   grid-column: span 1;
 }
 
+.composer-panel--legend {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+
 .library-toolbar {
   display: grid;
   gap: 14px;
@@ -410,16 +559,19 @@ button {
 }
 
 .category-tab {
+  border: 1px solid var(--category-accent-border, rgba(255, 255, 255, 0.08));
   border-radius: 999px;
   padding: 0.48rem 0.78rem;
   background: rgba(255, 255, 255, 0.05);
-  color: rgba(244, 239, 231, 0.78);
+  color: var(--category-accent, rgba(244, 239, 231, 0.78));
   text-transform: lowercase;
 }
 
 .category-tab--active {
-  background: linear-gradient(135deg, rgba(242, 179, 111, 0.26), rgba(240, 146, 90, 0.26));
+  background: linear-gradient(135deg, var(--category-accent-faint, rgba(242, 179, 111, 0.26)), rgba(255, 255, 255, 0.04));
   color: #fff6eb;
+  border-color: var(--category-accent-border, rgba(242, 179, 111, 0.36));
+  box-shadow: inset 0 0 0 1px var(--category-accent-border, rgba(242, 179, 111, 0.36));
 }
 
 .library-results {
@@ -441,19 +593,37 @@ button {
   padding: 14px 16px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--category-accent-border, rgba(255, 255, 255, 0.06));
   color: inherit;
   text-align: left;
 }
 
 .ingredient-card--selected {
-  border-color: rgba(242, 179, 111, 0.52);
-  background: linear-gradient(135deg, rgba(242, 179, 111, 0.18), rgba(255, 255, 255, 0.04));
+  border-color: var(--category-accent-border, rgba(242, 179, 111, 0.52));
+  background: linear-gradient(135deg, var(--category-accent-faint, rgba(242, 179, 111, 0.18)), rgba(255, 255, 255, 0.04));
+}
+
+.ingredient-card__copy {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
 }
 
 .ingredient-card__name {
   font-weight: 700;
   line-height: 1.25;
+}
+
+.ingredient-card__category {
+  width: fit-content;
+  padding: 0.24rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--category-accent-border, rgba(255, 255, 255, 0.08));
+  background: var(--category-accent-soft, rgba(255, 255, 255, 0.08));
+  color: var(--category-accent, rgba(244, 239, 231, 0.78));
+  font-size: 0.71rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .salt-risk {
@@ -508,8 +678,15 @@ button {
 }
 
 .detail-subtitle {
+  display: inline-flex;
+  align-items: center;
   margin: 6px 0 0;
-  color: rgba(244, 239, 231, 0.68);
+  padding: 0.24rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--category-accent-border, rgba(255, 255, 255, 0.08));
+  background: var(--category-accent-soft, rgba(255, 255, 255, 0.08));
+  color: var(--category-accent, rgba(244, 239, 231, 0.68));
+  width: fit-content;
   text-transform: capitalize;
 }
 
@@ -661,39 +838,19 @@ button {
 
 .legend-swatch {
   border-radius: 999px;
+  background: var(--category-accent, rgba(255, 255, 255, 0.18));
+  box-shadow: 0 0 0 1px var(--category-accent-border, rgba(255, 255, 255, 0.08)) inset;
 }
-
-.legend-swatch--protein { background: #e7a36b; }
-.legend-swatch--aromatics { background: #de8f91; }
-.legend-swatch--liquid { background: #79b8ff; }
-.legend-swatch--roots { background: #d6a15f; }
-.legend-swatch--vegetable { background: #79c78b; }
-.legend-swatch--legumes { background: #b79bdc; }
-.legend-swatch--grains { background: #d7c37f; }
-.legend-swatch--greens { background: #77c9b2; }
-.legend-swatch--fat { background: #f0c76a; }
-.legend-swatch--topping { background: #f3a8d8; }
-.legend-swatch--spice { background: #ef947a; }
 
 .legend-label {
   text-transform: capitalize;
 }
 
 .step-picker-row__category {
-  color: rgba(244, 239, 231, 0.7);
+  border: 1px solid var(--category-accent-border, rgba(255, 255, 255, 0.08));
+  background: var(--category-accent-soft, rgba(255, 255, 255, 0.08));
+  color: var(--category-accent, rgba(244, 239, 231, 0.7));
 }
-
-.step-picker-row__category--protein { color: #e7a36b; }
-.step-picker-row__category--aromatics { color: #de8f91; }
-.step-picker-row__category--liquid { color: #79b8ff; }
-.step-picker-row__category--roots { color: #d6a15f; }
-.step-picker-row__category--vegetable { color: #79c78b; }
-.step-picker-row__category--legumes { color: #b79bdc; }
-.step-picker-row__category--grains { color: #d7c37f; }
-.step-picker-row__category--greens { color: #77c9b2; }
-.step-picker-row__category--fat { color: #f0c76a; }
-.step-picker-row__category--topping { color: #f3a8d8; }
-.step-picker-row__category--spice { color: #ef947a; }
 
 .stage-picker {
   display: flex;
