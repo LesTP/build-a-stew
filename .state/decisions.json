@@ -291,5 +291,15 @@
     "decision": "Bump schemaVersion and migrate legacy v1 builds (single stage per ingredient, pressure/release fields) to load as the braise technique with stage->step mapping; previously exported builds must remain importable.",
     "rationale": "The technique/compatibleSteps change alters the persisted shape; the persistence-format halt trigger requires a deliberate migration rather than a silent break.",
     "revisit_if": "A later technique change makes the braise-assumption migration lossy."
+  },
+  {
+    "id": "D-42",
+    "phase": 7,
+    "title": "Skip: keep longCook?: true narrower than ARCH spec's boolean",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave CookingStep.longCook typed as `true` (not `boolean`) in techniques.ts, even though ARCHITECTURE.md shows `longCook?: boolean`.",
+    "rationale": "The narrower type prevents callers from writing `longCook: false`, which is semantically identical to omitting the field. Better design; no consuming code exists yet (Phase 8 will be the first consumer).",
+    "revisit_if": "Phase 8 scoring engine needs to set longCook: false explicitly, or external serialization requires a boolean."
   }
 ]

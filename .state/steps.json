@@ -247,28 +247,30 @@
     "phase": 7,
     "step": 1,
     "title": "Define Technique/CookingStep types and register braise",
-    "status": "pending",
-    "notes": "Add Technique and CookingStep interfaces to types.ts. Create src/techniques.ts with the braise technique constant: 8 steps reusing current CookingStage ids (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over); pressure step has longCook: true and label Oven / pressure cook. Tests: braise has 8 steps; pressure step has longCook; step ids are valid CookingStage values."
+    "status": "complete",
+    "notes": "Add Technique and CookingStep interfaces to types.ts. Create src/techniques.ts with the braise technique constant: 8 steps reusing current CookingStage ids (brown, aromatics, deglaze, pressure, simmer_after, stir_in, finish, serve_over); pressure step has longCook: true and label Oven / pressure cook. Tests: braise has 8 steps; pressure step has longCook; step ids are valid CookingStage values.",
+    "commit": "0eb2b07"
   },
   {
     "phase": 7,
     "step": 2,
     "title": "Add compatibleSteps to Ingredient type and zod schema",
-    "status": "pending",
-    "notes": "Add compatibleSteps: string[] to the Ingredient TypeScript interface in types.ts. Update the zod schema in schema.ts to require compatibleSteps as a non-empty array of step id strings. Tests: zod rejects an ingredient missing compatibleSteps; zod rejects an ingredient with an empty array; valid ingredient with compatibleSteps passes validation."
+    "status": "complete",
+    "notes": "Add compatibleSteps: string[] to the Ingredient TypeScript interface in types.ts. Update the zod schema in schema.ts to require compatibleSteps as a non-empty array of step id strings. Tests: zod rejects an ingredient missing compatibleSteps; zod rejects an ingredient with an empty array; valid ingredient with compatibleSteps passes validation.",
+    "commit": "27d22cf"
   },
   {
     "phase": 7,
     "step": 3,
     "title": "Update CSV→JSON converter to emit compatibleSteps",
-    "status": "pending",
+    "status": "complete",
     "notes": "In scripts/convert-catalog.ts, after resolving an ingredient stage, set compatibleSteps: [stage] (for braise, each ingredient is step-appropriate only at its default stage). Run the converter to regenerate src/ingredients.json. Tests: converter unit test verifying a sample ingredient row gets compatibleSteps: [stage]; converter rejects a row if stage is not a valid CookingStage id."
   },
   {
     "phase": 7,
     "step": 4,
     "title": "Catalog integrity tests for compatibleSteps + full test-suite green",
-    "status": "pending",
+    "status": "complete",
     "notes": "Add catalog integrity tests: every ingredient has compatibleSteps with at least one entry; every entry is a valid braise step id (one of the 8 CookingStage values); compatibleSteps contains the ingredient default stage. Confirm all 290+ existing tests pass with no regressions. No UI changes; app must build and run."
   }
 ]
