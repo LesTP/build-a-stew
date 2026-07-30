@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CookingStep } from '../techniques';
-import type { Ingredient, Suggestion } from '../scoring';
+import type { Suggestion } from '../scoring';
+import type { Ingredient } from '../types';
 
 interface StepPickerPanelProps {
   catalog: readonly Ingredient[];
@@ -52,12 +53,24 @@ export function StepPickerPanel({
   onAddIngredient,
   onSelectIngredient,
 }: StepPickerPanelProps) {
+  const [isCompactLayout, setIsCompactLayout] = useState(() => window.innerWidth < 720);
   const ingredientsById = useMemo(
     () => new Map(catalog.map(ingredient => [ingredient.id, ingredient])),
     [catalog],
   );
   const groupedSuggestions = useMemo(() => groupSuggestions(suggestions), [suggestions]);
   const bucketOrder: Suggestion['bucket'][] = ['top', 'okay', 'fallback'];
+  const primarySuggestion = suggestions[0] ?? null;
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setIsCompactLayout(window.innerWidth < 720);
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
 
   return (
     <>
@@ -68,6 +81,28 @@ export function StepPickerPanel({
         Ranked for <strong>{step.label}</strong>. Add with the plus button or open detail for the
         why.
       </p>
+      {isCompactLayout && primarySuggestion ? (() => {
+        const ingredient = ingredientsById.get(primarySuggestion.ingredientId);
+
+        if (!ingredient) {
+          return null;
+        }
+
+        return (
+          <div className="step-picker-mobile-action">
+            <button
+              type="button"
+              className="primary-action step-picker-mobile-action__button"
+              onClick={() => {
+                onAddIngredient(primarySuggestion.ingredientId);
+                onSelectIngredient(primarySuggestion.ingredientId);
+              }}
+            >
+              Add {ingredient.name}
+            </button>
+          </div>
+        );
+      })() : null}
 
       {suggestions.length === 0 ? (
         <div className="panel-placeholder panel-placeholder--soft" aria-hidden="true">
@@ -104,6 +139,8 @@ export function StepPickerPanel({
                         <button
                           type="button"
                           className="step-picker-row__add"
+                          aria-hidden={isCompactLayout}
+                          tabIndex={isCompactLayout ? -1 : 0}
                           onClick={() => {
                             onAddIngredient(suggestion.ingredientId);
                             onSelectIngredient(suggestion.ingredientId);
@@ -119,7 +156,9 @@ export function StepPickerPanel({
                           onClick={() => onSelectIngredient(suggestion.ingredientId)}
                           aria-label={`Detail for ${ingredient.name}`}
                         >
-                          <span className="step-picker-row__category">{ingredient.category}</span>
+                          <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
+                            {ingredient.category}
+                          </span>
                           <span className="step-picker-row__name">{ingredient.name}</span>
                           <span className="step-picker-row__icons" aria-hidden="true">
                             {suggestion.reasons.map(reason => (

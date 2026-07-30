@@ -17,11 +17,13 @@ import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
 import { CUISINE_TAGS } from './types';
 import type { CookingStage, CuisineTag, Ingredient, IngredientCategory } from './types';
+import type { CookingStep } from './techniques';
 
 const DEMO_INGREDIENT_IDS = ['chicken_thighs', 'onion', 'white_wine', 'carrot'] as const;
 const AVAILABLE_TECHNIQUES = Object.values(TECHNIQUES);
 const DEFAULT_TECHNIQUE_ID = AVAILABLE_TECHNIQUES[0]?.id ?? 'braise';
 const DEFAULT_CUISINE: CuisineTag = 'universal';
+type ComposerPanelId = 'timeline' | 'step-picker' | 'detail';
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
   return cuisine.replaceAll('_', ' ');
@@ -52,9 +54,10 @@ function AppContent() {
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(DEFAULT_TECHNIQUE_ID);
   const [selectedCuisine, setSelectedCuisine] = useState<CuisineTag>(DEFAULT_CUISINE);
   const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
+  const [activePanelId, setActivePanelId] = useState<ComposerPanelId>('timeline');
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
-  const selectedTechnique = TECHNIQUES[selectedTechniqueId] ?? AVAILABLE_TECHNIQUES[0];
+  const selectedTechnique = TECHNIQUES[selectedTechniqueId as keyof typeof TECHNIQUES] ?? AVAILABLE_TECHNIQUES[0];
   const activeStep = useMemo(
     () => selectedTechnique.steps.find(step => step.id === activeStepId) ?? selectedTechnique.steps[0],
     [activeStepId, selectedTechnique],
@@ -84,6 +87,12 @@ function AppContent() {
   }, [selectedIngredientId, stepSuggestions]);
 
   useEffect(() => {
+    if (selectedIngredientId) {
+      setActivePanelId('detail');
+    }
+  }, [selectedIngredientId]);
+
+  useEffect(() => {
     if (!selectedIngredientId) {
       return undefined;
     }
@@ -99,7 +108,7 @@ function AppContent() {
   }, [selectedIngredientId]);
 
   useEffect(() => {
-    if (selectedTechnique.steps.some(step => step.id === activeStepId)) {
+    if (selectedTechnique.steps.some((step: CookingStep) => step.id === activeStepId)) {
       return;
     }
 
@@ -211,8 +220,28 @@ function AppContent() {
         />
       </aside>
 
+      <nav className="composer-panel composer-panel--panel-tabs" role="tablist" aria-label="Composer panels">
+        {([
+          ['timeline', 'Timeline'],
+          ['step-picker', 'Step picker'],
+          ['detail', 'Detail'],
+        ] as const).map(([panelId, label]) => (
+          <button
+            key={panelId}
+            type="button"
+            role="tab"
+            aria-selected={activePanelId === panelId}
+            className={activePanelId === panelId ? 'panel-tab panel-tab--active' : 'panel-tab'}
+            aria-controls={`${panelId}-panel`}
+            onClick={() => setActivePanelId(panelId)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+
       <main className="app-shell">
-        <section className="composer-panel composer-panel--timeline" aria-label="Timeline">
+        <section id="timeline-panel" className="composer-panel composer-panel--timeline" aria-label="Timeline">
           <div className="panel-heading">
             <h2 id="timeline-title">Timeline</h2>
           </div>
@@ -222,22 +251,34 @@ function AppContent() {
             steps={selectedTechnique.steps}
             activeStepId={activeStepId}
             onRemoveIngredient={removeIngredient}
-            onSelectIngredient={setSelectedIngredientId}
-            onStepChange={setActiveStepId}
+            onSelectIngredient={ingredientId => {
+              setActivePanelId('detail');
+              setSelectedIngredientId(ingredientId);
+            }}
+            onStepChange={stepId => {
+              setActivePanelId('timeline');
+              setActiveStepId(stepId);
+            }}
             onUpdateBuild={updateBuild}
             showEmptyStages
           />
         </section>
 
-        <section className="composer-panel composer-panel--step-picker" aria-label="Step picker">
+        <section id="step-picker-panel" className="composer-panel composer-panel--step-picker" aria-label="Step picker">
           {activeStep ? (
             <StepPickerPanel
               catalog={catalog}
               selectedIngredientId={selectedIngredientId}
               step={activeStep}
               suggestions={stepSuggestions}
-              onAddIngredient={ingredientId => placeIngredient(ingredientId, activeStep.id)}
-              onSelectIngredient={setSelectedIngredientId}
+              onAddIngredient={ingredientId => {
+                setActivePanelId('detail');
+                placeIngredient(ingredientId, activeStep.id);
+              }}
+              onSelectIngredient={ingredientId => {
+                setActivePanelId('detail');
+                setSelectedIngredientId(ingredientId);
+              }}
             />
           ) : (
             <>
@@ -252,16 +293,30 @@ function AppContent() {
         </section>
 
         <IngredientDetail
+          id="detail-panel"
           ingredient={selectedIngredient}
           build={build}
           candidateSuggestion={selectedSuggestion}
           selectedStepId={activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown'}
-          onClearSelection={() => setSelectedIngredientId(null)}
-          onPlaceIngredient={placeIngredient}
+          onClearSelection={() => {
+            setActivePanelId('timeline');
+            setSelectedIngredientId(null);
+          }}
+          onPlaceIngredient={(ingredientId, stage) => {
+            setActivePanelId('detail');
+            placeIngredient(ingredientId, stage);
+          }}
         />
 
         <div className="analysis-group">
-          <AnalysisPanel analysis={analysis} />
+          <AnalysisPanel
+            analysis={analysis}
+            stepSuggestions={stepSuggestions}
+            onTryIngredient={ingredientId => {
+              setActivePanelId('detail');
+              placeIngredient(ingredientId, activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown');
+            }}
+          />
         </div>
       </main>
 

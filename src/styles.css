@@ -78,6 +78,30 @@ button {
   gap: 18px;
 }
 
+.composer-panel--panel-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 22px;
+}
+
+.panel-tab {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.68rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(244, 239, 231, 0.82);
+  cursor: pointer;
+}
+
+.panel-tab--active {
+  background: linear-gradient(135deg, rgba(242, 179, 111, 0.24), rgba(81, 164, 255, 0.18));
+  color: #fff7ee;
+  border-color: rgba(242, 179, 111, 0.4);
+}
+
 @media (min-width: 768px) {
   .app-shell {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -458,6 +482,19 @@ button {
   gap: 16px;
 }
 
+.balance-summary {
+  margin: 0;
+  color: #fff6ea;
+  line-height: 1.55;
+  font-size: 1.02rem;
+}
+
+.balance-causes {
+  margin: -4px 0 0;
+  color: rgba(244, 239, 231, 0.72);
+  line-height: 1.5;
+}
+
 .detail-card__header {
   display: flex;
   justify-content: space-between;
@@ -571,6 +608,92 @@ button {
   border-radius: inherit;
   background: linear-gradient(90deg, #f2b36f, #f0925a);
 }
+
+.balance-try-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.balance-try-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.balance-try-chip {
+  border: 1px solid rgba(242, 179, 111, 0.2);
+  border-radius: 999px;
+  padding: 0.65rem 0.9rem;
+  background: rgba(242, 179, 111, 0.1);
+  color: inherit;
+  cursor: pointer;
+}
+
+.legend-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.legend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(244, 239, 231, 0.76);
+}
+
+.legend-swatch,
+.legend-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 auto;
+}
+
+.legend-swatch {
+  border-radius: 999px;
+}
+
+.legend-swatch--protein { background: #e7a36b; }
+.legend-swatch--aromatics { background: #de8f91; }
+.legend-swatch--liquid { background: #79b8ff; }
+.legend-swatch--roots { background: #d6a15f; }
+.legend-swatch--vegetable { background: #79c78b; }
+.legend-swatch--legumes { background: #b79bdc; }
+.legend-swatch--grains { background: #d7c37f; }
+.legend-swatch--greens { background: #77c9b2; }
+.legend-swatch--fat { background: #f0c76a; }
+.legend-swatch--topping { background: #f3a8d8; }
+.legend-swatch--spice { background: #ef947a; }
+
+.legend-label {
+  text-transform: capitalize;
+}
+
+.step-picker-row__category {
+  color: rgba(244, 239, 231, 0.7);
+}
+
+.step-picker-row__category--protein { color: #e7a36b; }
+.step-picker-row__category--aromatics { color: #de8f91; }
+.step-picker-row__category--liquid { color: #79b8ff; }
+.step-picker-row__category--roots { color: #d6a15f; }
+.step-picker-row__category--vegetable { color: #79c78b; }
+.step-picker-row__category--legumes { color: #b79bdc; }
+.step-picker-row__category--grains { color: #d7c37f; }
+.step-picker-row__category--greens { color: #77c9b2; }
+.step-picker-row__category--fat { color: #f0c76a; }
+.step-picker-row__category--topping { color: #f3a8d8; }
+.step-picker-row__category--spice { color: #ef947a; }
 
 .stage-picker {
   display: flex;

@@ -2,6 +2,7 @@ import { COOKING_STAGES, STAGE_LABELS, type Ingredient, type StewBuild } from '.
 import type { Suggestion } from '../scoring';
 
 interface IngredientDetailProps {
+  id?: string;
   ingredient: Ingredient | null;
   build: StewBuild;
   candidateSuggestion?: Suggestion | null;
@@ -25,6 +26,7 @@ function formatRef(ref: string): string {
 }
 
 export function IngredientDetail({
+  id,
   ingredient,
   build,
   candidateSuggestion,
@@ -34,7 +36,7 @@ export function IngredientDetail({
 }: IngredientDetailProps) {
   if (!ingredient) {
     return (
-      <section className="composer-panel composer-panel--detail" aria-label="Detail">
+      <section id={id} className="composer-panel composer-panel--detail" aria-label="Detail">
         <div className="panel-heading">
           <h2 id="detail-title">Detail</h2>
         </div>
@@ -58,7 +60,7 @@ export function IngredientDetail({
   const candidateGoodWith = ingredient.pairsWith?.length ? ingredient.pairsWith.map(formatRef).join(', ') : 'None listed';
 
   return (
-    <section className="composer-panel composer-panel--detail" aria-label="Detail">
+    <section id={id} className="composer-panel composer-panel--detail" aria-label="Detail">
       <div className="panel-heading">
         <h2 id="detail-title">Detail</h2>
       </div>
