@@ -251,11 +251,11 @@ export function scoreStep(
       } else if (candidateMax < referenceMin) {
         score += TIMING_PENALTY;
         reasons.add('caution');
-        cautions.push(`Likely undercooks against a ${referenceMin}-${referenceMax} min reference.`);
+        cautions.push(`Likely overcooks against a ${referenceMin}-${referenceMax} min reference.`);
       } else if (candidateMin > referenceMax) {
         score += TIMING_PENALTY;
         reasons.add('caution');
-        cautions.push(`Likely overcooks against a ${referenceMin}-${referenceMax} min reference.`);
+        cautions.push(`Likely undercooks against a ${referenceMin}-${referenceMax} min reference.`);
       } else {
         score += TIMING_BONUS / 2;
         reasons.add('timing');
