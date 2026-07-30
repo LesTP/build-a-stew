@@ -93,10 +93,7 @@ export function StepPickerPanel({
             <button
               type="button"
               className="primary-action step-picker-mobile-action__button"
-              onClick={() => {
-                onAddIngredient(primarySuggestion.ingredientId);
-                onSelectIngredient(primarySuggestion.ingredientId);
-              }}
+              onClick={() => onAddIngredient(primarySuggestion.ingredientId)}
             >
               Add {ingredient.name}
             </button>

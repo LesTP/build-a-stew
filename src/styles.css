@@ -245,6 +245,41 @@ button {
   border-color: rgba(242, 179, 111, 0.4);
 }
 
+@media (max-width: 767px) {
+  .app-header,
+  .app-shell,
+  .library-rail {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .app-header {
+    grid-template-columns: 1fr;
+  }
+
+  .header-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-panel--panel-tabs {
+    top: 12px;
+  }
+
+  .app-shell {
+    gap: 12px;
+  }
+
+  .analysis-group {
+    order: -1;
+  }
+
+  .composer-panel--balance {
+    position: sticky;
+    top: 12px;
+    z-index: 2;
+  }
+}
+
 @media (min-width: 768px) {
   .app-shell {
     grid-template-columns: repeat(2, minmax(0, 1fr));

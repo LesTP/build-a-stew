@@ -23,6 +23,7 @@ const DEMO_INGREDIENT_IDS = ['chicken_thighs', 'onion', 'white_wine', 'carrot'] 
 const AVAILABLE_TECHNIQUES = Object.values(TECHNIQUES);
 const DEFAULT_TECHNIQUE_ID = AVAILABLE_TECHNIQUES[0]?.id ?? 'braise';
 const DEFAULT_CUISINE: CuisineTag = 'universal';
+const MOBILE_LAYOUT_BREAKPOINT = 768;
 type ComposerPanelId = 'timeline' | 'step-picker' | 'detail';
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
@@ -55,6 +56,7 @@ function AppContent() {
   const [selectedCuisine, setSelectedCuisine] = useState<CuisineTag>(DEFAULT_CUISINE);
   const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
   const [activePanelId, setActivePanelId] = useState<ComposerPanelId>('timeline');
+  const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < MOBILE_LAYOUT_BREAKPOINT);
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
   const selectedTechnique = TECHNIQUES[selectedTechniqueId as keyof typeof TECHNIQUES] ?? AVAILABLE_TECHNIQUES[0];
@@ -115,13 +117,26 @@ function AppContent() {
     setActiveStepId(selectedTechnique.steps[0]?.id ?? activeStepId);
   }, [activeStepId, selectedTechnique]);
 
-  function placeIngredient(ingredientId: string, stage: CookingStage) {
+  useEffect(() => {
+    const updateLayout = () => {
+      setIsMobileLayout(window.innerWidth < MOBILE_LAYOUT_BREAKPOINT);
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
+
+  function placeIngredient(ingredientId: string, stage: CookingStage, selectIngredient = true) {
     const catalogIngredient = catalog.find(ingredient => ingredient.id === ingredientId);
     const buildIngredient = build.ingredients.find(ingredient => ingredient.ingredientId === ingredientId);
 
     if (buildIngredient) {
       moveIngredient(ingredientId, stage);
-      setSelectedIngredientId(ingredientId);
+      if (selectIngredient) {
+        setSelectedIngredientId(ingredientId);
+      }
       return;
     }
 
@@ -129,7 +144,9 @@ function AppContent() {
     if (catalogIngredient && catalogIngredient.stage !== stage) {
       moveIngredient(ingredientId, stage);
     }
-    setSelectedIngredientId(ingredientId);
+    if (selectIngredient) {
+      setSelectedIngredientId(ingredientId);
+    }
   }
 
   function handleSaveCurrentBuild() {
@@ -241,7 +258,12 @@ function AppContent() {
       </nav>
 
       <main className="app-shell">
-        <section id="timeline-panel" className="composer-panel composer-panel--timeline" aria-label="Timeline">
+        <section
+          id="timeline-panel"
+          className="composer-panel composer-panel--timeline"
+          aria-label="Timeline"
+          hidden={isMobileLayout && activePanelId !== 'timeline'}
+        >
           <div className="panel-heading">
             <h2 id="timeline-title">Timeline</h2>
           </div>
@@ -256,7 +278,7 @@ function AppContent() {
               setSelectedIngredientId(ingredientId);
             }}
             onStepChange={stepId => {
-              setActivePanelId('timeline');
+              setActivePanelId(isMobileLayout ? 'step-picker' : 'timeline');
               setActiveStepId(stepId);
             }}
             onUpdateBuild={updateBuild}
@@ -264,7 +286,12 @@ function AppContent() {
           />
         </section>
 
-        <section id="step-picker-panel" className="composer-panel composer-panel--step-picker" aria-label="Step picker">
+        <section
+          id="step-picker-panel"
+          className="composer-panel composer-panel--step-picker"
+          aria-label="Step picker"
+          hidden={isMobileLayout && activePanelId !== 'step-picker'}
+        >
           {activeStep ? (
             <StepPickerPanel
               catalog={catalog}
@@ -272,6 +299,13 @@ function AppContent() {
               step={activeStep}
               suggestions={stepSuggestions}
               onAddIngredient={ingredientId => {
+                if (isMobileLayout) {
+                  setSelectedIngredientId(null);
+                  setActivePanelId('timeline');
+                  placeIngredient(ingredientId, activeStep.id, false);
+                  return;
+                }
+
                 setActivePanelId('detail');
                 placeIngredient(ingredientId, activeStep.id);
               }}
@@ -303,9 +337,17 @@ function AppContent() {
             setSelectedIngredientId(null);
           }}
           onPlaceIngredient={(ingredientId, stage) => {
+            if (isMobileLayout) {
+              setSelectedIngredientId(null);
+              setActivePanelId('timeline');
+              placeIngredient(ingredientId, stage, false);
+              return;
+            }
+
             setActivePanelId('detail');
             placeIngredient(ingredientId, stage);
           }}
+          hidden={isMobileLayout && activePanelId !== 'detail'}
         />
 
         <div className="analysis-group">
@@ -313,6 +355,13 @@ function AppContent() {
             analysis={analysis}
             stepSuggestions={stepSuggestions}
             onTryIngredient={ingredientId => {
+              if (isMobileLayout) {
+                setSelectedIngredientId(null);
+                setActivePanelId('timeline');
+                placeIngredient(ingredientId, activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown', false);
+                return;
+              }
+
               setActivePanelId('detail');
               placeIngredient(ingredientId, activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown');
             }}
