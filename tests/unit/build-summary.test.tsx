@@ -48,14 +48,14 @@ describe('BuildSummary', () => {
     expect(pressureIndex).toBeGreaterThan(deglazeIndex);
   });
 
-  it('omits empty stages and shows an empty state for an empty build', () => {
+  it('shows all named steps with empty hints for an empty build', () => {
     const markup = renderToStaticMarkup(
       <BuildSummary build={createEmptyBuild('empty-summary')} catalog={catalog} />,
     );
 
-    expect(markup).toContain('Nothing is in the pot yet.');
-    expect(markup).not.toContain('Brown');
-    expect(markup).not.toContain('Aromatics');
+    expect(markup).toContain('Brown');
+    expect(markup).toContain('Aromatics');
+    expect(markup).toContain('Tap to add ingredients here.');
   });
 
   it('renders single-row entries: name, cook time, and a compact remove control', () => {

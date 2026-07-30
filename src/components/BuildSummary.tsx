@@ -38,7 +38,6 @@ export function BuildSummary({
   steps,
   activeStepId = null,
   onStepChange,
-  showEmptyStages = false,
 }: BuildSummaryProps) {
   const grouped = groupBuildByStage(build);
   const ingredientsById = ingredientNameMap(catalog);
@@ -49,7 +48,6 @@ export function BuildSummary({
     timing: stage === 'pressure' || stage === 'simmer_after' ? 'long' : stage === 'finish' || stage === 'serve_over' ? 'finish' : 'short',
     ...(stage === 'pressure' ? { longCook: true as const } : {}),
   }));
-  const shouldRenderTimeline = selectedCount > 0 || showEmptyStages;
 
   return (
     <div className="timeline-body">
@@ -57,98 +55,76 @@ export function BuildSummary({
         {selectedCount === 0 ? 'No ingredients selected' : `${selectedCount} ingredient${selectedCount === 1 ? '' : 's'} selected`}
       </p>
 
-      {!shouldRenderTimeline ? (
-        <div className="empty-state">
-          <p>Nothing is in the pot yet.</p>
-          <p>Load ingredients from the catalog to see the stage lanes populate here.</p>
-        </div>
-      ) : (
-        <div className="stage-lane-list">
-          <div className="timeline-step-strip" role="tablist" aria-label="Cooking steps" onKeyDown={handleTablistKeyDown}>
-            {timelineSteps.map(step => {
-              const active = step.id === activeStepId;
+      <div className="stage-lane-list" role="tablist" aria-label="Cooking steps" onKeyDown={handleTablistKeyDown}>
+        {timelineSteps.map(step => {
+          const ingredients = grouped[step.id] ?? [];
+          const active = step.id === activeStepId;
 
-              return (
-                <button
-                  key={step.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  aria-controls={`stage-panel-${step.id}`}
-                  className={active ? 'timeline-step-tab timeline-step-tab--active' : 'timeline-step-tab'}
-                  onClick={() => onStepChange?.(step.id)}
-                >
-                  <span className="timeline-step-tab__label">{step.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          return (
+            <article
+              key={step.id}
+              className={active ? 'stage-card stage-card--active' : 'stage-card'}
+              data-stage={step.id}
+              data-active={active ? 'true' : 'false'}
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={active}
+                aria-controls={`stage-panel-${step.id}`}
+                className="stage-card__header"
+                onClick={() => onStepChange?.(step.id)}
+              >
+                <h3>{step.label}</h3>
+                <span className="stage-count">
+                  {ingredients.length > 0 ? `${ingredients.length} item${ingredients.length === 1 ? '' : 's'}` : ''}
+                </span>
+              </button>
+              <div id={`stage-panel-${step.id}`} className="stage-card__body">
+                {ingredients.length === 0 ? (
+                  <div className="stage-empty">Tap to add ingredients here.</div>
+                ) : (
+                  <ol className="ingredient-list">
+                    {ingredients.map(ingredient => {
+                      const catalogIngredient = ingredientsById.get(ingredient.ingredientId);
+                      const cookMinutes = formatCookMinutes(catalogIngredient?.cookMinutes);
+                      const ingredientName = catalogIngredient?.name ?? ingredient.ingredientId;
 
-          <div className="stage-lane-list__grid" role="list" aria-label="Build stages">
-            {COOKING_STAGES.map(stage => {
-              const ingredients = grouped[stage] ?? [];
-              const active = stage === activeStepId;
-
-              return (
-                <article
-                  key={stage}
-                  id={`stage-panel-${stage}`}
-                  className={active ? 'stage-card stage-card--active' : 'stage-card'}
-                  role="listitem"
-                  data-stage={stage}
-                  data-active={active ? 'true' : 'false'}
-                >
-                  <div className="stage-card__header">
-                    <h3>{active ? 'Active lane' : 'Stage lane'}</h3>
-                    <span className="stage-count">
-                      {ingredients.length} item{ingredients.length === 1 ? '' : 's'}
-                    </span>
-                  </div>
-                  {ingredients.length === 0 ? (
-                    <div className="stage-empty">No ingredients in this stage yet.</div>
-                  ) : (
-                    <ol className="ingredient-list">
-                      {ingredients.map(ingredient => {
-                        const catalogIngredient = ingredientsById.get(ingredient.ingredientId);
-                        const cookMinutes = formatCookMinutes(catalogIngredient?.cookMinutes);
-                        const ingredientName = catalogIngredient?.name ?? ingredient.ingredientId;
-
-                        return (
-                          <li key={ingredient.ingredientId} className="ingredient-row">
+                      return (
+                        <li key={ingredient.ingredientId} className="ingredient-row">
+                          <button
+                            type="button"
+                            className="ingredient-chip"
+                            onClick={() => onSelectIngredient?.(ingredient.ingredientId)}
+                            aria-label={`Open detail for ${ingredientName}`}
+                            data-ingredient-id={ingredient.ingredientId}
+                          >
+                            <span className="ingredient-chip__name">{ingredientName}</span>
+                            {cookMinutes ? (
+                              <span className="ingredient-chip__cook-time ingredient-cook-time">{cookMinutes}</span>
+                            ) : null}
+                          </button>
+                          {onRemoveIngredient ? (
                             <button
                               type="button"
-                              className="ingredient-chip"
-                              onClick={() => onSelectIngredient?.(ingredient.ingredientId)}
-                              aria-label={`Open detail for ${ingredientName}`}
+                              className="remove-button"
+                              onClick={() => onRemoveIngredient(ingredient.ingredientId)}
+                              aria-label={`Remove ${ingredientName}`}
                               data-ingredient-id={ingredient.ingredientId}
                             >
-                              <span className="ingredient-chip__name">{ingredientName}</span>
-                              {cookMinutes ? (
-                                <span className="ingredient-chip__cook-time ingredient-cook-time">{cookMinutes}</span>
-                              ) : null}
+                              ×
                             </button>
-                            {onRemoveIngredient ? (
-                              <button
-                                type="button"
-                                className="remove-button"
-                                onClick={() => onRemoveIngredient(ingredient.ingredientId)}
-                                aria-label={`Remove ${ingredientName}`}
-                                data-ingredient-id={ingredient.ingredientId}
-                              >
-                                ×
-                              </button>
-                            ) : null}
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      )}
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }
