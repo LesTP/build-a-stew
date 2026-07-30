@@ -33,7 +33,7 @@ describe('Phase 9 step picker', () => {
     expect(rows.length).toBeGreaterThan(0);
 
     const rowText = rows[0].textContent ?? '';
-    expect(rowText).toMatch(/←/);
+    expect(rowText).toMatch(/\+/);
     expect(rowText).toMatch(/🍽|⚖|⏱|⚠/);
     expect(rowText).toMatch(/\d+\s*min/i);
   });
@@ -67,9 +67,7 @@ describe('Phase 9 step picker', () => {
     const picker = screen.getByRole('region', { name: /step picker/i });
     const firstRow = within(picker).getAllByRole('listitem')[0];
 
-    const detailButton =
-      within(firstRow).queryByRole('button', { name: /detail/i }) ??
-      within(firstRow).getByRole('button', { name: /add/i });
+    const detailButton = within(firstRow).getByRole('button', { name: /inspect/i });
 
     await user.click(detailButton);
 
@@ -78,6 +76,5 @@ describe('Phase 9 step picker', () => {
     expect(within(detail).getByText(/best step/i)).toBeDefined();
     expect(within(detail).getByText(/good with/i)).toBeDefined();
     expect(within(detail).getByText(/cautions/i)).toBeDefined();
-    expect(within(detail).getByRole('button', { name: /add to step/i })).toBeDefined();
   });
 });

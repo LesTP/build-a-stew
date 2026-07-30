@@ -10,6 +10,7 @@ import { Modal } from './components/Modal';
 import { HowContent } from './components/HowContent';
 import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
 import { IngredientDetail } from './components/IngredientDetail';
+import { Legend } from './components/Legend';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
 import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
@@ -448,6 +449,7 @@ function AppContent() {
               </div>
             </>
           )}
+          <Legend />
         </section>
 
         <IngredientDetail
@@ -457,20 +459,6 @@ function AppContent() {
           candidateSuggestion={selectedSuggestion}
           selectedStepId={activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown'}
           onClearSelection={closeIngredientDetail}
-          onPlaceIngredient={(ingredientId, stage) => {
-            if (isMobileLayout) {
-              pendingPanelFocusRef.current = 'timeline';
-              setSelectedIngredientId(null);
-              setActivePanelId('timeline');
-              placeIngredient(ingredientId, stage, false);
-              return;
-            }
-
-            focusCurrentElementAsTrigger(detailTriggerRef);
-            pendingIngredientFocusRef.current = ingredientId;
-            setActivePanelId('detail');
-            placeIngredient(ingredientId, stage);
-          }}
           hidden={isMobileLayout && activePanelId !== 'detail'}
         />
 

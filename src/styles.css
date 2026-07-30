@@ -380,6 +380,7 @@ button {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .header-field select {
@@ -901,6 +902,23 @@ button {
   cursor: pointer;
 }
 
+.picker-legend {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-title {
+  margin: 0 0 6px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
 .legend-grid {
   display: grid;
   gap: 16px;
@@ -1210,9 +1228,9 @@ button {
 
 .step-picker-row {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .step-picker-row--active .step-picker-row__detail {
@@ -1221,50 +1239,72 @@ button {
 }
 
 .step-picker-row__add {
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(242, 179, 111, 0.38);
-  background: rgba(242, 179, 111, 0.12);
+  align-self: stretch;
+  min-width: 2.6rem;
+  border-radius: 14px;
+  border: 1px solid rgba(242, 179, 111, 0.4);
+  background: rgba(242, 179, 111, 0.14);
   color: #f2b36f;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   line-height: 1;
   padding: 0;
+  cursor: pointer;
 }
 
 .step-picker-row__add:hover {
-  background: rgba(242, 179, 111, 0.2);
+  background: rgba(242, 179, 111, 0.24);
 }
 
 .step-picker-row__detail {
   min-width: 0;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  gap: 10px;
-  align-items: center;
-  padding: 0.78rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 0.7rem 0.85rem;
   border-radius: 16px;
   background: rgba(var(--line-rgb), 0.05);
   border: 1px solid rgba(var(--line-rgb), 0.08);
   color: inherit;
   text-align: left;
+  cursor: pointer;
+}
+
+.step-picker-row__detail:hover {
+  border-color: rgba(242, 179, 111, 0.45);
+}
+
+.step-picker-row__line1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.step-picker-row__line2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .step-picker-row__category {
   padding: 0.25rem 0.55rem;
   border-radius: 999px;
-  background: rgba(var(--line-rgb), 0.08);
-  color: rgba(var(--ink-rgb), 0.74);
-  font-size: 0.72rem;
+  background: var(--category-accent-soft, rgba(var(--line-rgb), 0.08));
+  color: var(--category-accent, rgba(var(--ink-rgb), 0.74));
+  border: 1px solid var(--category-accent-border, transparent);
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .step-picker-row__name {
-  min-width: 0;
   font-weight: 700;
   color: var(--ink);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   line-height: 1.25;
 }
 
@@ -1278,10 +1318,10 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 0.42rem;
-  font-size: 0.78rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  font-size: 1.05rem;
 }
 
 .step-reason-icon--cuisine {
@@ -1603,10 +1643,32 @@ button {
 }
 
 .stage-card {
-  padding: 18px 18px 16px;
+  padding: 16px 16px 14px;
   border-radius: 20px;
   background: rgba(var(--line-rgb), 0.04);
   border: 1px solid rgba(var(--line-rgb), 0.06);
+  cursor: pointer;
+  transition: border-color 0.1s ease, background 0.1s ease;
+}
+
+.stage-card:hover {
+  border-color: rgba(242, 179, 111, 0.4);
+}
+
+.stage-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stage-card__go {
+  color: var(--muted);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.stage-card--active .stage-card__go {
+  color: #f2b36f;
 }
 
 .stage-card__header {

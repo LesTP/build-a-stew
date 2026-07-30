@@ -134,46 +134,41 @@ export function StepPickerPanel({
                       >
                         <button
                           type="button"
+                          className="step-picker-row__detail"
+                          onClick={() => onSelectIngredient(suggestion.ingredientId)}
+                          aria-label={`Inspect ${ingredient.name}`}
+                        >
+                          <span className="step-picker-row__line1">
+                            <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
+                              {ingredient.category}
+                            </span>
+                            <span className="step-picker-row__name">{ingredient.name}</span>
+                          </span>
+                          <span className="step-picker-row__line2">
+                            <span className="step-picker-row__icons" aria-hidden="true">
+                              {suggestion.reasons.map(reason => (
+                                <span
+                                  key={reason}
+                                  className={`step-reason-icon step-reason-icon--${reason}`}
+                                  aria-hidden="true"
+                                >
+                                  {REASON_ICONS[reason]}
+                                </span>
+                              ))}
+                            </span>
+                            <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
                           className="step-picker-row__add"
                           aria-hidden={isCompactLayout}
                           tabIndex={isCompactLayout ? -1 : 0}
                           onClick={() => onAddIngredient(suggestion.ingredientId)}
                           aria-label={`Add ${ingredient.name} to ${step.label}`}
                         >
-                          ←
-                        </button>
-
-                        <button
-                          type="button"
-                          className="step-picker-row__detail"
-                          onClick={() => onSelectIngredient(suggestion.ingredientId)}
-                          aria-label={`Inspect ${ingredient.name}`}
-                        >
-                          <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
-                            {ingredient.category}
-                          </span>
-                          <span className="step-picker-row__name">{ingredient.name}</span>
-                          <span className="step-picker-row__icons" aria-hidden="true">
-                            {suggestion.reasons.map(reason => (
-                              <span
-                                key={reason}
-                                className={`step-reason-icon step-reason-icon--${reason}`}
-                                aria-hidden="true"
-                              >
-                                {REASON_ICONS[reason]}
-                              </span>
-                            ))}
-                          </span>
-                          <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
-                        </button>
-
-                        <button
-                          type="button"
-                          className="step-picker-row__detail-arrow"
-                          onClick={() => onSelectIngredient(suggestion.ingredientId)}
-                          aria-label={`Detail for ${ingredient.name}`}
-                        >
-                          →
+                          +
                         </button>
                       </li>
                     );

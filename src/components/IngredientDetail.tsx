@@ -9,7 +9,6 @@ interface IngredientDetailProps {
   candidateSuggestion?: Suggestion | null;
   selectedStepId: (typeof COOKING_STAGES)[number];
   onClearSelection(): void;
-  onPlaceIngredient(ingredientId: string, stage: (typeof COOKING_STAGES)[number]): void;
 }
 
 function formatCookMinutes(cookMinutes: Ingredient['cookMinutes']): string {
@@ -34,7 +33,6 @@ export function IngredientDetail({
   candidateSuggestion,
   selectedStepId,
   onClearSelection,
-  onPlaceIngredient,
 }: IngredientDetailProps) {
   if (!ingredient) {
     return (
@@ -43,8 +41,8 @@ export function IngredientDetail({
           <h2 id="detail-title">Detail</h2>
         </div>
         <p className="panel-copy">
-          Selecting an ingredient will surface metadata, stage placement controls, and action buttons
-          in this column.
+          Selecting an ingredient surfaces why it fits this step, its cautions, and its full
+          metadata here. Add it from the picker on the left.
         </p>
         <div className="panel-placeholder" aria-hidden="true">
           Click an ingredient card to inspect its notes, tags, and stage options.
@@ -54,7 +52,6 @@ export function IngredientDetail({
   }
 
   const buildIngredient = build.ingredients.find(entry => entry.ingredientId === ingredient.id);
-  const selectedStage = buildIngredient?.stage ?? ingredient.stage;
   const isPlaced = buildIngredient !== undefined;
   const candidateNotes = candidateSuggestion?.notes ?? [];
   const candidateCautions = candidateSuggestion?.cautions ?? [];
@@ -116,27 +113,6 @@ export function IngredientDetail({
           </>
         ) : null}
 
-        <div className="detail-section">
-          <h4>Place in stage</h4>
-          <div className="stage-picker" role="group" aria-label="Place ingredient in stage">
-            {COOKING_STAGES.map(stage => {
-              const active = stage === selectedStage;
-
-              return (
-                <button
-                  key={stage}
-                  type="button"
-                  className={active ? 'stage-chip stage-chip--active' : 'stage-chip'}
-                  aria-pressed={active}
-                  onClick={() => onPlaceIngredient(ingredient.id, stage)}
-                >
-                  {formatRef(stage)}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         <dl className="detail-meta">
           <div>
             <dt>Roles</dt>
@@ -188,16 +164,6 @@ export function IngredientDetail({
             {ingredient.avoidWith?.length ? ingredient.avoidWith.map(formatRef).join(', ') : 'None listed'}
           </p>
         </div>
-
-        {!isPlaced ? (
-          <button
-            type="button"
-            className="primary-action detail-add-button"
-            onClick={() => onPlaceIngredient(ingredient.id, selectedStepId)}
-          >
-            Add to step
-          </button>
-        ) : null}
 
         {ingredient.notes ? (
           <div className="detail-section">

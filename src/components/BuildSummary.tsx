@@ -66,6 +66,7 @@ export function BuildSummary({
               className={active ? 'stage-card stage-card--active' : 'stage-card'}
               data-stage={step.id}
               data-active={active ? 'true' : 'false'}
+              onClick={() => onStepChange?.(step.id)}
             >
               <button
                 type="button"
@@ -76,8 +77,11 @@ export function BuildSummary({
                 onClick={() => onStepChange?.(step.id)}
               >
                 <h3>{step.label}</h3>
-                <span className="stage-count">
-                  {ingredients.length > 0 ? `${ingredients.length} item${ingredients.length === 1 ? '' : 's'}` : ''}
+                <span className="stage-card__meta">
+                  <span className="stage-count">
+                    {ingredients.length > 0 ? `${ingredients.length} item${ingredients.length === 1 ? '' : 's'}` : ''}
+                  </span>
+                  <span className="stage-card__go" aria-hidden="true">›</span>
                 </span>
               </button>
               <div id={`stage-panel-${step.id}`} className="stage-card__body">
@@ -95,7 +99,10 @@ export function BuildSummary({
                           <button
                             type="button"
                             className="ingredient-chip"
-                            onClick={() => onSelectIngredient?.(ingredient.ingredientId)}
+                            onClick={event => {
+                              event.stopPropagation();
+                              onSelectIngredient?.(ingredient.ingredientId);
+                            }}
                             aria-label={`Open detail for ${ingredientName}`}
                             data-ingredient-id={ingredient.ingredientId}
                           >
@@ -108,7 +115,10 @@ export function BuildSummary({
                             <button
                               type="button"
                               className="remove-button"
-                              onClick={() => onRemoveIngredient(ingredient.ingredientId)}
+                              onClick={event => {
+                                event.stopPropagation();
+                                onRemoveIngredient(ingredient.ingredientId);
+                              }}
                               aria-label={`Remove ${ingredientName}`}
                               data-ingredient-id={ingredient.ingredientId}
                             >

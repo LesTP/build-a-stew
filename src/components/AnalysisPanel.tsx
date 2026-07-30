@@ -1,4 +1,4 @@
-import { INGREDIENT_CATEGORIES, type AnalysisResult, type BalanceAxis, type CuisineTag } from '../types';
+import { type AnalysisResult, type BalanceAxis, type CuisineTag } from '../types';
 import type { Suggestion } from '../scoring';
 
 interface AnalysisPanelProps {
@@ -31,13 +31,6 @@ const BALANCE_LANGUAGE: Record<BalanceAxis, { positive: string; negative: string
   freshness: { positive: 'fresher', negative: 'less bright' },
   texture: { positive: 'more texture', negative: 'smoother' },
   aromatic_intensity: { positive: 'more aromatic', negative: 'quieter' },
-};
-
-const REASON_ICONS: Record<Suggestion['reasons'][number], string> = {
-  cuisine: '🍽',
-  balance: '⚖',
-  timing: '⏱',
-  caution: '⚠',
 };
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
@@ -163,39 +156,6 @@ export function AnalysisPanel({
             ))}
           </ol>
           )}
-      </section>
-
-      <section className="composer-panel composer-panel--legend" aria-labelledby="legend-title">
-        <div className="panel-heading">
-          <h2 id="legend-title">Legend</h2>
-        </div>
-        <div className="legend-grid">
-          <div className="legend-group">
-            <h3 className="analysis-section-title">Category colors</h3>
-            <ul className="legend-list legend-list--categories">
-              {INGREDIENT_CATEGORIES.map(category => (
-                <li key={category} className="legend-item">
-                  <span className={`legend-swatch legend-swatch--${category}`} aria-hidden="true" />
-                  <span className="legend-label">{category}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="legend-group">
-            <h3 className="analysis-section-title">Reason icons</h3>
-            <ul className="legend-list legend-list--reasons">
-              {(Object.entries(REASON_ICONS) as Array<[keyof typeof REASON_ICONS, string]>).map(([reason, icon]) => (
-                <li key={reason} className="legend-item">
-                  <span className="legend-icon" aria-hidden="true">
-                    {icon}
-                  </span>
-                  <span className="legend-label">{reason}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </section>
 
       <section className="composer-panel composer-panel--advisories" aria-labelledby="advisories-title">
