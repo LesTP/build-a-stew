@@ -293,7 +293,7 @@
     "revisit_if": "A later technique change makes the braise-assumption migration lossy."
   },
   {
-    "id": "D-42",
+    "id": "D-49",
     "phase": 7,
     "title": "Skip: keep longCook?: true narrower than ARCH spec's boolean",
     "status": "closed",
@@ -370,7 +370,7 @@
     "revisit_if": "BuildSummary renders timing badges or adjusts layout per step timing."
   },
   {
-    "id": "D-43",
+    "id": "D-50",
     "phase": 9,
     "title": "UI-fidelity pass: retire v1 Library + Phase 3 UI suite; add dark/light theme toggle",
     "status": "closed",
