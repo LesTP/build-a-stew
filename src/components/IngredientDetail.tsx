@@ -1,8 +1,11 @@
-import { COOKING_STAGES, type Ingredient, type StewBuild } from '../types';
+import { COOKING_STAGES, STAGE_LABELS, type Ingredient, type StewBuild } from '../types';
+import type { Suggestion } from '../scoring';
 
 interface IngredientDetailProps {
   ingredient: Ingredient | null;
   build: StewBuild;
+  candidateSuggestion?: Suggestion | null;
+  selectedStepId: (typeof COOKING_STAGES)[number];
   onClearSelection(): void;
   onPlaceIngredient(ingredientId: string, stage: (typeof COOKING_STAGES)[number]): void;
 }
@@ -24,6 +27,8 @@ function formatRef(ref: string): string {
 export function IngredientDetail({
   ingredient,
   build,
+  candidateSuggestion,
+  selectedStepId,
   onClearSelection,
   onPlaceIngredient,
 }: IngredientDetailProps) {
@@ -46,6 +51,11 @@ export function IngredientDetail({
 
   const buildIngredient = build.ingredients.find(entry => entry.ingredientId === ingredient.id);
   const selectedStage = buildIngredient?.stage ?? ingredient.stage;
+  const isPlaced = buildIngredient !== undefined;
+  const candidateNotes = candidateSuggestion?.notes ?? [];
+  const candidateCautions = candidateSuggestion?.cautions ?? [];
+  const candidateReasons = candidateSuggestion?.reasons ?? [];
+  const candidateGoodWith = ingredient.pairsWith?.length ? ingredient.pairsWith.map(formatRef).join(', ') : 'None listed';
 
   return (
     <section className="composer-panel composer-panel--detail" aria-label="Detail">
@@ -64,26 +74,64 @@ export function IngredientDetail({
           </button>
         </div>
 
-        <div className="detail-section">
-          <h4>Place in stage</h4>
-          <div className="stage-picker" role="group" aria-label="Place ingredient in stage">
-            {COOKING_STAGES.map(stage => {
-              const active = stage === selectedStage;
+        {!isPlaced ? (
+          <>
+            <div className="detail-section">
+              <h4>Best step</h4>
+              <p className="detail-list">{STAGE_LABELS[selectedStepId]}</p>
+            </div>
 
-              return (
-                <button
-                  key={stage}
-                  type="button"
-                  className={active ? 'stage-chip stage-chip--active' : 'stage-chip'}
-                  aria-pressed={active}
-                  onClick={() => onPlaceIngredient(ingredient.id, stage)}
-                >
-                  {formatRef(stage)}
-                </button>
-              );
-            })}
+            <div className="detail-section">
+              <h4>Why it appears here</h4>
+              {candidateNotes.length > 0 || candidateReasons.length > 0 ? (
+                <ul className="detail-bullet-list">
+                  {candidateNotes.map((note, index) => (
+                    <li key={`${ingredient.id}:note:${index}`}>{note}</li>
+                  ))}
+                  {candidateReasons.length > 0 ? (
+                    <li>Reasons: {candidateReasons.map(reason => reason.replace('_', ' ')).join(', ')}</li>
+                  ) : null}
+                </ul>
+              ) : (
+                <p className="detail-list">Reasonable option for this step.</p>
+              )}
+            </div>
+
+            <div className="detail-section">
+              <h4>Cautions</h4>
+              {candidateCautions.length > 0 ? (
+                <ul className="detail-bullet-list">
+                  {candidateCautions.map((caution, index) => (
+                    <li key={`${ingredient.id}:caution:${index}`}>{caution}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="detail-list">None for this step.</p>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="detail-section">
+            <h4>Place in stage</h4>
+            <div className="stage-picker" role="group" aria-label="Place ingredient in stage">
+              {COOKING_STAGES.map(stage => {
+                const active = stage === selectedStage;
+
+                return (
+                  <button
+                    key={stage}
+                    type="button"
+                    className={active ? 'stage-chip stage-chip--active' : 'stage-chip'}
+                    aria-pressed={active}
+                    onClick={() => onPlaceIngredient(ingredient.id, stage)}
+                  >
+                    {formatRef(stage)}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         <dl className="detail-meta">
           <div>
@@ -124,9 +172,9 @@ export function IngredientDetail({
         </div>
 
         <div className="detail-section">
-          <h4>Pairs with</h4>
+          <h4>Good with</h4>
           <p className="detail-list">
-            {ingredient.pairsWith?.length ? ingredient.pairsWith.map(formatRef).join(', ') : 'None listed'}
+            {candidateGoodWith}
           </p>
         </div>
 
@@ -136,6 +184,16 @@ export function IngredientDetail({
             {ingredient.avoidWith?.length ? ingredient.avoidWith.map(formatRef).join(', ') : 'None listed'}
           </p>
         </div>
+
+        {!isPlaced ? (
+          <button
+            type="button"
+            className="primary-action detail-add-button"
+            onClick={() => onPlaceIngredient(ingredient.id, selectedStepId)}
+          >
+            Add to step
+          </button>
+        ) : null}
 
         {ingredient.notes ? (
           <div className="detail-section">

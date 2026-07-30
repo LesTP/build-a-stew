@@ -520,6 +520,15 @@ button {
   gap: 10px;
 }
 
+.detail-bullet-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #f7f1e8;
+  line-height: 1.5;
+  display: grid;
+  gap: 6px;
+}
+
 .detail-section h4 {
   margin: 0;
   font-size: 0.95rem;
@@ -577,6 +586,10 @@ button {
 
 .stage-chip--active {
   background: linear-gradient(135deg, rgba(81, 164, 255, 0.24), rgba(242, 179, 111, 0.24));
+}
+
+.detail-add-button {
+  justify-self: start;
 }
 
 .timeline-step-strip {
@@ -771,6 +784,162 @@ button {
   margin: 0;
   color: #f7f1e8;
   line-height: 1.5;
+}
+
+.step-picker-groups {
+  display: grid;
+  gap: 14px;
+}
+
+.step-picker-bucket {
+  display: grid;
+  gap: 10px;
+}
+
+.step-picker-bucket__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.step-picker-bucket__title--top {
+  background: rgba(143, 212, 167, 0.14);
+  color: #9ee2b8;
+}
+
+.step-picker-bucket__title--okay {
+  background: rgba(242, 179, 111, 0.14);
+  color: #f2c887;
+}
+
+.step-picker-bucket__title--fallback {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(244, 239, 231, 0.68);
+}
+
+.step-picker-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.step-picker-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.step-picker-row--active .step-picker-row__detail {
+  border-color: rgba(242, 179, 111, 0.45);
+  background: rgba(242, 179, 111, 0.1);
+}
+
+.step-picker-row__add {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 179, 111, 0.38);
+  background: rgba(242, 179, 111, 0.12);
+  color: #f2b36f;
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.step-picker-row__add:hover {
+  background: rgba(242, 179, 111, 0.2);
+}
+
+.step-picker-row__detail {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 0.78rem 0.95rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: inherit;
+  text-align: left;
+}
+
+.step-picker-row__category {
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(244, 239, 231, 0.74);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.step-picker-row__name {
+  min-width: 0;
+  font-weight: 700;
+  color: #fbf8f3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.step-picker-row__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-reason-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 0.42rem;
+  font-size: 0.78rem;
+}
+
+.step-reason-icon--cuisine {
+  background: rgba(81, 164, 255, 0.12);
+}
+
+.step-reason-icon--balance {
+  background: rgba(143, 212, 167, 0.12);
+}
+
+.step-reason-icon--timing {
+  background: rgba(242, 179, 111, 0.12);
+}
+
+.step-reason-icon--caution {
+  background: rgba(239, 143, 143, 0.12);
+}
+
+.step-picker-row__cook {
+  color: rgba(244, 239, 231, 0.66);
+  white-space: nowrap;
+  font-size: 0.83rem;
+}
+
+.step-picker-row__detail-label {
+  color: rgba(244, 239, 231, 0.58);
+  font-size: 0.82rem;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.step-picker-row--active .step-picker-row__detail-label {
+  color: #f2b36f;
 }
 
 .analysis-list__meta {
@@ -1103,7 +1272,8 @@ button {
 
   .summary-header,
   .stage-card__header,
-  .ingredient-row {
+  .ingredient-row,
+  .step-picker-row {
     align-items: start;
     flex-direction: column;
   }
@@ -1128,5 +1298,9 @@ button {
   .summary-header {
     align-items: start;
     flex-direction: column;
+  }
+
+  .step-picker-row__detail {
+    grid-template-columns: 1fr;
   }
 }

@@ -4,6 +4,7 @@ import { analyzeBuild } from './analysis';
 import { loadCatalog } from './catalog';
 import { AnalysisPanel } from './components/AnalysisPanel';
 import { BuildSummary } from './components/BuildSummary';
+import { StepPickerPanel } from './components/StepPickerPanel';
 import { InstructionsPanel } from './components/InstructionsPanel';
 import { Modal } from './components/Modal';
 import { HowContent } from './components/HowContent';
@@ -12,6 +13,7 @@ import { IngredientDetail } from './components/IngredientDetail';
 import { IngredientLibrary } from './components/IngredientLibrary';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
 import { saveBuild } from './persistence';
+import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
 import { CUISINE_TAGS } from './types';
 import type { CookingStage, CuisineTag, Ingredient, IngredientCategory } from './types';
@@ -53,6 +55,17 @@ function AppContent() {
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
   const selectedTechnique = TECHNIQUES[selectedTechniqueId] ?? AVAILABLE_TECHNIQUES[0];
+  const activeStep = useMemo(
+    () => selectedTechnique.steps.find(step => step.id === activeStepId) ?? selectedTechnique.steps[0],
+    [activeStepId, selectedTechnique],
+  );
+  const stepSuggestions = useMemo(() => {
+    if (!activeStep) {
+      return [];
+    }
+
+    return scoreStep(activeStep, build, catalog, selectedCuisine);
+  }, [activeStep, build, catalog, selectedCuisine]);
 
   const selectedIngredient = useMemo(() => {
     if (selectedIngredientId === null) {
@@ -61,6 +74,14 @@ function AppContent() {
 
     return catalog.find(ingredient => ingredient.id === selectedIngredientId) ?? null;
   }, [catalog, selectedIngredientId]);
+
+  const selectedSuggestion = useMemo(() => {
+    if (!selectedIngredientId) {
+      return null;
+    }
+
+    return stepSuggestions.find(suggestion => suggestion.ingredientId === selectedIngredientId) ?? null;
+  }, [selectedIngredientId, stepSuggestions]);
 
   useEffect(() => {
     if (!selectedIngredientId) {
@@ -91,6 +112,7 @@ function AppContent() {
 
     if (buildIngredient) {
       moveIngredient(ingredientId, stage);
+      setSelectedIngredientId(ingredientId);
       return;
     }
 
@@ -98,6 +120,7 @@ function AppContent() {
     if (catalogIngredient && catalogIngredient.stage !== stage) {
       moveIngredient(ingredientId, stage);
     }
+    setSelectedIngredientId(ingredientId);
   }
 
   function handleSaveCurrentBuild() {
@@ -207,20 +230,32 @@ function AppContent() {
         </section>
 
         <section className="composer-panel composer-panel--step-picker" aria-label="Step picker">
-          <div className="panel-heading">
-            <h2 id="step-picker-title">Step picker</h2>
-          </div>
-          <p className="panel-copy">
-            Select a cooking step to surface ranked suggestions for the current build.
-          </p>
-          <div className="panel-placeholder" aria-hidden="true">
-            Step-ranked ingredient suggestions will appear here.
-          </div>
+          {activeStep ? (
+            <StepPickerPanel
+              catalog={catalog}
+              selectedIngredientId={selectedIngredientId}
+              step={activeStep}
+              suggestions={stepSuggestions}
+              onAddIngredient={ingredientId => placeIngredient(ingredientId, activeStep.id)}
+              onSelectIngredient={setSelectedIngredientId}
+            />
+          ) : (
+            <>
+              <div className="panel-heading">
+                <h2 id="step-picker-title">Step picker</h2>
+              </div>
+              <div className="panel-placeholder" aria-hidden="true">
+                Step-ranked ingredient suggestions will appear here.
+              </div>
+            </>
+          )}
         </section>
 
         <IngredientDetail
           ingredient={selectedIngredient}
           build={build}
+          candidateSuggestion={selectedSuggestion}
+          selectedStepId={activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown'}
           onClearSelection={() => setSelectedIngredientId(null)}
           onPlaceIngredient={placeIngredient}
         />
