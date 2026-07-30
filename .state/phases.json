@@ -37,5 +37,12 @@
     "title": "MVP Polish and Validation",
     "regime": "refine",
     "status": "complete"
+  },
+  {
+    "id": 7,
+    "title": "Technique & Schema Foundation",
+    "regime": "build",
+    "dependencies": [],
+    "status": "pending"
   }
 ]

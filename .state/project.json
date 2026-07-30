@@ -12,7 +12,7 @@
     "Use ES2021 lib before calling replaceAll; older tsconfig targets break the build pipeline.",
     "Invoke TypeScript through node when the tsc shim loses its execute bit in this workspace; bare npm script execution can fail with Permission denied even though the compiler itself is healthy."
   ],
-  "budget_type": "time",
+  "budget_type": "steps",
   "pattern": "B",
   "time_budget_seconds": 21600,
   "time_started_at": "2026-07-12T00:00:00Z"
