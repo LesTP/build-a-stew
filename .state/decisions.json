@@ -368,5 +368,15 @@
     "decision": "Leave the inline fallback timing map in BuildSummary as-is ('short' for stir_in).",
     "rationale": "The timing field is not used in BuildSummary's render logic — it is present on the constructed step objects but never read. App.tsx always supplies the real technique steps, so the fallback is exercised only in unit tests where timing doesn't affect assertions.",
     "revisit_if": "BuildSummary renders timing badges or adjusts layout per step timing."
+  },
+  {
+    "id": "D-43",
+    "phase": 9,
+    "title": "UI-fidelity pass: retire v1 Library + Phase 3 UI suite; add dark/light theme toggle",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Post-ship supervised UI-fidelity pass reconciling the app to design/ui-spike-v2.html: removed the v1 IngredientLibrary rail (the technique-first ranked step picker replaces browsing) and deleted the now-dead component; retired the 5 superseded v1 Phase 3 UI acceptance files (test_library, test_detail_and_placement, test_keyboard_a11y, test_timeline_and_mutations, test_composer_layout) - superseded by D-37/D-18-20 and re-covered by the Phase 9 suite; compacted the header into one top strip; hid the mobile panel-tabs on desktop; set the composer grid to 1col mobile / 3col laptop (analysis as bottom strip) / 4col >=1600; introduced CSS theme tokens with a dark default plus an opt-in light theme and a header toggle persisted to localStorage. Updated the app-shell unit test to drop library assertions.",
+    "rationale": "The autonomous loop built Phase 9 to the frozen acceptance tests, which still required the v1 Library region and did not encode the mockup visual language, yielding a tested-but-divergent v1/v2 hybrid in the dark theme. Visual fidelity needs a supervised pass because the loop cannot see the mockup. Phase 3 is not in tests_manifest, so deleting its suite does not trip D-tests-4; it is a recorded contract retirement. Full suite 371 passing; tsc clean.",
+    "revisit_if": "Light theme needs polish for component-internal surfaces that still assume dark (iterating from operator screenshots), or a browse/library feature is wanted back."
   }
 ]

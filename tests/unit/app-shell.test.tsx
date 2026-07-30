@@ -2,7 +2,7 @@
 
 /**
  * FU-1 app-shell coverage + mount smoke test:
- *   - App mounts and renders the title, library, and the five header controls
+ *   - App mounts and renders the title and the five header controls
  *   - The removed KPI stats are gone
  *   - How / Recipe / Load open (and close) as popups
  */
@@ -13,11 +13,10 @@ import { describe, it, expect } from 'vitest';
 import App from '../../src/App';
 
 describe('App shell — header controls and popups', () => {
-  it('mounts and renders the title, library, and the five header controls', () => {
+  it('mounts and renders the title and the five header controls', () => {
     render(<App />);
 
     expect(screen.getByRole('heading', { name: /build-a-stew/i })).toBeDefined();
-    expect(screen.getByRole('region', { name: /library/i })).toBeDefined();
 
     const banner = screen.getByRole('banner');
     for (const label of ['How', 'Recipe', 'Save', 'Clear', 'Load']) {
@@ -61,7 +60,7 @@ describe('App shell — header controls and popups', () => {
     expect(screen.getAllByRole('heading', { name: /saved builds/i, hidden: true }).length).toBeGreaterThan(0);
   });
 
-  it('supports keyboard navigation across the panel tabs and library categories', async () => {
+  it('supports keyboard navigation across the panel tabs', async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -72,15 +71,6 @@ describe('App shell — header controls and popups', () => {
     const stepPickerTab = screen.getByRole('tab', { name: /^step picker$/i });
     expect(document.activeElement).toBe(stepPickerTab);
     expect(stepPickerTab.getAttribute('aria-selected')).toBe('true');
-
-    const library = screen.getByRole('region', { name: /library/i });
-    const proteinTab = within(library).getByRole('tab', { name: /^protein$/i });
-    proteinTab.focus();
-    await user.keyboard('{ArrowRight}');
-
-    const aromaticsTab = within(library).getByRole('tab', { name: /^aromatics$/i });
-    expect(document.activeElement).toBe(aromaticsTab);
-    expect(aromaticsTab.getAttribute('aria-selected')).toBe('true');
   });
 
   it('returns focus to the opener after closing the Recipe popup', async () => {

@@ -10,14 +10,13 @@ import { Modal } from './components/Modal';
 import { HowContent } from './components/HowContent';
 import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
 import { IngredientDetail } from './components/IngredientDetail';
-import { IngredientLibrary } from './components/IngredientLibrary';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
 import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
 import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
 import { CUISINE_TAGS } from './types';
-import type { CookingStage, CuisineTag, Ingredient, IngredientCategory } from './types';
+import type { CookingStage, CuisineTag, Ingredient } from './types';
 import type { CookingStep } from './techniques';
 
 const DEMO_INGREDIENT_IDS = ['chicken_thighs', 'onion', 'white_wine', 'carrot'] as const;
@@ -48,8 +47,9 @@ function AppContent() {
     removeIngredient,
     updateBuild,
   } = useBuildStore();
-  const [selectedCategory, setSelectedCategory] = useState<IngredientCategory | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [theme, setTheme] = useState<'dark' | 'light'>(() =>
+    typeof localStorage !== 'undefined' && localStorage.getItem('bas-theme') === 'light' ? 'light' : 'dark',
+  );
   const [selectedIngredientId, setSelectedIngredientId] = useState<string | null>(null);
   const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
   const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load'>(null);
@@ -58,6 +58,14 @@ function AppContent() {
   const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
   const [activePanelId, setActivePanelId] = useState<ComposerPanelId>('timeline');
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth < MOBILE_LAYOUT_BREAKPOINT);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem('bas-theme', theme);
+    } catch {
+      /* localStorage unavailable — ignore */
+    }
+  }, [theme]);
   const panelTabRefs = useRef<Record<ComposerPanelId, HTMLButtonElement | null>>({
     timeline: null,
     'step-picker': null,
@@ -318,6 +326,14 @@ function AppContent() {
             <button type="button" className="secondary-action" onClick={() => openOverlay('recipe')}>
               Recipe
             </button>
+            <button
+              type="button"
+              className="secondary-action theme-toggle"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            >
+              {theme === 'dark' ? '☀ Light' : '☾ Dark'}
+            </button>
           </div>
           <div className="header-actions header-actions--mutate">
             <button type="button" className="primary-action" onClick={handleSaveCurrentBuild}>
@@ -337,18 +353,6 @@ function AppContent() {
           ) : null}
         </div>
       </header>
-
-      <aside className="library-rail">
-        <IngredientLibrary
-          catalog={catalog}
-          selectedCategory={selectedCategory}
-          searchTerm={searchTerm}
-          onCategoryChange={setSelectedCategory}
-          onSearchTermChange={setSearchTerm}
-          onSelectIngredient={setSelectedIngredientId}
-          selectedIngredientId={selectedIngredientId}
-        />
-      </aside>
 
       <nav
         className="composer-panel composer-panel--panel-tabs"
