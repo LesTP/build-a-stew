@@ -12,9 +12,18 @@ import { IngredientDetail } from './components/IngredientDetail';
 import { IngredientLibrary } from './components/IngredientLibrary';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
 import { saveBuild } from './persistence';
-import type { CookingStage, Ingredient, IngredientCategory } from './types';
+import { TECHNIQUES } from './techniques';
+import { CUISINE_TAGS } from './types';
+import type { CookingStage, CuisineTag, Ingredient, IngredientCategory } from './types';
 
 const DEMO_INGREDIENT_IDS = ['chicken_thighs', 'onion', 'white_wine', 'carrot'] as const;
+const AVAILABLE_TECHNIQUES = Object.values(TECHNIQUES);
+const DEFAULT_TECHNIQUE_ID = AVAILABLE_TECHNIQUES[0]?.id ?? 'braise';
+const DEFAULT_CUISINE: CuisineTag = 'universal';
+
+function formatCuisineLabel(cuisine: CuisineTag): string {
+  return cuisine.replaceAll('_', ' ');
+}
 
 function createDemoBuild(catalog: readonly Ingredient[]) {
   return DEMO_INGREDIENT_IDS.reduce(
@@ -38,6 +47,8 @@ function AppContent() {
   const [selectedIngredientId, setSelectedIngredientId] = useState<string | null>(null);
   const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
   const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load'>(null);
+  const [selectedTechniqueId, setSelectedTechniqueId] = useState(DEFAULT_TECHNIQUE_ID);
+  const [selectedCuisine, setSelectedCuisine] = useState<CuisineTag>(DEFAULT_CUISINE);
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
 
@@ -97,6 +108,37 @@ function AppContent() {
         </div>
 
         <div className="header-toolbar" aria-label="Build controls">
+          <div className="header-controls">
+            <label className="header-field" htmlFor="technique-select">
+              <span className="header-field__label">Technique</span>
+              <select
+                id="technique-select"
+                value={selectedTechniqueId}
+                onChange={event => setSelectedTechniqueId(event.currentTarget.value)}
+              >
+                {AVAILABLE_TECHNIQUES.map(technique => (
+                  <option key={technique.id} value={technique.id}>
+                    {technique.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="header-field" htmlFor="cuisine-select">
+              <span className="header-field__label">Cuisine</span>
+              <select
+                id="cuisine-select"
+                value={selectedCuisine}
+                onChange={event => setSelectedCuisine(event.currentTarget.value as CuisineTag)}
+              >
+                {CUISINE_TAGS.map(cuisine => (
+                  <option key={cuisine} value={cuisine}>
+                    {formatCuisineLabel(cuisine)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className="header-actions header-actions--info">
             <button type="button" className="secondary-action" onClick={() => setOverlay('how')}>
               How
@@ -124,7 +166,7 @@ function AppContent() {
         </div>
       </header>
 
-      <main className="app-shell">
+      <aside className="library-rail">
         <IngredientLibrary
           catalog={catalog}
           selectedCategory={selectedCategory}
@@ -134,17 +176,12 @@ function AppContent() {
           onSelectIngredient={setSelectedIngredientId}
           selectedIngredientId={selectedIngredientId}
         />
+      </aside>
 
-        <IngredientDetail
-          ingredient={selectedIngredient}
-          build={build}
-          onClearSelection={() => setSelectedIngredientId(null)}
-          onPlaceIngredient={placeIngredient}
-        />
-
-        <section className="composer-panel composer-panel--timeline" aria-label="Cooking timeline">
+      <main className="app-shell">
+        <section className="composer-panel composer-panel--timeline" aria-label="Timeline">
           <div className="panel-heading">
-            <h2 id="timeline-title">Cooking timeline</h2>
+            <h2 id="timeline-title">Timeline</h2>
           </div>
           <BuildSummary
             build={build}
@@ -154,6 +191,25 @@ function AppContent() {
             showEmptyStages
           />
         </section>
+
+        <section className="composer-panel composer-panel--step-picker" aria-label="Step picker">
+          <div className="panel-heading">
+            <h2 id="step-picker-title">Step picker</h2>
+          </div>
+          <p className="panel-copy">
+            Select a cooking step to surface ranked suggestions for the current build.
+          </p>
+          <div className="panel-placeholder" aria-hidden="true">
+            Step-ranked ingredient suggestions will appear here.
+          </div>
+        </section>
+
+        <IngredientDetail
+          ingredient={selectedIngredient}
+          build={build}
+          onClearSelection={() => setSelectedIngredientId(null)}
+          onPlaceIngredient={placeIngredient}
+        />
 
         <div className="analysis-group">
           <AnalysisPanel analysis={analysis} />

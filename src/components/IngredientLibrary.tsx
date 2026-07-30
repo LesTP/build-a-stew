@@ -49,7 +49,7 @@ export function IngredientLibrary({
   const nothingSelected = selectedCategory === null && searchTerm.trim() === '';
 
   return (
-    <section className="composer-panel composer-panel--library" aria-label="Library">
+    <aside className="composer-panel composer-panel--library" aria-label="Library">
       <div className="panel-heading">
         <h2 id="library-title">Library</h2>
       </div>
@@ -117,6 +117,6 @@ export function IngredientLibrary({
           </div>
         )}
       </div>
-    </section>
+    </aside>
   );
 }

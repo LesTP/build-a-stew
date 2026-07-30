@@ -50,9 +50,13 @@ button {
 .app-header {
   padding-top: 20px;
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
-  gap: 20px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 16px;
   align-items: stretch;
+}
+
+.library-rail {
+  padding: 16px 16px 0;
 }
 
 .app-shell {
@@ -69,24 +73,20 @@ button {
 }
 
 .analysis-group {
-  display: contents;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 @media (min-width: 768px) {
   .app-shell {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
   .app-shell {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .analysis-group {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
   }
 }
 
@@ -107,19 +107,55 @@ button {
 }
 
 .header-toolbar {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: 12px;
+}
+
+.header-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+}
+
+.header-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.header-field__label {
+  color: #f2b36f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.header-field select {
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
 }
 
 .header-actions {
   display: flex;
   gap: 10px;
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .header-actions > button {
   flex: 1;
+}
+
+.header-feedback {
+  margin: 0;
+  color: rgba(244, 239, 231, 0.72);
+  font-size: 0.92rem;
 }
 
 .modal {
