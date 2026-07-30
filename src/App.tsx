@@ -401,7 +401,6 @@ function AppContent() {
               setActivePanelId(isMobileLayout ? 'step-picker' : 'timeline');
               setActiveStepId(stepId);
             }}
-            onUpdateBuild={updateBuild}
             showEmptyStages
           />
         </section>

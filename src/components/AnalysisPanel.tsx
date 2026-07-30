@@ -1,4 +1,4 @@
-import { INGREDIENT_CATEGORIES, type AnalysisResult, type BalanceAxis, type CuisineTag, type IngredientCategory } from '../types';
+import { INGREDIENT_CATEGORIES, type AnalysisResult, type BalanceAxis, type CuisineTag } from '../types';
 import type { Suggestion } from '../scoring';
 
 interface AnalysisPanelProps {
@@ -31,20 +31,6 @@ const BALANCE_LANGUAGE: Record<BalanceAxis, { positive: string; negative: string
   freshness: { positive: 'fresher', negative: 'less bright' },
   texture: { positive: 'more texture', negative: 'smoother' },
   aromatic_intensity: { positive: 'more aromatic', negative: 'quieter' },
-};
-
-const CATEGORY_LABELS: Record<IngredientCategory, string> = {
-  protein: 'protein',
-  aromatics: 'aromatics',
-  liquid: 'liquid',
-  roots: 'roots',
-  vegetable: 'vegetable',
-  legumes: 'legumes',
-  grains: 'grains',
-  greens: 'greens',
-  fat: 'fat',
-  topping: 'topping',
-  spice: 'spice',
 };
 
 const REASON_ICONS: Record<Suggestion['reasons'][number], string> = {
@@ -190,7 +176,7 @@ export function AnalysisPanel({
               {INGREDIENT_CATEGORIES.map(category => (
                 <li key={category} className="legend-item">
                   <span className={`legend-swatch legend-swatch--${category}`} aria-hidden="true" />
-                  <span className="legend-label">{CATEGORY_LABELS[category]}</span>
+                  <span className="legend-label">{category}</span>
                 </li>
               ))}
             </ul>

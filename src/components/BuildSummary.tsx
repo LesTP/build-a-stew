@@ -11,7 +11,6 @@ interface BuildSummaryProps {
   steps?: readonly CookingStep[];
   activeStepId?: CookingStep['id'] | null;
   onStepChange?: (stepId: CookingStep['id']) => void;
-  onUpdateBuild?: (patch: Partial<StewBuild>) => void;
   showEmptyStages?: boolean;
 }
 

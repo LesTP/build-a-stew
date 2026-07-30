@@ -138,10 +138,7 @@ export function StepPickerPanel({
                           className="step-picker-row__add"
                           aria-hidden={isCompactLayout}
                           tabIndex={isCompactLayout ? -1 : 0}
-                          onClick={() => {
-                            onAddIngredient(suggestion.ingredientId);
-                            onSelectIngredient(suggestion.ingredientId);
-                          }}
+                          onClick={() => onAddIngredient(suggestion.ingredientId)}
                           aria-label={`Add ${ingredient.name} to ${step.label}`}
                         >
                           +
