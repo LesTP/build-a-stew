@@ -348,5 +348,25 @@
     "decision": "Two supervised corrections to the frozen acceptance suite, which was self-contradictory against the v2 layout: (1) retired the Phase 3 v1 DOM-order test (Library->Detail->Timeline->Analysis) in test_composer_layout.test.tsx - that order is superseded by D-37/D-18; region-presence assertions retained and the v2 order is covered by phase_9/test_shell_and_layout. (2) Disambiguated the timeline placed-chip query in phase_9/test_timeline_and_placement.test.tsx from /chicken thigh/i to /open detail for chicken thigh/i so it targets the chip open-detail button, not the sibling Remove <name> button. No production code changed; the v2 layout and the two clearly-labelled chip buttons are correct.",
     "rationale": "The worker correctly escalated (audit_escalation at 9.8) rather than editing the frozen Build-regime acceptance suite. The suite encoded the superseded v1 composer contract and an ambiguous accessible-name query, both unsatisfiable with the v2 UI. Same class as D-22/D-23: a human corrects a decommissioned/buggy oracle with a recorded decision. Full suite now 420 passing.",
     "revisit_if": "Never for the DOM-order test; the chip query is fine unless the chip aria-label scheme changes."
+  },
+  {
+    "id": "D-47",
+    "phase": 9,
+    "title": "Skip: Try chip labels use ingredient ID instead of catalog name",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave balance-panel Try chip labels as ingredientId.replaceAll('_', ' ') rather than resolving the catalog display name.",
+    "rationale": "AnalysisPanel receives only analysis and stepSuggestions — no catalog ref. Passing the catalog or adding name to Suggestion would change two interfaces for cosmetic improvement; the ID-derived label is readable and accurate.",
+    "revisit_if": "Phase 10 wires catalog to AnalysisPanel for another feature, or Try chips need proper capitalisation to pass an a11y audit."
+  },
+  {
+    "id": "D-48",
+    "phase": 9,
+    "title": "Skip: BuildSummary steps-prop fallback uses 'short' for stir_in instead of 'medium'",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave the inline fallback timing map in BuildSummary as-is ('short' for stir_in).",
+    "rationale": "The timing field is not used in BuildSummary's render logic — it is present on the constructed step objects but never read. App.tsx always supplies the real technique steps, so the fallback is exercised only in unit tests where timing doesn't affect assertions.",
+    "revisit_if": "BuildSummary renders timing badges or adjusts layout per step timing."
   }
 ]

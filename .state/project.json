@@ -1,7 +1,7 @@
 {
   "schema_version": 3,
-  "phase": 9,
-  "state": "review",
+  "phase": 10,
+  "state": "plan",
   "gotchas": [
     "Group defs: when a group name does not match an ingredient category (e.g. beans vs legumes), use an explicit ID list — a category alias will silently include wrong members",
     "node_modules must live on Linux fs and be symlinked into the NTFS workspace — execute permissions fail on NTFS mounts",
@@ -12,7 +12,9 @@
     "Use ES2021 lib before calling replaceAll; older tsconfig targets break the build pipeline.",
     "Invoke TypeScript through node when the tsc shim loses its execute bit in this workspace; bare npm script execution can fail with Permission denied even though the compiler itself is healthy.",
     "Timing warnings should be phrased from the candidate's perspective; candidate-vs-reference range comparisons are easy to invert.",
-    "If a scoring penalty is meant to affect ranking, do not leave it behind a positive-only guard; the negative contribution will be computed and then silently dropped."
+    "If a scoring penalty is meant to affect ranking, do not leave it behind a positive-only guard; the negative contribution will be computed and then silently dropped.",
+    "When a v2 layout supersedes v1, retire the superseded DOM-order oracle instead of forcing production code to satisfy both contracts.",
+    "Tighten accessible-name queries around adjacent action buttons; a chip label can otherwise resolve to the neighboring remove control."
   ],
   "budget_type": "steps",
   "pattern": "B",
