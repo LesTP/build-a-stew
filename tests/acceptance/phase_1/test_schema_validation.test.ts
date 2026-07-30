@@ -6,6 +6,7 @@ const MINIMAL_VALID = {
   name: 'Test Ingredient',
   category: 'protein',
   stage: 'brown',
+  compatibleSteps: ['brown'],
   roles: ['protein'],
   traits: [],
   balanceScores: {},
@@ -62,6 +63,11 @@ describe('Ingredient schema — valid shapes', () => {
   it('accepts an ingredient with empty pairsWith and avoidWith', () => {
     const noPairs = { ...MINIMAL_VALID, pairsWith: [], avoidWith: [] };
     expect(() => ingredientSchema.parse(noPairs)).not.toThrow();
+  });
+
+  it('rejects an ingredient with an empty compatibleSteps array', () => {
+    const bad = { ...MINIMAL_VALID, compatibleSteps: [] };
+    expect(() => ingredientSchema.parse(bad)).toThrow();
   });
 });
 

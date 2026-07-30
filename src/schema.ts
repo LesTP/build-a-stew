@@ -19,6 +19,7 @@ export const ingredientSchema = z.object({
   name: z.string(),
   category: z.enum(INGREDIENT_CATEGORIES),
   stage: z.enum(COOKING_STAGES),
+  compatibleSteps: z.array(z.enum(COOKING_STAGES)).min(1),
   roles: z.array(z.enum(ROLES)),
   traits: z.array(z.enum(TRAITS)),
   balanceScores: balanceScoresSchema,

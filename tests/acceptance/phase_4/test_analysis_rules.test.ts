@@ -158,12 +158,12 @@ describe('Timing findings', () => {
   });
 
   it('ingredient without cookMinutes produces no timing finding', () => {
-    // garlic has no cookMinutes
-    const garlic = catalog.find(i => i.id === 'garlic')!;
-    expect(garlic.cookMinutes).toBeUndefined();
-    const b = addIngredient({ ...emptyBuild(), pressureMinutes: 30 }, 'garlic', catalog);
+    // garlic_powder has no cookMinutes
+    const garlicPowder = catalog.find(i => i.id === 'garlic_powder')!;
+    expect(garlicPowder.cookMinutes).toBeUndefined();
+    const b = addIngredient({ ...emptyBuild(), pressureMinutes: 30 }, 'garlic_powder', catalog);
     const result = analyzeBuild(b, catalog);
-    expect(result.timingFindings.find(f => f.ingredientId === 'garlic')).toBeUndefined();
+    expect(result.timingFindings.find(f => f.ingredientId === 'garlic_powder')).toBeUndefined();
   });
 
   it('timing is computed per-ingredient; multiple can fire simultaneously', () => {

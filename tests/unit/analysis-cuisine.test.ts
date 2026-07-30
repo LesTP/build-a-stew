@@ -12,6 +12,7 @@ function ingredient(
     name: id,
     category: 'protein',
     stage: 'brown',
+    compatibleSteps: ['brown'],
     roles: [],
     traits: [],
     balanceScores: {},

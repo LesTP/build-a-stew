@@ -29,6 +29,7 @@ function validateCatalog(ingredients: readonly Ingredient[]): void {
   // Every ingredient must have valid category and stage
   const badCategories: string[] = [];
   const badStages: string[] = [];
+  const badCompatibleSteps: string[] = [];
   const unresolved: string[] = [];
 
   for (const i of ingredients) {
@@ -37,6 +38,11 @@ function validateCatalog(ingredients: readonly Ingredient[]): void {
     }
     if (!validStages.has(i.stage)) {
       badStages.push(`${i.id}: "${i.stage}"`);
+    }
+    if (!Array.isArray(i.compatibleSteps) || i.compatibleSteps.length === 0) {
+      badCompatibleSteps.push(`${i.id}: missing or empty compatibleSteps`);
+    } else if (!i.compatibleSteps.includes(i.stage)) {
+      badCompatibleSteps.push(`${i.id}: stage "${i.stage}" absent from compatibleSteps`);
     }
     for (const ref of [...(i.pairsWith ?? []), ...(i.avoidWith ?? [])]) {
       if (!ids.has(ref) && !groupTagSet.has(ref)) {
@@ -47,6 +53,7 @@ function validateCatalog(ingredients: readonly Ingredient[]): void {
 
   if (badCategories.length > 0) throw new Error(`Invalid categories:\n${badCategories.join('\n')}`);
   if (badStages.length > 0) throw new Error(`Invalid stages:\n${badStages.join('\n')}`);
+  if (badCompatibleSteps.length > 0) throw new Error(`Invalid compatibleSteps:\n${badCompatibleSteps.join('\n')}`);
   if (unresolved.length > 0) throw new Error(`Unresolved pair/avoid refs:\n${unresolved.join('\n')}`);
 
   // Category-based groups must have ≥1 member; ID-based groups must have all declared members

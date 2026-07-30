@@ -8,7 +8,7 @@ import {
   SALT_RISKS,
   GROUP_TAGS,
 } from '../src/types';
-import type { Ingredient, CuisineTag, IngredientRef } from '../src/types';
+import type { Ingredient, CuisineTag, IngredientRef, CookingStage } from '../src/types';
 
 export class ConversionError extends Error {
   constructor(message: string) {
@@ -130,6 +130,7 @@ export function convertCatalog(csv: string): Ingredient[] {
     if (!(COOKING_STAGES as readonly string[]).includes(stageRaw)) {
       throw new ConversionError(`Unknown cooking stage '${stageRaw}' for id '${id}'`);
     }
+    const stage = stageRaw as CookingStage;
 
     const rolesRaw = splitSemicolon(get('roles'));
     for (const r of rolesRaw) {
@@ -194,7 +195,8 @@ export function convertCatalog(csv: string): Ingredient[] {
       id,
       name: get('name'),
       category: categoryRaw as Ingredient['category'],
-      stage: stageRaw as Ingredient['stage'],
+      stage,
+      compatibleSteps: [stage],
       roles: rolesRaw as Ingredient['roles'],
       traits: traitsRaw as Ingredient['traits'],
       balanceScores,

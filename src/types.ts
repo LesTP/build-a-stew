@@ -78,6 +78,7 @@ export interface Ingredient {
   name: string;
   category: IngredientCategory;
   stage: CookingStage;
+  compatibleSteps: string[];
   roles: Role[];
   traits: Trait[];
   balanceScores: Partial<Record<BalanceAxis, number>>;
