@@ -301,5 +301,15 @@
     "decision": "Leave CookingStep.longCook typed as `true` (not `boolean`) in techniques.ts, even though ARCHITECTURE.md shows `longCook?: boolean`.",
     "rationale": "The narrower type prevents callers from writing `longCook: false`, which is semantically identical to omitting the field. Better design; no consuming code exists yet (Phase 8 will be the first consumer).",
     "revisit_if": "Phase 8 scoring engine needs to set longCook: false explicitly, or external serialization requires a boolean."
+  },
+  {
+    "id": "D-43",
+    "phase": 8,
+    "title": "Skip: balance penalty computed but discarded in scoreStep",
+    "status": "closed",
+    "priority": "low",
+    "decision": "Leave the `if (contribution > 0)` guard in the scoreStep balance loop. The computed negative contribution from balanceContribution (when buildValue >= 4) is not applied to the score.",
+    "rationale": "Architecture says 'penalizes overloading high axes' but the practical effect of zero contribution vs. a negative score is equivalent for the UX goal: richness-adding ingredients to a richness-heavy build get zero balance reward and land in the fallback bucket. All 74 phase 8 acceptance tests pass with the current behavior, and the fixture thresholds (step 8.6) were tuned with this implementation. Applying the penalty would change bucket assignments in unpredictable ways.",
+    "revisit_if": "A fixture build shows an over-richness ingredient incorrectly landing in the okay or top bucket."
   }
 ]

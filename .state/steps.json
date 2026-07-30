@@ -277,42 +277,43 @@
     "phase": 8,
     "step": 1,
     "title": "Define Suggestion types and scoreStep scaffold",
-    "status": "pending",
-    "notes": "Add Reason and Suggestion types to types.ts. Create src/scoring.ts with scoreStep(step, build, catalog, cuisine?) stub returning []. TypeScript compiles; all existing tests pass. No logic yet."
+    "status": "complete",
+    "notes": "Add Reason and Suggestion types to types.ts. Create src/scoring.ts with scoreStep(step, build, catalog, cuisine?) stub returning []. TypeScript compiles; all existing tests pass. No logic yet.",
+    "commit": "87884b6"
   },
   {
     "phase": 8,
     "step": 2,
     "title": "Balance and pairing dimension",
-    "status": "pending",
+    "status": "complete",
     "notes": "For each step-appropriate, not-yet-placed ingredient: (a) score fills-low-axis — sum of contributions to axes where build total is below a low threshold; (b) penalize overload-high-axis — for axes already at or above a high threshold, adding more subtracts; (c) pairsWith hit against current build adds a boost and the balance reason tag; (d) avoidWith hit adds a penalty, the caution reason tag, and a caution note. Unit tests: fill-low, overload-high, pairsWith boost, avoidWith caution, both at once."
   },
   {
     "phase": 8,
     "step": 3,
     "title": "Cuisine soft-boost dimension",
-    "status": "pending",
+    "status": "complete",
     "notes": "When a cuisine direction is supplied: for each candidate ingredient, if any of its cuisines (or cuisineWeights keys) matches the chosen cuisine tag, add a soft boost weighted by cuisineWeights[cuisine] or 1.0 default. Attach reason cuisine. Never filter — ingredients without a cuisine match still appear. Unit tests: no cuisine arg (dimension silent), matching cuisine boosts, mismatched cuisine unchanged, universal-tagged ingredient not double-boosted."
   },
   {
     "phase": 8,
     "step": 4,
     "title": "Timing dimension at long-cook step",
-    "status": "pending",
+    "status": "complete",
     "notes": "Active only when the target CookingStep has longCook: true. Reference cook window = max cookMinutes.max among already-selected ingredients (skip if none have cookMinutes). For each candidate: if candidate.cookMinutes.max << reference max (threshold: less than half), caution it as likely to dissolve/overcook — attach timing reason and a caution note. Candidates without cookMinutes are neutral. At non-longCook steps the timing dimension contributes nothing. Unit tests: non-longCook step (dimension silent), longCook with no selected cook times (silent), candidate well below reference (caution), candidate within range (neutral), candidate above range (neutral)."
   },
   {
     "phase": 8,
     "step": 5,
     "title": "Bucket assignment, sorting, and integration",
-    "status": "pending",
+    "status": "complete",
     "notes": "Combine dimension scores into a single total. Apply provisional thresholds: Top (score >= HIGH_THRESH), Okay (score >= LOW_THRESH), Fallback (remainder). Sort within each bucket by descending score. Emit Suggestion[] in Top-first order. Collect all reason tags (balance, cuisine, timing, caution) that fired for each ingredient. Integration tests: multiple dimensions active simultaneously; reason tags reflect which dimensions fired; bucket thresholds separate expected candidates; already-placed ingredients are excluded; step-inappropriate ingredients are excluded."
   },
   {
     "phase": 8,
     "step": 6,
     "title": "Fixture builds and threshold tuning",
-    "status": "pending",
+    "status": "complete",
     "notes": "Author 4-5 named fixture scenarios in tests/fixtures/scoring_fixtures.ts: (1) empty build at aromatics step — breadth of suggestions, no pairsWith context; (2) French-leaning build (chicken + aromatics + wine) at stir_in step — cuisine boost for french-tagged finishers; (3) root-heavy + grain build at finish step — balance dimension pushes freshness/acidity candidates to Top; (4) empty build at pressure (longCook) step — timing caution for quick-cook items like spinach/couscous; (5) avoidWith conflict scenario — verify caution reason fires. Document expected bucket for the top-3 candidates in each fixture. Tune HIGH_THRESH/LOW_THRESH constants until all expected assignments pass. Accept ±1 bucket only for borderline documented cases."
   }
 ]

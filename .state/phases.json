@@ -50,6 +50,6 @@
     "title": "Suggestion & Scoring Engine",
     "regime": "build",
     "dependencies": [],
-    "status": "pending"
+    "status": "complete"
   }
 ]
