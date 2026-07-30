@@ -49,8 +49,10 @@ function AppContent() {
   const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load'>(null);
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(DEFAULT_TECHNIQUE_ID);
   const [selectedCuisine, setSelectedCuisine] = useState<CuisineTag>(DEFAULT_CUISINE);
+  const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
 
   const analysis = useMemo(() => analyzeBuild(build, catalog), [build, catalog]);
+  const selectedTechnique = TECHNIQUES[selectedTechniqueId] ?? AVAILABLE_TECHNIQUES[0];
 
   const selectedIngredient = useMemo(() => {
     if (selectedIngredientId === null) {
@@ -74,6 +76,14 @@ function AppContent() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [selectedIngredientId]);
+
+  useEffect(() => {
+    if (selectedTechnique.steps.some(step => step.id === activeStepId)) {
+      return;
+    }
+
+    setActiveStepId(selectedTechnique.steps[0]?.id ?? activeStepId);
+  }, [activeStepId, selectedTechnique]);
 
   function placeIngredient(ingredientId: string, stage: CookingStage) {
     const catalogIngredient = catalog.find(ingredient => ingredient.id === ingredientId);
@@ -186,7 +196,11 @@ function AppContent() {
           <BuildSummary
             build={build}
             catalog={catalog}
+            steps={selectedTechnique.steps}
+            activeStepId={activeStepId}
             onRemoveIngredient={removeIngredient}
+            onSelectIngredient={setSelectedIngredientId}
+            onStepChange={setActiveStepId}
             onUpdateBuild={updateBuild}
             showEmptyStages
           />

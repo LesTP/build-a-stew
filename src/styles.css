@@ -579,6 +579,30 @@ button {
   background: linear-gradient(135deg, rgba(81, 164, 255, 0.24), rgba(242, 179, 111, 0.24));
 }
 
+.timeline-step-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-step-tab {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.7rem 0.95rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(244, 239, 231, 0.78);
+}
+
+.timeline-step-tab--active {
+  background: linear-gradient(135deg, rgba(81, 164, 255, 0.26), rgba(242, 179, 111, 0.2));
+  color: #fff7ee;
+  border-color: rgba(242, 179, 111, 0.4);
+}
+
+.timeline-step-tab__label {
+  text-transform: lowercase;
+}
+
 .stage-empty {
   padding: 0 2px 4px;
   color: rgba(244, 239, 231, 0.66);
@@ -587,7 +611,7 @@ button {
 
 .ingredient-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 5.5rem auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
 }
@@ -597,11 +621,33 @@ button {
   gap: 4px;
 }
 
-.ingredient-cook-time {
+.ingredient-chip {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 0.78rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  text-align: left;
+}
+
+.ingredient-chip__name {
+  min-width: 0;
+}
+
+.ingredient-chip__cook-time {
   color: rgba(244, 239, 231, 0.62);
   font-size: 0.83rem;
   white-space: nowrap;
-  text-align: right;
+}
+
+.stage-card--active {
+  border-color: rgba(242, 179, 111, 0.3);
+  box-shadow: 0 0 0 1px rgba(81, 164, 255, 0.16), 0 18px 48px rgba(0, 0, 0, 0.24);
 }
 
 .remove-button {
