@@ -44,5 +44,12 @@
     "regime": "build",
     "dependencies": [],
     "status": "complete"
+  },
+  {
+    "id": 8,
+    "title": "Suggestion & Scoring Engine",
+    "regime": "build",
+    "dependencies": [],
+    "status": "pending"
   }
 ]
