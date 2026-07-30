@@ -315,5 +315,61 @@
     "title": "Fixture builds and threshold tuning",
     "status": "complete",
     "notes": "Author 4-5 named fixture scenarios in tests/fixtures/scoring_fixtures.ts: (1) empty build at aromatics step — breadth of suggestions, no pairsWith context; (2) French-leaning build (chicken + aromatics + wine) at stir_in step — cuisine boost for french-tagged finishers; (3) root-heavy + grain build at finish step — balance dimension pushes freshness/acidity candidates to Top; (4) empty build at pressure (longCook) step — timing caution for quick-cook items like spinach/couscous; (5) avoidWith conflict scenario — verify caution reason fires. Document expected bucket for the top-3 candidates in each fixture. Tune HIGH_THRESH/LOW_THRESH constants until all expected assignments pass. Accept ±1 bucket only for borderline documented cases."
+  },
+  {
+    "phase": 9,
+    "step": 1,
+    "title": "App shell — top strip + 4-column responsive grid",
+    "status": "pending",
+    "notes": "Replace v1 layout. Top strip: title, technique selector (braise only), cuisine selector (18 CuisineTag options), How/Recipe modal triggers, load/save/clear buttons. CSS grid: 4 equal cols (>=1600px), 3 col + full-width bottom strip (768-1599px), tab+bottom-bar (<768px). Column placeholder divs only — no functional content yet. Remove v1 top-level App layout tests that are superseded by v2."
+  },
+  {
+    "phase": 9,
+    "step": 2,
+    "title": "Timeline column — canonical steps, active-step state, placed chips",
+    "status": "pending",
+    "notes": "Render braise 8 steps in canonical order (brown/aromatics/deglaze/pressure/simmer_after/stir_in/finish/serve_over). Each step: label, active highlight, placed ingredient chips. Clicking a step sets activeStep state. Chip shows ingredient name and category color indicator. Clicking a chip sets the Detail target ingredient."
+  },
+  {
+    "phase": 9,
+    "step": 3,
+    "title": "Step picker column — ranked suggestions via scoreStep",
+    "status": "pending",
+    "notes": "For activeStep + current build + selected cuisine, call scoreStep() from Phase 8 and render Top/Okay/Fallback bucket sections with headers. Row format: [+] [category color block] [name] [reason icon badges] [cook time range] [detail arrow]. + adds ingredient to activeStep. Detail arrow or row body click opens Detail in candidate mode. Already-placed ingredients excluded from picker rows."
+  },
+  {
+    "phase": 9,
+    "step": 4,
+    "title": "Detail card — candidate mode and placed-ingredient mode",
+    "status": "pending",
+    "notes": "Candidate mode (opened from picker row): ingredient name + category, why-it-appears-here section (reason tags mapped to readable prose), cautions list, best-step recommendation chip, good-with pairings list, Add-to-[activeStep] button. Placed mode (opened from timeline chip): ingredient name + category, current step label, move-to-step chip controls, remove button. Empty/closed state when nothing selected. Switching step or pressing Escape clears the Detail."
+  },
+  {
+    "phase": 9,
+    "step": 5,
+    "title": "Balance column — axis bars + cooking-language translation + Try chips",
+    "status": "pending",
+    "notes": "Migrate existing balance bars (10 axes). Add cooking-language description: pure TS function mapping dominant/low axis values to English phrases (e.g. body>=4 -> heavy/thick; acidity<=1 -> flat; heat>=3 -> spicy). High-axis summary list and low-axis summary list. Try: finisher chips drawn from top balance-reason suggestions for each low axis. Step-aware note: if open Detail candidate has a better step than activeStep, display it (e.g. add lemon at Finish, not here)."
+  },
+  {
+    "phase": 9,
+    "step": 6,
+    "title": "Category color system + reason icons + persistent legend",
+    "status": "pending",
+    "notes": "Define 11 category color tokens (CSS custom properties or TS map). Apply consistently: picker row left-border/dot, timeline chip background tint, Detail card header accent. Reason icon badges on picker rows and in Detail: cuisine=plate icon, balance=scales icon, timing=clock icon, caution=warning icon (emoji or inline SVG). Persistent legend block (in Balance column footer or own panel): 4 reason icons with labels + all 11 category color swatches with names."
+  },
+  {
+    "phase": 9,
+    "step": 7,
+    "title": "Mobile layout — panel tabs + persistent Balance bar",
+    "status": "pending",
+    "notes": "Below 768px: show one panel at a time via Timeline/Picker/Detail tab strip. Balance column becomes a persistent bottom bar (minimal: dominant-axis label + color bar, no prose). Tapping + in the Picker adds the ingredient and switches to the Timeline tab. Tab strip is keyboard-navigable (arrow keys). Balance bottom bar is always visible regardless of active tab."
+  },
+  {
+    "phase": 9,
+    "step": 8,
+    "title": "Accessibility + keyboard navigation pass",
+    "status": "pending",
+    "notes": "All interactive elements reachable by Tab/Shift-Tab. Enter/Space: activate step, add ingredient from picker, open Detail from chip or picker row, trigger move/remove in Detail. Escape: close Detail and clear Detail target, or clear activeStep if Detail already closed. ARIA: aria-selected on active step, aria-label on icon-only buttons, role=tab on mobile tab strip, aria-controls wiring. One keyboard-only walkthrough acceptance test: Tab to step -> Enter -> Tab to picker row -> Enter to add -> Tab to placed chip -> Enter to open Detail -> Escape."
   }
 ]

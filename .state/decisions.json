@@ -311,5 +311,32 @@
     "decision": "Leave the `if (contribution > 0)` guard in the scoreStep balance loop. The computed negative contribution from balanceContribution (when buildValue >= 4) is not applied to the score.",
     "rationale": "Architecture says 'penalizes overloading high axes' but the practical effect of zero contribution vs. a negative score is equivalent for the UX goal: richness-adding ingredients to a richness-heavy build get zero balance reward and land in the fallback bucket. All 74 phase 8 acceptance tests pass with the current behavior, and the fixture thresholds (step 8.6) were tuned with this implementation. Applying the penalty would change bucket assignments in unpredictable ways.",
     "revisit_if": "A fixture build shows an over-richness ingredient incorrectly landing in the okay or top bucket."
+  },
+  {
+    "id": "D-44",
+    "phase": 9,
+    "title": "Phase 9 regime: Build (not Refine)",
+    "status": "closed",
+    "priority": "high",
+    "decision": "Phase 9 is classified Build. The UI spike design/ui-spike-v2.html specifies objective behavioral constraints: exact breakpoints (768px, 1600px), column counts, interaction flows (add returns to Timeline), and a closed reason-icon set. These are testable without perceptual judgment.",
+    "rationale": "Build enables the TESTS action to author a frozen acceptance suite before EXECUTE. The oracle property holds: tests are not authored by the implementing worker."
+  },
+  {
+    "id": "D-45",
+    "phase": 9,
+    "title": "V1 UI component tests retired in Phase 9",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "Phase 9 EXECUTE removes or replaces v1 UI acceptance tests (tests/acceptance/phase_3/ and phase_6/ tests covering the Library->Detail->Timeline->Analysis layout) since D-37 formally supersedes those layouts. Pure-logic tests (catalog, build reducers, analysis engine, scoring) are unaffected.",
+    "rationale": "Keeping v1 layout tests would produce false failures throughout Phase 9 EXECUTE. Phase 9 acceptance tests (authored by TESTS) replace them with v2 behavioral coverage."
+  },
+  {
+    "id": "D-46",
+    "phase": 9,
+    "title": "Cooking-language balance translation: explicit TS functions",
+    "status": "closed",
+    "priority": "medium",
+    "decision": "The balance-panel cooking-language description is implemented as a set of explicit TypeScript if-statements mapping axis value ranges to English phrases (e.g. body>=4 -> heavy description; acidity<=1 -> flat description). No DSL, no template engine. The rule mapping is defined in Step 5 notes and frozen in the TESTS suite before EXECUTE.",
+    "rationale": "Consistent with the no-rules-DSL escalation trigger. The output is deterministic and fully testable: identical balance scores must always produce identical cooking-language output."
   }
 ]
