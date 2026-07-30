@@ -9,7 +9,7 @@
   --surface-border: rgba(var(--line-rgb), 0.08);
   --surface-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
   --surface-blur: blur(12px);
-  --ink: var(--ink);
+  --ink: #f4efe7;
   --ink-rgb: 244, 239, 231;
   --line-rgb: 255, 255, 255;
   --muted: rgba(var(--ink-rgb), 0.72);
@@ -383,7 +383,7 @@ button {
 }
 
 .header-field select {
-  min-width: 0;
+  min-width: 140px;
   min-height: 42px;
   padding: 0 12px;
   border: 1px solid rgba(var(--line-rgb), 0.1);
@@ -400,7 +400,7 @@ button {
 }
 
 .header-actions > button {
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 .header-feedback {
@@ -555,20 +555,31 @@ button {
 .primary-action {
   border: 0;
   border-radius: 999px;
-  padding: 0.85rem 1.2rem;
+  padding: 0.7rem 1.2rem;
   background: linear-gradient(135deg, #f2b36f, #f0925a);
   color: #17120d;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
 }
 
 .secondary-action {
   border: 1px solid rgba(var(--line-rgb), 0.08);
   border-radius: 999px;
-  padding: 0.85rem 1.1rem;
+  padding: 0.7rem 1.1rem;
   background: rgba(var(--line-rgb), 0.05);
   color: inherit;
   cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
 }
 
 .header-feedback,
@@ -738,7 +749,7 @@ button {
 
 .balance-summary {
   margin: 0;
-  color: #fff6ea;
+  color: var(--ink);
   line-height: 1.55;
   font-size: 1.02rem;
 }
@@ -809,7 +820,7 @@ button {
 .detail-list,
 .detail-notes {
   margin: 0;
-  color: #f7f1e8;
+  color: var(--ink);
   line-height: 1.5;
 }
 
@@ -821,7 +832,7 @@ button {
 .detail-bullet-list {
   margin: 0;
   padding-left: 1.1rem;
-  color: #f7f1e8;
+  color: var(--ink);
   line-height: 1.5;
   display: grid;
   gap: 6px;
@@ -1147,7 +1158,7 @@ button {
 
 .analysis-list__message {
   margin: 0;
-  color: #f7f1e8;
+  color: var(--ink);
   line-height: 1.5;
 }
 
@@ -1253,9 +1264,8 @@ button {
   min-width: 0;
   font-weight: 700;
   color: var(--ink);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .step-picker-row__icons {
@@ -1301,6 +1311,25 @@ button {
   font-size: 0.82rem;
   text-transform: lowercase;
   white-space: nowrap;
+}
+
+.step-picker-row__detail-arrow {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--line-rgb), 0.14);
+  background: rgba(var(--line-rgb), 0.05);
+  color: rgba(var(--ink-rgb), 0.7);
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.step-picker-row__detail-arrow:hover,
+.step-picker-row--active .step-picker-row__detail-arrow {
+  border-color: rgba(242, 179, 111, 0.45);
+  color: #f2b36f;
 }
 
 .step-picker-row--active .step-picker-row__detail-label {

@@ -27,7 +27,8 @@ const MOBILE_LAYOUT_BREAKPOINT = 768;
 type ComposerPanelId = 'timeline' | 'step-picker' | 'detail';
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
-  return cuisine.replaceAll('_', ' ');
+  const label = cuisine.replaceAll('_', ' ');
+  return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 function createDemoBuild(catalog: readonly Ingredient[]) {
@@ -440,7 +441,7 @@ function AppContent() {
           ) : (
             <>
               <div className="panel-heading">
-                <h2 id="step-picker-title">Step picker</h2>
+                <h2 id="step-picker-title">Ingredient picker</h2>
               </div>
               <div className="panel-placeholder" aria-hidden="true">
                 Step-ranked ingredient suggestions will appear here.

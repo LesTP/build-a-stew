@@ -75,11 +75,10 @@ export function StepPickerPanel({
   return (
     <>
       <div className="panel-heading">
-        <h2 id="step-picker-title">Step picker</h2>
+        <h2 id="step-picker-title">Ingredient picker</h2>
       </div>
       <p className="panel-copy">
-        Ranked for <strong>{step.label}</strong>. Add with the plus button or open detail for the
-        why.
+        Ranked for <strong>{step.label}</strong>. Use <span aria-hidden="true">←</span> to add, <span aria-hidden="true">→</span> for details.
       </p>
       {isCompactLayout && primarySuggestion ? (() => {
         const ingredient = ingredientsById.get(primarySuggestion.ingredientId);
@@ -141,14 +140,14 @@ export function StepPickerPanel({
                           onClick={() => onAddIngredient(suggestion.ingredientId)}
                           aria-label={`Add ${ingredient.name} to ${step.label}`}
                         >
-                          +
+                          ←
                         </button>
 
                         <button
                           type="button"
                           className="step-picker-row__detail"
                           onClick={() => onSelectIngredient(suggestion.ingredientId)}
-                          aria-label={`Detail for ${ingredient.name}`}
+                          aria-label={`Inspect ${ingredient.name}`}
                         >
                           <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
                             {ingredient.category}
@@ -168,9 +167,14 @@ export function StepPickerPanel({
                           <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
                         </button>
 
-                        <span className="step-picker-row__detail-label" aria-hidden="true">
-                          Detail
-                        </span>
+                        <button
+                          type="button"
+                          className="step-picker-row__detail-arrow"
+                          onClick={() => onSelectIngredient(suggestion.ingredientId)}
+                          aria-label={`Detail for ${ingredient.name}`}
+                        >
+                          →
+                        </button>
                       </li>
                     );
                   })}
