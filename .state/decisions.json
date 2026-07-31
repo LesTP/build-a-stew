@@ -378,5 +378,15 @@
     "decision": "Post-ship supervised UI-fidelity pass reconciling the app to design/ui-spike-v2.html: removed the v1 IngredientLibrary rail (the technique-first ranked step picker replaces browsing) and deleted the now-dead component; retired the 5 superseded v1 Phase 3 UI acceptance files (test_library, test_detail_and_placement, test_keyboard_a11y, test_timeline_and_mutations, test_composer_layout) - superseded by D-37/D-18-20 and re-covered by the Phase 9 suite; compacted the header into one top strip; hid the mobile panel-tabs on desktop; set the composer grid to 1col mobile / 3col laptop (analysis as bottom strip) / 4col >=1600; introduced CSS theme tokens with a dark default plus an opt-in light theme and a header toggle persisted to localStorage. Updated the app-shell unit test to drop library assertions.",
     "rationale": "The autonomous loop built Phase 9 to the frozen acceptance tests, which still required the v1 Library region and did not encode the mockup visual language, yielding a tested-but-divergent v1/v2 hybrid in the dark theme. Visual fidelity needs a supervised pass because the loop cannot see the mockup. Phase 3 is not in tests_manifest, so deleting its suite does not trip D-tests-4; it is a recorded contract retirement. Full suite 371 passing; tsc clean.",
     "revisit_if": "Light theme needs polish for component-internal surfaces that still assume dark (iterating from operator screenshots), or a browse/library feature is wanted back."
+  },
+  {
+    "decision": "Consolidated CUISINE_TAGS from 18 to 8 regional buckets + universal. Kept French and Italian distinct; merged the rest: mediterranean/iberian/central_european/eastern_european/british/scandinavian -> european; mexican/latin_american -> latin_american; middle_eastern/north_african/west_african -> middle_eastern_african; indian -> south_asian; east_asian/southeast_asian -> east_asian. Added a CUISINE_LABELS display map (handles the ampersand and 'Southeast'). Remapped 76/119 ingredients cuisines (dedup), updated convert-catalog aliases and phase_1/4/8 tests; refroze phase 8. Skipped persistence-migration ceremony (not in prod, single user), relaxing D-41 to reset-on-mismatch.",
+    "phase": 10,
+    "revisit_if": "Cuisine affinity needs finer granularity again, or a merged bucket is too coarse for useful re-ranking.",
+    "id": "D-51",
+    "status": "closed",
+    "priority": "medium",
+    "title": "Consolidate cuisines 18 -> 9 (French/Italian distinct)",
+    "rationale": "18 tags were too granular for the cuisine soft re-rank; a leaderboard split across near-synonyms gave weak signal. 8 buckets keep regional distinction while concentrating affinity. Fixture counts recomputed under merge/dedup (Fixture 6 mexican=6 -> latin_american=6). tsc clean; full suite 371 passing."
   }
 ]

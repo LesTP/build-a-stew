@@ -23,12 +23,12 @@ describe('CSV→JSON converter — semicolon-delimited field splitting', () => {
   });
 
   it('splits semicolon-delimited cuisines and consolidates to closed CuisineTag values', () => {
-    // 'moroccan' consolidates to 'north_african'; 'spanish' to 'iberian'
+    // 'moroccan' consolidates to 'middle_eastern_african'; 'spanish' to 'european'
     const csv = buildCsv(['test_item,Test Item,protein,brown,protein,,{},french; moroccan; spanish,,,low,,,']);
     const [result] = convertCatalog(csv);
     expect(result.cuisines).toContain('french');
-    expect(result.cuisines).toContain('north_african');
-    expect(result.cuisines).toContain('iberian');
+    expect(result.cuisines).toContain('middle_eastern_african');
+    expect(result.cuisines).toContain('european');
     expect(result.cuisines).not.toContain('moroccan');
     expect(result.cuisines).not.toContain('spanish');
   });
@@ -171,14 +171,14 @@ describe('CSV→JSON converter — cuisine consolidation mapping', () => {
     ['cajun', 'american'],
     ['southern', 'american'],
     ['caribbean', 'latin_american'],
-    ['moroccan', 'north_african'],
+    ['moroccan', 'middle_eastern_african'],
     ['japanese', 'east_asian'],
     ['korean', 'east_asian'],
-    ['thai', 'southeast_asian'],
-    ['indian', 'indian'],
-    ['spanish', 'iberian'],
-    ['jewish', 'eastern_european'],
-    ['hungarian', 'central_european'],
+    ['thai', 'east_asian'],
+    ['indian', 'south_asian'],
+    ['spanish', 'european'],
+    ['jewish', 'european'],
+    ['hungarian', 'european'],
   ];
 
   for (const [raw, expected] of CONSOLIDATION_CASES) {

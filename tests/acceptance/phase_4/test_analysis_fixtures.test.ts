@@ -173,7 +173,7 @@ describe('Phase 4 fixture builds', () => {
     expect(beanTomatoWarning!.severity).toBe('warning');
   });
 
-  it('Fixture 3 (bean-forward): mexican leads the cuisine leaderboard', () => {
+  it('Fixture 3 (bean-forward): latin american leads the cuisine leaderboard', () => {
     const b1 = addIngredient(emptyBuild(40), 'dried_black_beans', catalog);
     const b2 = addIngredient(b1, 'canned_tomatoes', catalog);
     const b3 = addIngredient(b2, 'onion', catalog);
@@ -181,7 +181,7 @@ describe('Phase 4 fixture builds', () => {
     const b5 = addIngredient(b4, 'cumin', catalog);
     const result = analyzeBuild(b5, catalog);
 
-    expect(topCuisine(result.cuisineScores)).toBe('mexican');
+    expect(topCuisine(result.cuisineScores)).toBe('latin_american');
   });
 
   // ── Fixture 4: Root-forward starch stack ─────────────────────────────────
@@ -278,7 +278,7 @@ describe('Phase 4 fixture builds', () => {
   //   Cuisine: mexican = 6 → tops
   //            indian = 3, north_african = 3, american = 1
 
-  it('Fixture 6 (mexican): mexican cuisine score is exactly 6 and leads the leaderboard', () => {
+  it('Fixture 6 (latin american): latin_american cuisine score is exactly 6 and leads the leaderboard', () => {
     const b1 = addIngredient(emptyBuild(40), 'pork_shoulder', catalog);
     const b2 = addIngredient(b1, 'chipotle', catalog);
     const b3 = addIngredient(b2, 'cumin', catalog);
@@ -287,8 +287,8 @@ describe('Phase 4 fixture builds', () => {
     const b6 = addIngredient(b5, 'dried_black_beans', catalog);
     const result = analyzeBuild(b6, catalog);
 
-    expect(result.cuisineScores.mexican).toBe(6);
-    expect(topCuisine(result.cuisineScores)).toBe('mexican');
+    expect(result.cuisineScores.latin_american).toBe(6);
+    expect(topCuisine(result.cuisineScores)).toBe('latin_american');
   });
 
   // ── Fixture 7: East Asian / Miso ─────────────────────────────────────────

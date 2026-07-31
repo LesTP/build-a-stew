@@ -20,9 +20,8 @@ export const TRAITS = [
 ] as const;
 
 export const CUISINE_TAGS = [
-  'universal', 'french', 'italian', 'mediterranean', 'iberian', 'mexican', 'latin_american',
-  'american', 'central_european', 'eastern_european', 'british', 'scandinavian',
-  'middle_eastern', 'north_african', 'west_african', 'indian', 'east_asian', 'southeast_asian',
+  'universal', 'french', 'italian', 'european', 'american',
+  'latin_american', 'middle_eastern_african', 'south_asian', 'east_asian',
 ] as const;
 
 export const SALT_RISKS = ['low', 'medium', 'high'] as const;
@@ -38,6 +37,18 @@ export type Role = (typeof ROLES)[number];
 export type BalanceAxis = (typeof BALANCE_AXES)[number];
 export type Trait = (typeof TRAITS)[number];
 export type CuisineTag = (typeof CUISINE_TAGS)[number];
+
+export const CUISINE_LABELS: Record<CuisineTag, string> = {
+  universal: 'Universal',
+  french: 'French',
+  italian: 'Italian',
+  european: 'European',
+  american: 'American',
+  latin_american: 'Latin American',
+  middle_eastern_african: 'Middle Eastern & African',
+  south_asian: 'South Asian',
+  east_asian: 'East & Southeast Asian',
+};
 export type SaltRisk = (typeof SALT_RISKS)[number];
 export type GroupTag = (typeof GROUP_TAGS)[number];
 export type IngredientId = string;

@@ -165,7 +165,7 @@ describe('Fixture 3 — Mexican cuisine (pork_shoulder build, Mexican cuisine, f
 
   it('lime_juice (mexican cuisine) gets a "cuisine" reason', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     const lime = result.find((s) => s.ingredientId === 'lime_juice')!;
     expect(lime).toBeDefined();
     expect(lime.reasons).toContain('cuisine');
@@ -173,7 +173,7 @@ describe('Fixture 3 — Mexican cuisine (pork_shoulder build, Mexican cuisine, f
 
   it('cilantro (mexican cuisine) gets a "cuisine" reason', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     const cilantro = result.find((s) => s.ingredientId === 'cilantro')!;
     expect(cilantro).toBeDefined();
     expect(cilantro.reasons).toContain('cuisine');
@@ -181,7 +181,7 @@ describe('Fixture 3 — Mexican cuisine (pork_shoulder build, Mexican cuisine, f
 
   it('lemon_juice (french/mediterranean, not mexican) does NOT get a "cuisine" reason', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     const lemon = result.find((s) => s.ingredientId === 'lemon_juice')!;
     expect(lemon).toBeDefined();
     expect(lemon.reasons).not.toContain('cuisine');
@@ -189,13 +189,13 @@ describe('Fixture 3 — Mexican cuisine (pork_shoulder build, Mexican cuisine, f
 
   it('lemon_juice still appears in results (cuisine is never a filter)', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     expect(result.some((s) => s.ingredientId === 'lemon_juice')).toBe(true);
   });
 
   it('lime_juice scores higher than lemon_juice with Mexican cuisine selected', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     const lime = result.find((s) => s.ingredientId === 'lime_juice')!;
     const lemon = result.find((s) => s.ingredientId === 'lemon_juice')!;
     expect(lime.score).toBeGreaterThan(lemon.score);
@@ -203,7 +203,7 @@ describe('Fixture 3 — Mexican cuisine (pork_shoulder build, Mexican cuisine, f
 
   it('lime_juice is in the "top" bucket with Mexican cuisine selected', () => {
     const finishStep = braise.steps.find((s) => s.id === 'finish')!;
-    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'mexican');
+    const result = scoreStep(finishStep, mexicanBuild(), catalog, 'latin_american');
     const lime = result.find((s) => s.ingredientId === 'lime_juice')!;
     expect(lime.bucket).toBe('top');
   });

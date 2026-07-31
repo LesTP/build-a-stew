@@ -24,9 +24,9 @@
       "universal",
       "french",
       "italian",
-      "mexican",
+      "latin_american",
       "east_asian",
-      "indian"
+      "south_asian"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -101,7 +101,7 @@
     },
     "cuisines": [
       "east_asian",
-      "eastern_european",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -262,7 +262,7 @@
       "umami": 3
     },
     "cuisines": [
-      "mexican",
+      "latin_american",
       "american",
       "universal"
     ],
@@ -305,8 +305,8 @@
     },
     "cuisines": [
       "universal",
-      "mexican",
-      "central_european"
+      "latin_american",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -343,9 +343,8 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "north_african",
-      "mediterranean",
-      "middle_eastern"
+      "middle_eastern_african",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -382,8 +381,8 @@
       "umami": 4
     },
     "cuisines": [
-      "north_african",
-      "mediterranean"
+      "middle_eastern_african",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -469,7 +468,7 @@
     "cuisines": [
       "american",
       "french",
-      "central_european"
+      "european"
     ],
     "saltRisk": "high",
     "cookMinutes": {
@@ -591,7 +590,7 @@
     },
     "cuisines": [
       "american",
-      "eastern_european",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -628,7 +627,7 @@
       "smoke": 5
     },
     "cuisines": [
-      "central_european",
+      "european",
       "american"
     ],
     "saltRisk": "high",
@@ -672,7 +671,7 @@
     "cuisines": [
       "american",
       "french",
-      "central_european"
+      "european"
     ],
     "saltRisk": "high",
     "cookMinutes": {
@@ -740,8 +739,8 @@
       "aromatic_intensity": 3
     },
     "cuisines": [
-      "mexican",
-      "mediterranean",
+      "latin_american",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -776,7 +775,7 @@
     },
     "cuisines": [
       "french",
-      "southeast_asian"
+      "east_asian"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -872,9 +871,9 @@
       "aromatic_intensity": 4
     },
     "cuisines": [
-      "indian",
+      "south_asian",
       "east_asian",
-      "north_african"
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -912,7 +911,7 @@
     },
     "cuisines": [
       "french",
-      "british"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1160,9 +1159,9 @@
       "umami": 1
     },
     "cuisines": [
-      "mexican",
+      "latin_american",
       "american",
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "medium",
     "pairsWith": [
@@ -1262,7 +1261,7 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "central_european",
+      "european",
       "american"
     ],
     "saltRisk": "low",
@@ -1329,8 +1328,7 @@
       "texture": 2
     },
     "cuisines": [
-      "scandinavian",
-      "british",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -1369,7 +1367,7 @@
     },
     "cuisines": [
       "french",
-      "central_european"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1405,8 +1403,7 @@
     },
     "cuisines": [
       "french",
-      "british",
-      "scandinavian"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1505,8 +1502,7 @@
     },
     "cuisines": [
       "american",
-      "north_african",
-      "west_african"
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1542,7 +1538,7 @@
       "texture": 2
     },
     "cuisines": [
-      "scandinavian",
+      "european",
       "french"
     ],
     "saltRisk": "low",
@@ -1576,7 +1572,7 @@
     },
     "cuisines": [
       "american",
-      "north_african"
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1609,7 +1605,7 @@
       "texture": 2
     },
     "cuisines": [
-      "indian",
+      "south_asian",
       "universal"
     ],
     "saltRisk": "low",
@@ -1645,7 +1641,7 @@
       "texture": 2
     },
     "cuisines": [
-      "central_european",
+      "european",
       "american",
       "east_asian"
     ],
@@ -1764,7 +1760,7 @@
     },
     "cuisines": [
       "italian",
-      "mexican",
+      "latin_american",
       "universal"
     ],
     "saltRisk": "medium",
@@ -1797,9 +1793,8 @@
       "texture": 1
     },
     "cuisines": [
-      "mexican",
-      "mediterranean",
-      "central_european"
+      "latin_american",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -1833,7 +1828,7 @@
       "texture": 2
     },
     "cuisines": [
-      "mexican",
+      "latin_american",
       "american"
     ],
     "saltRisk": "low",
@@ -1902,7 +1897,7 @@
     },
     "cuisines": [
       "french",
-      "british",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -1980,7 +1975,6 @@
       "texture": 2
     },
     "cuisines": [
-      "mexican",
       "latin_american"
     ],
     "saltRisk": "low",
@@ -2024,7 +2018,6 @@
       "texture": 3
     },
     "cuisines": [
-      "mexican",
       "latin_american"
     ],
     "saltRisk": "medium",
@@ -2063,9 +2056,9 @@
       "umami": 1
     },
     "cuisines": [
-      "north_african",
-      "indian",
-      "mediterranean"
+      "middle_eastern_african",
+      "south_asian",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2103,9 +2096,9 @@
       "umami": 1
     },
     "cuisines": [
-      "north_african",
-      "indian",
-      "mediterranean"
+      "middle_eastern_african",
+      "south_asian",
+      "european"
     ],
     "saltRisk": "medium",
     "cookMinutes": {
@@ -2146,7 +2139,7 @@
     "cuisines": [
       "italian",
       "french",
-      "iberian"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2187,7 +2180,7 @@
     "cuisines": [
       "italian",
       "french",
-      "iberian"
+      "european"
     ],
     "saltRisk": "medium",
     "cookMinutes": {
@@ -2224,8 +2217,8 @@
       "umami": 1
     },
     "cuisines": [
-      "indian",
-      "middle_eastern"
+      "south_asian",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2262,8 +2255,8 @@
       "umami": 1
     },
     "cuisines": [
-      "indian",
-      "middle_eastern"
+      "south_asian",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2339,7 +2332,7 @@
     },
     "cuisines": [
       "universal",
-      "middle_eastern"
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2377,8 +2370,7 @@
     },
     "cuisines": [
       "american",
-      "eastern_european",
-      "british"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2416,8 +2408,7 @@
     },
     "cuisines": [
       "french",
-      "central_european",
-      "british"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2491,7 +2482,7 @@
     },
     "cuisines": [
       "universal",
-      "eastern_european"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2528,7 +2519,7 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "eastern_european"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2668,7 +2659,7 @@
     },
     "cuisines": [
       "italian",
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2734,8 +2725,8 @@
       "texture": 2
     },
     "cuisines": [
-      "north_african",
-      "mediterranean"
+      "middle_eastern_african",
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2771,7 +2762,7 @@
     "cuisines": [
       "italian",
       "east_asian",
-      "indian",
+      "south_asian",
       "universal"
     ],
     "saltRisk": "low",
@@ -2809,7 +2800,7 @@
     },
     "cuisines": [
       "italian",
-      "iberian",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -2844,7 +2835,7 @@
       "texture": 2
     },
     "cuisines": [
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "low",
     "cookMinutes": {
@@ -2913,7 +2904,7 @@
     "cuisines": [
       "french",
       "italian",
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -2944,8 +2935,7 @@
       "aromatic_intensity": 4
     },
     "cuisines": [
-      "eastern_european",
-      "scandinavian"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -2980,9 +2970,9 @@
       "aromatic_intensity": 4
     },
     "cuisines": [
-      "mexican",
-      "indian",
-      "north_african"
+      "latin_american",
+      "south_asian",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3078,8 +3068,8 @@
     },
     "cuisines": [
       "french",
-      "mediterranean",
-      "middle_eastern"
+      "european",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3112,9 +3102,8 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "mexican",
-      "southeast_asian",
-      "latin_american"
+      "latin_american",
+      "east_asian"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3147,7 +3136,7 @@
     },
     "cuisines": [
       "american",
-      "central_european"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3179,7 +3168,7 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "iberian",
+      "european",
       "french"
     ],
     "saltRisk": "low",
@@ -3212,7 +3201,7 @@
     },
     "cuisines": [
       "italian",
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3358,9 +3347,9 @@
       "freshness": 2
     },
     "cuisines": [
-      "indian",
-      "middle_eastern",
-      "mediterranean"
+      "south_asian",
+      "middle_eastern_african",
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3393,8 +3382,7 @@
       "acidity": 2
     },
     "cuisines": [
-      "eastern_european",
-      "central_european"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3467,8 +3455,8 @@
     },
     "cuisines": [
       "american",
-      "central_european",
-      "indian"
+      "european",
+      "south_asian"
     ],
     "saltRisk": "medium",
     "pairsWith": [
@@ -3528,7 +3516,7 @@
       "texture": 5
     },
     "cuisines": [
-      "mexican",
+      "latin_american",
       "universal"
     ],
     "saltRisk": "low",
@@ -3561,7 +3549,7 @@
     },
     "cuisines": [
       "universal",
-      "eastern_european"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3591,7 +3579,7 @@
     },
     "cuisines": [
       "french",
-      "mediterranean",
+      "european",
       "universal"
     ],
     "saltRisk": "low",
@@ -3653,7 +3641,7 @@
     },
     "cuisines": [
       "italian",
-      "mediterranean"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3687,10 +3675,9 @@
       "heat": 1
     },
     "cuisines": [
-      "mexican",
-      "indian",
-      "north_african",
-      "middle_eastern"
+      "latin_american",
+      "south_asian",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3722,9 +3709,9 @@
       "aromatic_intensity": 4
     },
     "cuisines": [
-      "indian",
-      "north_african",
-      "mexican"
+      "south_asian",
+      "middle_eastern_african",
+      "latin_american"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3755,8 +3742,8 @@
     },
     "cuisines": [
       "italian",
-      "mexican",
-      "mediterranean"
+      "latin_american",
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3787,7 +3774,7 @@
     },
     "cuisines": [
       "french",
-      "british"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3849,8 +3836,7 @@
       "aromatic_intensity": 3
     },
     "cuisines": [
-      "iberian",
-      "central_european"
+      "european"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3885,7 +3871,7 @@
       "aromatic_intensity": 4
     },
     "cuisines": [
-      "mexican"
+      "latin_american"
     ],
     "saltRisk": "medium",
     "pairsWith": [
@@ -3914,8 +3900,7 @@
       "aromatic_intensity": 5
     },
     "cuisines": [
-      "north_african",
-      "middle_eastern"
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3943,8 +3928,8 @@
       "aromatic_intensity": 2
     },
     "cuisines": [
-      "indian",
-      "middle_eastern"
+      "south_asian",
+      "middle_eastern_african"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -3972,7 +3957,7 @@
       "heat": 1
     },
     "cuisines": [
-      "indian"
+      "south_asian"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -4004,7 +3989,7 @@
       "aromatic_intensity": 5
     },
     "cuisines": [
-      "southeast_asian"
+      "east_asian"
     ],
     "saltRisk": "high",
     "pairsWith": [
@@ -4073,7 +4058,7 @@
       "aromatic_intensity": 3
     },
     "cuisines": [
-      "southeast_asian"
+      "east_asian"
     ],
     "saltRisk": "high",
     "pairsWith": [
@@ -4130,9 +4115,8 @@
       "sweetness": 1
     },
     "cuisines": [
-      "southeast_asian",
-      "indian",
-      "east_asian"
+      "east_asian",
+      "south_asian"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -4166,8 +4150,8 @@
       "umami": 1
     },
     "cuisines": [
-      "west_african",
-      "southeast_asian"
+      "middle_eastern_african",
+      "east_asian"
     ],
     "saltRisk": "medium",
     "pairsWith": [
@@ -4198,9 +4182,9 @@
       "aromatic_intensity": 3
     },
     "cuisines": [
-      "mexican",
-      "southeast_asian",
-      "indian"
+      "latin_american",
+      "east_asian",
+      "south_asian"
     ],
     "saltRisk": "low",
     "pairsWith": [
@@ -4231,9 +4215,9 @@
       "aromatic_intensity": 3
     },
     "cuisines": [
-      "middle_eastern",
-      "indian",
-      "southeast_asian"
+      "middle_eastern_african",
+      "south_asian",
+      "east_asian"
     ],
     "saltRisk": "low",
     "pairsWith": [

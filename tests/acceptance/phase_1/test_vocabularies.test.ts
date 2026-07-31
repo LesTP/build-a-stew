@@ -42,12 +42,11 @@ describe('Controlled vocabularies — completeness', () => {
     for (const t of required) expect(TRAITS).toContain(t);
   });
 
-  it('exports all 18 cuisine tags', () => {
-    expect(CUISINE_TAGS).toHaveLength(18);
+  it('exports all 9 cuisine tags', () => {
+    expect(CUISINE_TAGS).toHaveLength(9);
     const required = [
-      'universal', 'french', 'italian', 'mediterranean', 'iberian', 'mexican', 'latin_american',
-      'american', 'central_european', 'eastern_european', 'british', 'scandinavian',
-      'middle_eastern', 'north_african', 'west_african', 'indian', 'east_asian', 'southeast_asian',
+      'universal', 'french', 'italian', 'european', 'american',
+      'latin_american', 'middle_eastern_african', 'south_asian', 'east_asian',
     ];
     for (const c of required) expect(CUISINE_TAGS).toContain(c);
   });

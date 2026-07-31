@@ -16,7 +16,7 @@ import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
 import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
-import { CUISINE_TAGS, INGREDIENT_CATEGORIES } from './types';
+import { CUISINE_TAGS, CUISINE_LABELS, INGREDIENT_CATEGORIES } from './types';
 import type { CookingStage, CuisineTag, Ingredient } from './types';
 import type { CookingStep } from './techniques';
 
@@ -28,10 +28,7 @@ const MOBILE_LAYOUT_BREAKPOINT = 768;
 type ComposerPanelId = 'timeline' | 'step-picker' | 'detail';
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
-  return cuisine
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  return CUISINE_LABELS[cuisine];
 }
 
 function createDemoBuild(catalog: readonly Ingredient[]) {

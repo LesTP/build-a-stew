@@ -133,14 +133,14 @@ describe('analyzeBuild — core contract', () => {
   });
 
   it('cuisine scores are additive across ingredients', () => {
-    // thyme: cuisines: ["french", "british"]
+    // thyme: cuisines: ["french", "european"] (british consolidated to european)
     // rosemary: cuisines: ["italian", "french"]
-    // expected: french > italian, french > british
+    // expected: french > italian, french > european
     const b1 = addIngredient(emptyBuild(), 'thyme', catalog);
     const b2 = addIngredient(b1, 'rosemary', catalog);
     const result = analyzeBuild(b2, catalog);
     expect(result.cuisineScores.french).toBeGreaterThan(result.cuisineScores.italian);
-    expect(result.cuisineScores.french).toBeGreaterThan(result.cuisineScores.british);
+    expect(result.cuisineScores.french).toBeGreaterThan(result.cuisineScores.european);
   });
 
   // ── Warning shape ────────────────────────────────────────────────────────

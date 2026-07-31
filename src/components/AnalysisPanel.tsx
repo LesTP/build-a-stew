@@ -1,4 +1,4 @@
-import { type AnalysisResult, type BalanceAxis, type CuisineTag } from '../types';
+import { CUISINE_LABELS, type AnalysisResult, type BalanceAxis, type CuisineTag } from '../types';
 import type { Suggestion } from '../scoring';
 
 interface AnalysisPanelProps {
@@ -41,10 +41,7 @@ function intensityWord(score: number): string {
 }
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
-  return cuisine
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  return CUISINE_LABELS[cuisine];
 }
 
 function formatSignedScore(score: number): string {

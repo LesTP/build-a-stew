@@ -49,7 +49,7 @@ describe('Ingredient schema — valid shapes', () => {
       ...MINIMAL_VALID,
       roles: ['protein', 'fat', 'body'],
       traits: ['savory', 'gamey'],
-      cuisines: ['french', 'italian', 'mediterranean'],
+      cuisines: ['french', 'italian', 'european'],
     };
     expect(() => ingredientSchema.parse(multi)).not.toThrow();
   });
