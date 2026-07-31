@@ -36,7 +36,7 @@ describe('Phase 9 timeline', () => {
 
     for (const step of CANONICAL_STEPS) {
       expect(
-        within(timeline).getByText(new RegExp(step, 'i')),
+        within(timeline).getByRole('tab', { name: new RegExp(step, 'i') }),
         `Missing timeline step "${step}"`,
       ).toBeDefined();
     }

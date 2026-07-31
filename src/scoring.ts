@@ -228,14 +228,16 @@ export function scoreStep(
     if (pairedIds.length > 0) {
       score += PAIRING_BONUS * pairedIds.length;
       reasons.add('balance');
-      notes.push(`Pairs with ${pairedIds.length === 1 ? pairedIds[0] : pairedIds.join(', ')}.`);
+      const pairedNames = pairedIds.map(id => byId.get(id)?.name ?? id);
+      notes.push(`Pairs with ${pairedNames.join(', ')}.`);
     }
 
     const avoidedIds = resolveMatchedBuildIds(ingredient.avoidWith, build, catalog, byId);
     if (avoidedIds.length > 0) {
       score -= PAIRING_BONUS * avoidedIds.length;
       reasons.add('caution');
-      cautions.push(`Avoid with ${avoidedIds.length === 1 ? avoidedIds[0] : avoidedIds.join(', ')}.`);
+      const avoidedNames = avoidedIds.map(id => byId.get(id)?.name ?? id);
+      cautions.push(`Avoid with ${avoidedNames.join(', ')}.`);
     }
 
     if (step.longCook && timingReference?.cookMinutes && ingredient.cookMinutes) {

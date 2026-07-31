@@ -464,6 +464,7 @@ function AppContent() {
           id="detail-panel"
           ingredient={selectedIngredient}
           build={build}
+          catalog={catalog}
           candidateSuggestion={selectedSuggestion}
           selectedStepId={activeStep?.id ?? selectedTechnique.steps[0]?.id ?? 'brown'}
           onClearSelection={closeIngredientDetail}

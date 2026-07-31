@@ -30,6 +30,32 @@ function formatCookMinutes(cookMinutes: Ingredient['cookMinutes']): string | nul
   return `${cookMinutes.min}-${cookMinutes.max} min`;
 }
 
+function formatHours(minutes: number): string {
+  const hours = minutes / 60;
+  return Number.isInteger(hours) ? `${hours}` : hours.toFixed(1);
+}
+
+function braiseTimingNote(build: StewBuild, ingredientsById: Map<string, Ingredient>): string {
+  let reference: NonNullable<Ingredient['cookMinutes']> | null = null;
+  for (const entry of build.ingredients) {
+    const cook = ingredientsById.get(entry.ingredientId)?.cookMinutes;
+    if (cook && (!reference || cook.max > reference.max)) {
+      reference = cook;
+    }
+  }
+
+  if (!reference) {
+    return 'Add ingredients to estimate the cook time.';
+  }
+
+  const ovenLow = reference.min * 3;
+  const ovenHigh = reference.max * 3;
+  const oven = ovenLow >= 90
+    ? `${formatHours(ovenLow)}\u2013${formatHours(ovenHigh)} hr`
+    : `${ovenLow}\u2013${ovenHigh} min`;
+  return `Based on your ingredients: pressure cook ~${reference.min}\u2013${reference.max} min, or braise in the oven ~${oven}.`;
+}
+
 export function BuildSummary({
   build,
   catalog,
@@ -85,8 +111,11 @@ export function BuildSummary({
                 </span>
               </button>
               <div id={`stage-panel-${step.id}`} className="stage-card__body">
+                {step.longCook ? (
+                  <p className="stage-braise-note">{braiseTimingNote(build, ingredientsById)}</p>
+                ) : null}
                 {ingredients.length === 0 ? (
-                  <div className="stage-empty">Tap to add ingredients here.</div>
+                  step.longCook ? null : <div className="stage-empty">Tap to add ingredients here.</div>
                 ) : (
                   <ol className="ingredient-list">
                     {ingredients.map(ingredient => {

@@ -72,9 +72,8 @@ describe('Phase 9 step picker', () => {
     await user.click(detailButton);
 
     const detail = screen.getByRole('region', { name: /detail/i });
-    expect(within(detail).getByText(/why it appears here/i)).toBeDefined();
     expect(within(detail).getByText(/best step/i)).toBeDefined();
+    expect(within(detail).getByText(/choice|option/i)).toBeDefined();
     expect(within(detail).getByText(/good with/i)).toBeDefined();
-    expect(within(detail).getByText(/cautions/i)).toBeDefined();
   });
 });

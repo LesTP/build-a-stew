@@ -6,6 +6,7 @@ interface IngredientDetailProps {
   hidden?: boolean;
   ingredient: Ingredient | null;
   build: StewBuild;
+  catalog: readonly Ingredient[];
   candidateSuggestion?: Suggestion | null;
   selectedStepId: (typeof COOKING_STAGES)[number];
   onClearSelection(): void;
@@ -25,11 +26,31 @@ function formatRef(ref: string): string {
   return ref.replace(/_/g, ' ');
 }
 
+function formatList(items: readonly string[]): string {
+  if (items.length <= 1) {
+    return items[0] ?? '';
+  }
+  return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+}
+
+const BUCKET_PHRASE: Record<string, string> = {
+  top: 'Top choice',
+  okay: 'Good option',
+  fallback: 'Fallback option',
+};
+
+const REASON_CLAUSE: Record<string, string> = {
+  balance: 'it helps the flavor balance',
+  cuisine: 'it fits the cuisine',
+  timing: 'its cook time suits this step',
+};
+
 export function IngredientDetail({
   id,
   hidden,
   ingredient,
   build,
+  catalog,
   candidateSuggestion,
   selectedStepId,
   onClearSelection,
@@ -40,12 +61,9 @@ export function IngredientDetail({
         <div className="panel-heading">
           <h2 id="detail-title">Ingredient details</h2>
         </div>
-        <p className="panel-copy">
-          Selecting an ingredient surfaces why it fits this step, its cautions, and its full
-          metadata here. Add it from the picker on the left.
-        </p>
-        <div className="panel-placeholder" aria-hidden="true">
-          Click an ingredient card to inspect its notes, tags, and stage options.
+        <div className="panel-placeholder">
+          Select an ingredient to see general info, whether it fits with what you&rsquo;ve already
+          added, and why.
         </div>
       </section>
     );
@@ -53,10 +71,22 @@ export function IngredientDetail({
 
   const buildIngredient = build.ingredients.find(entry => entry.ingredientId === ingredient.id);
   const isPlaced = buildIngredient !== undefined;
-  const candidateNotes = candidateSuggestion?.notes ?? [];
   const candidateCautions = candidateSuggestion?.cautions ?? [];
   const candidateReasons = candidateSuggestion?.reasons ?? [];
   const candidateGoodWith = ingredient.pairsWith?.length ? ingredient.pairsWith.map(formatRef).join(', ') : 'None listed';
+
+  const bucketPhrase = candidateSuggestion ? BUCKET_PHRASE[candidateSuggestion.bucket] ?? 'Option' : 'Option';
+  const reasonClauses = candidateReasons
+    .filter(reason => reason !== 'caution')
+    .map(reason => REASON_CLAUSE[reason])
+    .filter((clause): clause is string => Boolean(clause));
+  const whyText = reasonClauses.length > 0
+    ? `${bucketPhrase} because ${formatList(reasonClauses)}.`
+    : `${bucketPhrase} for this step.`;
+  const detailBuildIds = new Set(build.ingredients.map(entry => entry.ingredientId));
+  const pairingNames = (ingredient.pairsWith ?? [])
+    .filter(pairId => detailBuildIds.has(pairId))
+    .map(pairId => catalog.find(item => item.id === pairId)?.name ?? formatRef(pairId));
 
   return (
     <section id={id} className="composer-panel composer-panel--detail" aria-label="Ingredient details" hidden={hidden}>
@@ -77,39 +107,23 @@ export function IngredientDetail({
 
         {!isPlaced ? (
           <>
-            <div className="detail-section">
-              <h4>Best step</h4>
-              <p className="detail-list">{STAGE_LABELS[selectedStepId]}</p>
-            </div>
-
-            <div className="detail-section">
-              <h4>Why it appears here</h4>
-              {candidateNotes.length > 0 || candidateReasons.length > 0 ? (
-                <ul className="detail-bullet-list">
-                  {candidateNotes.map((note, index) => (
-                    <li key={`${ingredient.id}:note:${index}`}>{note}</li>
-                  ))}
-                  {candidateReasons.length > 0 ? (
-                    <li>Reasons: {candidateReasons.map(reason => reason.replace('_', ' ')).join(', ')}</li>
-                  ) : null}
-                </ul>
-              ) : (
-                <p className="detail-list">Reasonable option for this step.</p>
-              )}
-            </div>
-
-            <div className="detail-section">
-              <h4>Cautions</h4>
-              {candidateCautions.length > 0 ? (
+            <p className="detail-line">
+              <strong>Best step:</strong> {STAGE_LABELS[selectedStepId]}
+            </p>
+            <p className="detail-why">{whyText}</p>
+            {pairingNames.length > 0 ? (
+              <p className="detail-pairing">Pairs well with {pairingNames.join(', ')}.</p>
+            ) : null}
+            {candidateCautions.length > 0 ? (
+              <div className="detail-section">
+                <h4>Cautions</h4>
                 <ul className="detail-bullet-list">
                   {candidateCautions.map((caution, index) => (
                     <li key={`${ingredient.id}:caution:${index}`}>{caution}</li>
                   ))}
                 </ul>
-              ) : (
-                <p className="detail-list">None for this step.</p>
-              )}
-            </div>
+              </div>
+            ) : null}
           </>
         ) : null}
 
