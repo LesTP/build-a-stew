@@ -20,18 +20,25 @@ const BALANCE_LABELS: Record<BalanceAxis, string> = {
   aromatic_intensity: 'Aromatic intensity',
 };
 
-const BALANCE_LANGUAGE: Record<BalanceAxis, { positive: string; negative: string }> = {
-  body: { positive: 'more body', negative: 'lighter' },
-  richness: { positive: 'richer', negative: 'leaner' },
-  umami: { positive: 'more savory', negative: 'less savory' },
-  sweetness: { positive: 'slightly sweeter', negative: 'less sweet' },
-  acidity: { positive: 'brighter', negative: 'rounder' },
-  heat: { positive: 'warmer', negative: 'cooler' },
-  smoke: { positive: 'smokier', negative: 'cleaner' },
-  freshness: { positive: 'fresher', negative: 'less bright' },
-  texture: { positive: 'more texture', negative: 'smoother' },
-  aromatic_intensity: { positive: 'more aromatic', negative: 'quieter' },
+const BALANCE_ADJECTIVE: Record<BalanceAxis, { positive: string; negative: string }> = {
+  body: { positive: 'full-bodied', negative: 'light' },
+  richness: { positive: 'rich', negative: 'lean' },
+  umami: { positive: 'savory', negative: 'mild' },
+  sweetness: { positive: 'sweet', negative: 'savory' },
+  acidity: { positive: 'bright', negative: 'mellow' },
+  heat: { positive: 'spicy', negative: 'gentle' },
+  smoke: { positive: 'smoky', negative: 'clean' },
+  freshness: { positive: 'fresh', negative: 'muted' },
+  texture: { positive: 'textured', negative: 'smooth' },
+  aromatic_intensity: { positive: 'aromatic', negative: 'subtle' },
 };
+
+function intensityWord(score: number): string {
+  const magnitude = Math.abs(score);
+  if (magnitude >= 5) return 'highly';
+  if (magnitude >= 3) return 'fairly';
+  return 'slightly';
+}
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
   return cuisine
@@ -63,8 +70,8 @@ function describeBalance(scores: AnalysisResult['balanceScores']): string {
   }
 
   const phrases = signals.slice(0, 3).map(([axis, score]) => {
-    const language = BALANCE_LANGUAGE[axis];
-    return score > 0 ? language.positive : language.negative;
+    const adjective = score > 0 ? BALANCE_ADJECTIVE[axis].positive : BALANCE_ADJECTIVE[axis].negative;
+    return `${intensityWord(score)} ${adjective}`;
   });
 
   if (phrases.length === 1) {
