@@ -62,7 +62,7 @@ describe('Phase 9 shell', () => {
     restoreViewport = setViewportWidth(1680);
     render(<App />);
 
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
     const stepPicker = screen.getByRole('region', { name: /step picker/i });
     const detail = screen.getByRole('region', { name: /detail/i });
     const balance = screen.getByRole('region', { name: /balance/i });

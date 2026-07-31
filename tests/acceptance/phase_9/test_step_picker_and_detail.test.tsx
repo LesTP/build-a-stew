@@ -18,7 +18,7 @@ import { describe, expect, it } from 'vitest';
 import App from '../../../src/App';
 
 async function selectPressureStep(user: ReturnType<typeof userEvent.setup>) {
-  const timeline = screen.getByRole('region', { name: /timeline/i });
+  const timeline = screen.getByRole('region', { name: /step sequence/i });
   await user.click(within(timeline).getByRole('tab', { name: /pressure/i }));
 }
 

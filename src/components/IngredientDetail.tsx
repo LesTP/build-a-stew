@@ -36,9 +36,9 @@ export function IngredientDetail({
 }: IngredientDetailProps) {
   if (!ingredient) {
     return (
-      <section id={id} className="composer-panel composer-panel--detail" aria-label="Detail" hidden={hidden}>
+      <section id={id} className="composer-panel composer-panel--detail" aria-label="Ingredient details" hidden={hidden}>
         <div className="panel-heading">
-          <h2 id="detail-title">Detail</h2>
+          <h2 id="detail-title">Ingredient details</h2>
         </div>
         <p className="panel-copy">
           Selecting an ingredient surfaces why it fits this step, its cautions, and its full
@@ -59,9 +59,9 @@ export function IngredientDetail({
   const candidateGoodWith = ingredient.pairsWith?.length ? ingredient.pairsWith.map(formatRef).join(', ') : 'None listed';
 
   return (
-    <section id={id} className="composer-panel composer-panel--detail" aria-label="Detail" hidden={hidden}>
+    <section id={id} className="composer-panel composer-panel--detail" aria-label="Ingredient details" hidden={hidden}>
       <div className="panel-heading">
-        <h2 id="detail-title">Detail</h2>
+        <h2 id="detail-title">Ingredient details</h2>
       </div>
 
       <div className="detail-card">

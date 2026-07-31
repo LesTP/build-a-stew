@@ -87,7 +87,7 @@ describe('App shell — header controls and popups', () => {
 
   it('exposes the timeline remove control as a native button', () => {
     render(<App />);
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
 
     expect(within(timeline).getByRole('button', { name: /remove chicken thighs/i })).toBeDefined();
   });

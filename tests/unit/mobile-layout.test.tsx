@@ -36,14 +36,14 @@ describe('mobile composer layout', () => {
     restoreViewport = setViewportWidth(375);
     render(<App />);
 
-    expect(screen.getByRole('region', { name: /timeline/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /step sequence/i })).toBeDefined();
     expect(screen.queryByRole('region', { name: /step picker/i })).toBeNull();
     expect(screen.queryByRole('region', { name: /detail/i })).toBeNull();
     expect(screen.getByRole('region', { name: /balance/i })).toBeDefined();
 
     await user.click(screen.getByRole('tab', { name: /step picker/i }));
     expect(screen.getByRole('region', { name: /step picker/i })).toBeDefined();
-    expect(screen.queryByRole('region', { name: /timeline/i })).toBeNull();
+    expect(screen.queryByRole('region', { name: /step sequence/i })).toBeNull();
 
     await user.click(screen.getByRole('tab', { name: /detail/i }));
     expect(screen.getByRole('region', { name: /detail/i })).toBeDefined();
@@ -71,7 +71,7 @@ describe('mobile composer layout', () => {
     await user.click(addButton);
 
     const timelineTab = screen.getByRole('tab', { name: /timeline/i });
-    expect(screen.getByRole('region', { name: /timeline/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /step sequence/i })).toBeDefined();
     expect(document.activeElement).toBe(timelineTab);
   });
 });

@@ -30,7 +30,7 @@ describe('Phase 9 timeline', () => {
   it('renders the canonical braise steps in order', () => {
     render(<App />);
 
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
     const text = within(timeline).getByText(/brown/i).textContent ?? '';
     expect(text).toMatch(/brown/i);
 
@@ -46,7 +46,7 @@ describe('Phase 9 timeline', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
     const chickenChip = within(timeline).getByRole('button', { name: /open detail for chicken thigh/i });
 
     await user.click(chickenChip);
@@ -59,7 +59,7 @@ describe('Phase 9 timeline', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
     const pressureStep = within(timeline).getByRole('tab', { name: /pressure/i });
 
     await user.click(pressureStep);

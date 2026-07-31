@@ -13,7 +13,7 @@ interface StepPickerPanelProps {
 }
 
 const BUCKET_TITLES: Record<Suggestion['bucket'], string> = {
-  top: 'Top',
+  top: 'Top choices',
   okay: 'Okay',
   fallback: 'Fallback',
 };
@@ -78,7 +78,7 @@ export function StepPickerPanel({
         <h2 id="step-picker-title">Ingredient picker</h2>
       </div>
       <p className="panel-copy">
-        Ranked for <strong>{step.label}</strong>. <span aria-hidden="true">←</span> adds it to the step; tap a card for details.
+        Ranked by flavor balance and cuisine fit. Add to step with <span aria-hidden="true">←</span> or tap for details.
       </p>
       {isCompactLayout && primarySuggestion ? (() => {
         const ingredient = ingredientsById.get(primarySuggestion.ingredientId);

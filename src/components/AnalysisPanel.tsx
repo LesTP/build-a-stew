@@ -59,7 +59,7 @@ function rankBalanceSignals(scores: AnalysisResult['balanceScores']) {
 function describeBalance(scores: AnalysisResult['balanceScores']): string {
   const signals = rankBalanceSignals(scores);
   if (signals.length === 0) {
-    return 'This may become more balanced as you add ingredients.';
+    return 'Add ingredients to shape the flavor.';
   }
 
   const phrases = signals.slice(0, 3).map(([axis, score]) => {
@@ -68,11 +68,11 @@ function describeBalance(scores: AnalysisResult['balanceScores']): string {
   });
 
   if (phrases.length === 1) {
-    return `This may become ${phrases[0]}.`;
+    return `So far, it's leaning ${phrases[0]}.`;
   }
 
   const last = phrases.pop();
-  return `This may become ${phrases.join(', ')}${phrases.length > 0 ? ', and ' : ''}${last}.`;
+  return `So far, it's leaning ${phrases.join(', ')}${phrases.length > 0 ? ', and ' : ''}${last}.`;
 }
 
 function describeBalanceCauses(scores: AnalysisResult['balanceScores']): string {
@@ -104,7 +104,7 @@ export function AnalysisPanel({
     <>
       <section className="composer-panel composer-panel--balance" aria-labelledby="balance-title">
         <div className="panel-heading">
-          <h2 id="balance-title">Balance</h2>
+          <h2 id="balance-title">Flavor balance</h2>
         </div>
         <p className="balance-summary">{describeBalance(analysis.balanceScores)}</p>
         <p className="balance-causes">{describeBalanceCauses(analysis.balanceScores)}</p>

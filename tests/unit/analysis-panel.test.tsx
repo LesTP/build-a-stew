@@ -44,7 +44,7 @@ describe('AnalysisPanel', () => {
     const markup = renderToStaticMarkup(<AnalysisPanel analysis={createAnalysis()} />);
 
     // Three separate card headings
-    expect(markup).toContain('Balance');
+    expect(markup).toContain('Flavor balance');
     expect(markup).toContain('Cuisine');
     expect(markup).toContain('Advisories');
     // Balance axis labels

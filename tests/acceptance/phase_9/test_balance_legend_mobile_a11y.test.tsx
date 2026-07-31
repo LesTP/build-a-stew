@@ -48,7 +48,7 @@ describe('Phase 9 balance and legend', () => {
     render(<App />);
 
     const balance = screen.getByRole('region', { name: /balance/i });
-    expect(within(balance).getByText(/this may become/i)).toBeDefined();
+    expect(within(balance).getByText(/so far/i)).toBeDefined();
     expect(within(balance).getByText(/caused by:/i)).toBeDefined();
     expect(within(balance).getByText(/try:/i)).toBeDefined();
     expect(within(balance).getAllByRole('button', { name: /try/i }).length).toBeGreaterThan(0);
@@ -100,7 +100,7 @@ describe('Phase 9 mobile behavior', () => {
     const timelineTab = screen.getByRole('tab', { name: /timeline/i });
     await user.click(timelineTab);
 
-    const timeline = screen.getByRole('region', { name: /timeline/i });
+    const timeline = screen.getByRole('region', { name: /step sequence/i });
     const pressureStep = within(timeline).getByRole('tab', { name: /pressure/i });
     await user.click(pressureStep);
 
@@ -109,6 +109,6 @@ describe('Phase 9 mobile behavior', () => {
     addButton.focus();
     await user.keyboard('{Enter}');
 
-    expect(screen.getByRole('region', { name: /timeline/i })).toBeDefined();
+    expect(screen.getByRole('region', { name: /step sequence/i })).toBeDefined();
   });
 });

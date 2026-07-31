@@ -397,12 +397,13 @@ function AppContent() {
         <section
           id="timeline-panel"
           className="composer-panel composer-panel--timeline"
-          aria-label="Timeline"
+          aria-label="Step sequence"
           hidden={isMobileLayout && activePanelId !== 'timeline'}
         >
           <div className="panel-heading">
-            <h2 id="timeline-title">Timeline</h2>
+            <h2 id="timeline-title">Step sequence</h2>
           </div>
+          <p className="panel-copy">Select a step to see ingredient choices.</p>
           <BuildSummary
             build={build}
             catalog={catalog}
