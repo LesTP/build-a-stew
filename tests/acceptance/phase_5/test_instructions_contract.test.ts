@@ -72,7 +72,7 @@ describe('generateInstructions — core contract', () => {
     const analysis = analyzeBuild(build, catalog);
     const recipe = generateInstructions(build, catalog, analysis);
 
-    const stageOrder: CookingStage[] = ['brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish', 'serve_over'];
+    const stageOrder: CookingStage[] = ['brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish'];
     const stepStages = recipe.steps.map(s => s.stage);
     const stageIndices = stepStages.map(s => stageOrder.indexOf(s as CookingStage));
     for (let i = 1; i < stageIndices.length; i++) {

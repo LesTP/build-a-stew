@@ -98,24 +98,6 @@ describe('Stage placement warnings', () => {
     );
     expect(spinachStagePlacements).toHaveLength(0);
   });
-
-  it('couscous placed in "pressure" stage emits a stage-placement warning', () => {
-    const b = moveIngredient(addIngredient(emptyBuild(), 'couscous', catalog), 'couscous', 'pressure');
-    const result = analyzeBuild(b, catalog);
-    expect(result.warnings.some(w => w.message.toLowerCase().includes('couscous'))).toBe(true);
-  });
-
-  it('couscous placed in its default "serve_over" stage does not emit a stage-placement warning', () => {
-    // couscous.stage === "serve_over" by default
-    const b = addIngredient(emptyBuild(), 'couscous', catalog);
-    const result = analyzeBuild(b, catalog);
-    const couscousStagePlacements = result.warnings.filter(
-      w =>
-        w.message.toLowerCase().includes('couscous') &&
-        (w.message.toLowerCase().includes('serve_over') || w.message.toLowerCase().includes('serve over'))
-    );
-    expect(couscousStagePlacements).toHaveLength(0);
-  });
 });
 
 describe('Timing findings', () => {

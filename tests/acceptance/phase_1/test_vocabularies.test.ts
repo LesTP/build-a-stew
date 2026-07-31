@@ -12,9 +12,9 @@ import {
 } from '../../../src/types';
 
 describe('Controlled vocabularies — completeness', () => {
-  it('exports all 8 cooking stages', () => {
-    expect(COOKING_STAGES).toHaveLength(8);
-    const required = ['brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish', 'serve_over'];
+  it('exports all 7 cooking stages', () => {
+    expect(COOKING_STAGES).toHaveLength(7);
+    const required = ['brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish'];
     for (const s of required) expect(COOKING_STAGES).toContain(s);
   });
 

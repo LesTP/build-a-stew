@@ -71,7 +71,7 @@ export function BuildSummary({
   const timelineSteps = steps ?? COOKING_STAGES.map(stage => ({
     id: stage,
     label: STAGE_LABELS[stage],
-    timing: stage === 'pressure' || stage === 'simmer_after' ? 'long' : stage === 'finish' || stage === 'serve_over' ? 'finish' : 'short',
+    timing: stage === 'pressure' || stage === 'simmer_after' ? 'long' : stage === 'finish' ? 'finish' : 'short',
     ...(stage === 'pressure' ? { longCook: true as const } : {}),
   }));
 

@@ -1,5 +1,5 @@
 export const COOKING_STAGES = [
-  'brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish', 'serve_over',
+  'brown', 'aromatics', 'deglaze', 'pressure', 'simmer_after', 'stir_in', 'finish',
 ] as const;
 
 export const INGREDIENT_CATEGORIES = [
@@ -63,7 +63,6 @@ export const STAGE_LABELS: Record<CookingStage, string> = {
   simmer_after: 'Simmer after',
   stir_in: 'Stir in',
   finish: 'Finish',
-  serve_over: 'Serve over',
 };
 
 type GroupDefinition = { category: IngredientCategory } | { ids: string[] };

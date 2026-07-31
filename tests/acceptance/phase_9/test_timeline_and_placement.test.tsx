@@ -23,7 +23,6 @@ const CANONICAL_STEPS = [
   'simmer after',
   'stir in',
   'finish',
-  'serve over',
 ] as const;
 
 describe('Phase 9 timeline', () => {

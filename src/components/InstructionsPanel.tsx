@@ -30,6 +30,7 @@ export function InstructionsPanel({ build, catalog, analysis }: InstructionsPane
           <p>Once the build has ingredients, each stage becomes a generated step list here.</p>
         </div>
       ) : (
+        <>
         <div className="instructions-list" role="list" aria-label="Generated cooking instructions">
           {recipe.steps.map(step => (
             <article key={step.stage} className="instruction-step" role="listitem">
@@ -47,6 +48,10 @@ export function InstructionsPanel({ build, catalog, analysis }: InstructionsPane
             </article>
           ))}
         </div>
+        {recipe.servingSuggestion ? (
+          <p className="instructions-serving-note">{recipe.servingSuggestion}</p>
+        ) : null}
+        </>
       )}
     </div>
   );

@@ -27,12 +27,12 @@ describe('Technique model — braise registration', () => {
     expect(t.name.length).toBeGreaterThan(0);
   });
 
-  it('braise has exactly 8 steps', () => {
+  it('braise has exactly 7 steps', () => {
     const t = getBraiseTechnique();
-    expect(t.steps).toHaveLength(8);
+    expect(t.steps).toHaveLength(7);
   });
 
-  it('braise step IDs match the 8 CookingStage ids in canonical order', () => {
+  it('braise step IDs match the 7 CookingStage ids in canonical order', () => {
     const t = getBraiseTechnique();
     const stepIds = t.steps.map((s) => s.id);
     expect(stepIds).toEqual([...COOKING_STAGES]);

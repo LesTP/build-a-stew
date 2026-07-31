@@ -115,7 +115,7 @@
       "pearl_barley",
       "ginger"
     ],
-    "notes": "Stock builder, not a substantial meat portion."
+    "notes": "Stock builder, not a substantial meat portion. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "beef_chuck",
@@ -238,7 +238,7 @@
       "roots",
       "parsley"
     ],
-    "notes": "Marrow and connective tissue enrich the liquid."
+    "notes": "Marrow and connective tissue enrich the liquid. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "pork_shoulder",
@@ -439,7 +439,7 @@
       "ham_hock",
       "smoked_sausage"
     ],
-    "notes": "Excellent body, usually expensive."
+    "notes": "Excellent body, usually expensive. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "ham_hock",
@@ -487,7 +487,7 @@
       "smoked_sausage",
       "miso"
     ],
-    "notes": "Salt only after cooking."
+    "notes": "Salt only after cooking. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "smoked_turkey_leg",
@@ -528,7 +528,7 @@
     "avoidWith": [
       "ham_hock"
     ],
-    "notes": "Lighter smoked alternative to ham hock."
+    "notes": "Lighter smoked alternative to ham hock. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "turkey_neck",
@@ -565,7 +565,7 @@
       "beans",
       "pearl_barley"
     ],
-    "notes": "Good-value broth meat; watch small bones."
+    "notes": "Good-value broth meat; watch small bones. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "pork_neck_bones",
@@ -603,7 +603,7 @@
       "cabbage",
       "pearl_barley"
     ],
-    "notes": "Budget broth option; watch bone fragments."
+    "notes": "Budget broth option; watch bone fragments. A small amount adds deep body and gelatin without making it meat-heavy."
   },
   {
     "id": "smoked_sausage",
@@ -2706,40 +2706,6 @@
       "greens"
     ],
     "notes": "Timing depends on shape."
-  },
-  {
-    "id": "couscous",
-    "name": "Couscous",
-    "category": "grains",
-    "stage": "serve_over",
-    "compatibleSteps": [
-      "serve_over"
-    ],
-    "roles": [
-      "starch",
-      "body"
-    ],
-    "traits": [],
-    "balanceScores": {
-      "body": 2,
-      "texture": 2
-    },
-    "cuisines": [
-      "middle_eastern_african",
-      "european"
-    ],
-    "saltRisk": "low",
-    "cookMinutes": {
-      "min": 5,
-      "max": 5
-    },
-    "pairsWith": [
-      "dried_chickpeas",
-      "lamb_shoulder",
-      "chicken_thighs",
-      "roots"
-    ],
-    "notes": "Prepare separately."
   },
   {
     "id": "spinach",

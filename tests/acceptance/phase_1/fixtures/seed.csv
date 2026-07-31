@@ -12,4 +12,3 @@ kale,Kale,greens,simmer_after,freshener; texture,herbaceous; bitter,"{""freshnes
 spinach,Spinach,greens,stir_in,freshener,herbaceous,"{""freshness"":4,""texture"":1}",italian; universal,1,3,low,meat; white_beans,,Add after opening.
 corn,Corn,vegetable,stir_in,texture; freshener,,"{""sweetness"":4,""freshness"":2,""texture"":2}",mexican; american,2,5,low,beans; meat,,Frozen corn works well.
 parsley,Parsley,topping,finish,freshener; topping,herbaceous,"{""freshness"":4,""aromatic_intensity"":2}",french; italian,,,low,meat; grains,,Very versatile.
-couscous,Couscous,grains,serve_over,starch; body,,"{""body"":2,""texture"":2}",north_african; mediterranean,5,5,low,meat,,Prepare separately.

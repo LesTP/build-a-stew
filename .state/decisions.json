@@ -388,5 +388,15 @@
     "priority": "medium",
     "title": "Consolidate cuisines 18 -> 9 (French/Italian distinct)",
     "rationale": "18 tags were too granular for the cuisine soft re-rank; a leaderboard split across near-synonyms gave weak signal. 8 buckets keep regional distinction while concentrating affinity. Fixture counts recomputed under merge/dedup (Fixture 6 mexican=6 -> latin_american=6). tsc clean; full suite 371 passing."
+  },
+  {
+    "revisit_if": "A technique genuinely needs a distinct serving/plating step, or quantity modeling lands (meat-as-flavoring could then be modeled by amount rather than a note).",
+    "priority": "medium",
+    "rationale": "serve_over is a serving/plating choice, not a cooking action, so it never populated (1 ingredient vs 9-37 elsewhere). Cutting makes the timeline purely cooking steps; the serving base belongs in the recipe's final line. Updated phase_1/4/5 tests (not frozen) and refroze phase 7 (7 steps) and phase 9 (canonical steps); phase 8 unaffected. tsc clean; 369 tests pass (was 371; -2 removed couscous-rule tests).",
+    "id": "D-52",
+    "phase": 10,
+    "decision": "Removed serve_over from COOKING_STAGES/STAGE_LABELS/braise technique (braise now 7 steps). Serving-base info moved to the generated Recipe as a final servingSuggestion line ('Serve over a starch - couscous, rice, mashed potato, polenta, or crusty bread - to soak up the sauce'), rendered in the Instructions panel. Removed the sole serve_over ingredient (Couscous) from the catalog (119->118) and its stage-placement analysis rule. Separately added a gelatin/flavoring note to broth-building cuts (oxtail, beef shank, chicken feet, ham hock, smoked turkey leg, turkey neck, pork neck bones): 'A small amount adds deep body and gelatin without making it meat-heavy.'",
+    "status": "closed",
+    "title": "Cut the serve_over step; serving guidance moves to the Recipe"
   }
 ]

@@ -1052,6 +1052,16 @@ button {
   line-height: 1.4;
 }
 
+.instructions-serving-note {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(242, 179, 111, 0.1);
+  border: 1px solid rgba(242, 179, 111, 0.25);
+  color: rgba(var(--ink-rgb), 0.85);
+  line-height: 1.45;
+}
+
 .ingredient-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

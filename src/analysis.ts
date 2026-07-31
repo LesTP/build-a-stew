@@ -157,15 +157,6 @@ function addStageWarnings(
         relatedIngredientIds: [ingredient.id],
       });
     }
-
-    if (ingredient.id === 'couscous' && buildIngredient.stage !== 'serve_over') {
-      addWarning(warnings, seenWarnings, {
-        id: `stage:couscous:${buildIngredient.stage}`,
-        severity: 'warning',
-        message: `${capitalize(ingredient.name)} is usually served over the stew, not in ${buildIngredient.stage.replace('_', ' ')}.`,
-        relatedIngredientIds: [ingredient.id],
-      });
-    }
   }
 }
 

@@ -24,7 +24,6 @@ const BRAISE_STEP_TIMINGS: Record<CookingStage, CookingStepTiming> = {
   simmer_after: 'long',
   stir_in: 'medium',
   finish: 'finish',
-  serve_over: 'finish',
 };
 
 const BRAISE_STEP_LABELS: Record<CookingStage, string> = {
