@@ -51,7 +51,7 @@ describe('AnalysisPanel', () => {
     expect(markup).toContain('Richness');
     expect(markup).toContain('Freshness');
     // Cuisine ranking
-    expect(markup).toContain('french');
+    expect(markup).toContain('French');
     // Merged advisory content + per-card severity badge
     expect(markup).toContain('Add a leafy green like spinach for lift.');
     expect(markup).toContain('info');

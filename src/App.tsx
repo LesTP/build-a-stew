@@ -28,8 +28,10 @@ const MOBILE_LAYOUT_BREAKPOINT = 768;
 type ComposerPanelId = 'timeline' | 'step-picker' | 'detail';
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
-  const label = cuisine.replaceAll('_', ' ');
-  return label.charAt(0).toUpperCase() + label.slice(1);
+  return cuisine
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function createDemoBuild(catalog: readonly Ingredient[]) {

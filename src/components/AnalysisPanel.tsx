@@ -34,7 +34,10 @@ const BALANCE_LANGUAGE: Record<BalanceAxis, { positive: string; negative: string
 };
 
 function formatCuisineLabel(cuisine: CuisineTag): string {
-  return cuisine.replaceAll('_', ' ');
+  return cuisine
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function formatSignedScore(score: number): string {

@@ -149,13 +149,11 @@ export function StepPickerPanel({
                           onClick={() => onSelectIngredient(suggestion.ingredientId)}
                           aria-label={`Inspect ${ingredient.name}`}
                         >
-                          <span className="step-picker-row__line1">
-                            <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
-                              {ingredient.category}
-                            </span>
-                            <span className="step-picker-row__name">{ingredient.name}</span>
+                          <span className={`step-picker-row__category step-picker-row__category--${ingredient.category}`}>
+                            {ingredient.category}
                           </span>
-                          <span className="step-picker-row__line2">
+                          <span className="step-picker-row__name">{ingredient.name}</span>
+                          <span className="step-picker-row__meta">
                             <span className="step-picker-row__icons" aria-hidden="true">
                               {suggestion.reasons.map(reason => (
                                 <span
@@ -167,7 +165,9 @@ export function StepPickerPanel({
                                 </span>
                               ))}
                             </span>
-                            <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
+                            {ingredient.cookMinutes ? (
+                              <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
+                            ) : null}
                           </span>
                         </button>
                       </li>
