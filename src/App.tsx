@@ -16,7 +16,7 @@ import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
 import { scoreStep } from './scoring';
 import { TECHNIQUES } from './techniques';
-import { CUISINE_TAGS } from './types';
+import { CUISINE_TAGS, INGREDIENT_CATEGORIES } from './types';
 import type { CookingStage, CuisineTag, Ingredient } from './types';
 import type { CookingStep } from './techniques';
 
@@ -282,6 +282,13 @@ function AppContent() {
     }
   }
 
+  const legendCategories = INGREDIENT_CATEGORIES.filter(category =>
+    stepSuggestions.some(s => catalog.find(i => i.id === s.ingredientId)?.category === category),
+  );
+  const legendReasons = (['balance', 'cuisine', 'timing', 'caution'] as const).filter(reason =>
+    stepSuggestions.some(s => s.reasons.includes(reason)),
+  );
+
   return (
     <>
       <header className="app-header">
@@ -289,8 +296,7 @@ function AppContent() {
           <h1>Build-a-Stew</h1>
         </div>
 
-        <div className="header-toolbar" aria-label="Build controls">
-          <div className="header-controls">
+        <div className="header-controls">
             <label className="header-field" htmlFor="technique-select">
               <span className="header-field__label">Technique</span>
               <select
@@ -353,7 +359,6 @@ function AppContent() {
               {saveFeedback}
             </p>
           ) : null}
-        </div>
       </header>
 
       <nav
@@ -449,7 +454,7 @@ function AppContent() {
               </div>
             </>
           )}
-          <Legend />
+          <Legend categories={legendCategories} reasons={legendReasons} />
         </section>
 
         <IngredientDetail

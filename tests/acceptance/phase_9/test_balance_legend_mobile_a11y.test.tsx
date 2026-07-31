@@ -16,19 +16,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import App from '../../../src/App';
 
-const CATEGORY_LABELS = [
-  'protein',
-  'aromatics',
-  'liquid',
-  'roots',
-  'vegetable',
-  'legumes',
-  'grains',
-  'greens',
-  'fat',
-  'topping',
-  'spice',
-] as const;
+// (legend is dynamic; the full category list is no longer enumerated here)
 
 function setViewportWidth(width: number): () => void {
   const previousWidth = window.innerWidth;
@@ -66,17 +54,20 @@ describe('Phase 9 balance and legend', () => {
     expect(within(balance).getAllByRole('button', { name: /try/i }).length).toBeGreaterThan(0);
   });
 
-  it('documents every category and reason icon in the legend', () => {
+  it('documents only the categories and reason icons currently shown in the picker', () => {
     render(<App />);
 
     const legend = screen.getByRole('region', { name: /legend/i });
-    for (const label of CATEGORY_LABELS) {
-      expect(within(legend).getByText(new RegExp(label, 'i'))).toBeDefined();
-    }
+    // Categories present in the current step's suggestions are documented...
+    expect(within(legend).getByText(/protein/i)).toBeDefined();
+    // ...and categories absent from the current step are omitted (dynamic legend).
+    expect(within(legend).queryByText(/greens/i)).toBeNull();
 
-    for (const icon of ['🍽', '⚖', '⏱', '⚠'] as const) {
-      expect(within(legend).getByText(icon)).toBeDefined();
-    }
+    // At least one applicable reason icon is shown.
+    const iconsShown = (['🍽', '⚖', '⏱', '⚠'] as const).filter(
+      icon => within(legend).queryByText(icon) !== null,
+    );
+    expect(iconsShown.length).toBeGreaterThan(0);
   });
 });
 

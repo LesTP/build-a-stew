@@ -78,7 +78,7 @@ export function StepPickerPanel({
         <h2 id="step-picker-title">Ingredient picker</h2>
       </div>
       <p className="panel-copy">
-        Ranked for <strong>{step.label}</strong>. Use <span aria-hidden="true">←</span> to add, <span aria-hidden="true">→</span> for details.
+        Ranked for <strong>{step.label}</strong>. <span aria-hidden="true">←</span> adds it to the step; tap a card for details.
       </p>
       {isCompactLayout && primarySuggestion ? (() => {
         const ingredient = ingredientsById.get(primarySuggestion.ingredientId);
@@ -134,6 +134,17 @@ export function StepPickerPanel({
                       >
                         <button
                           type="button"
+                          className="step-picker-row__add"
+                          aria-hidden={isCompactLayout}
+                          tabIndex={isCompactLayout ? -1 : 0}
+                          onClick={() => onAddIngredient(suggestion.ingredientId)}
+                          aria-label={`Add ${ingredient.name} to ${step.label}`}
+                        >
+                          ←
+                        </button>
+
+                        <button
+                          type="button"
                           className="step-picker-row__detail"
                           onClick={() => onSelectIngredient(suggestion.ingredientId)}
                           aria-label={`Inspect ${ingredient.name}`}
@@ -158,17 +169,6 @@ export function StepPickerPanel({
                             </span>
                             <span className="step-picker-row__cook">{formatCookMinutes(ingredient.cookMinutes)}</span>
                           </span>
-                        </button>
-
-                        <button
-                          type="button"
-                          className="step-picker-row__add"
-                          aria-hidden={isCompactLayout}
-                          tabIndex={isCompactLayout ? -1 : 0}
-                          onClick={() => onAddIngredient(suggestion.ingredientId)}
-                          aria-label={`Add ${ingredient.name} to ${step.label}`}
-                        >
-                          +
                         </button>
                       </li>
                     );

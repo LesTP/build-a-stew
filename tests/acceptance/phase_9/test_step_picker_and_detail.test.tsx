@@ -33,7 +33,7 @@ describe('Phase 9 step picker', () => {
     expect(rows.length).toBeGreaterThan(0);
 
     const rowText = rows[0].textContent ?? '';
-    expect(rowText).toMatch(/\+/);
+    expect(rowText).toMatch(/←/);
     expect(rowText).toMatch(/🍽|⚖|⏱|⚠/);
     expect(rowText).toMatch(/\d+\s*min/i);
   });

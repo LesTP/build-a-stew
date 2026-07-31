@@ -220,7 +220,8 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 14px 28px;
 }
 
 .library-rail {
@@ -396,7 +397,6 @@ button {
 .header-actions {
   display: flex;
   gap: 10px;
-  flex: 1;
   flex-wrap: wrap;
 }
 
@@ -406,6 +406,7 @@ button {
 
 .header-feedback {
   margin: 0;
+  flex-basis: 100%;
   color: rgba(var(--ink-rgb), 0.72);
   font-size: 0.92rem;
 }
@@ -599,6 +600,10 @@ button {
 
 .composer-panel--timeline {
   grid-column: span 1;
+}
+
+.composer-panel--step-picker {
+  border-color: rgba(242, 179, 111, 0.5);
 }
 
 .composer-panel--legend {
@@ -801,20 +806,23 @@ button {
 .detail-meta {
   margin: 0;
   display: grid;
-  gap: 12px;
+  gap: 6px;
 }
 
 .detail-meta > div {
-  display: grid;
-  gap: 6px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  background: rgba(var(--line-rgb), 0.04);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
 }
 
 .detail-meta dt {
-  color: rgba(var(--ink-rgb), 0.66);
-  font-size: 0.86rem;
+  flex: 0 0 5.5rem;
+  color: rgba(var(--ink-rgb), 0.6);
+  font-size: 0.82rem;
+}
+
+.detail-meta dd {
+  flex: 1;
 }
 
 .detail-meta dd,
@@ -1053,8 +1061,9 @@ button {
 }
 
 .stage-card--active {
-  border-color: rgba(242, 179, 111, 0.3);
-  box-shadow: 0 0 0 1px rgba(81, 164, 255, 0.16), 0 18px 48px rgba(0, 0, 0, 0.24);
+  border-color: rgba(242, 179, 111, 0.65);
+  background: rgba(242, 179, 111, 0.1);
+  box-shadow: 0 0 0 1px rgba(242, 179, 111, 0.3);
 }
 
 .remove-button {
@@ -1228,7 +1237,7 @@ button {
 
 .step-picker-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 10px;
   align-items: stretch;
 }
