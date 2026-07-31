@@ -1099,9 +1099,13 @@ button {
 }
 
 .stage-card--active {
-  border-color: rgba(242, 179, 111, 0.65);
-  background: rgba(242, 179, 111, 0.1);
-  box-shadow: 0 0 0 1px rgba(242, 179, 111, 0.3);
+  border-color: #f2b36f;
+  background: rgba(242, 179, 111, 0.18);
+  box-shadow: inset 4px 0 0 0 #f2b36f, 0 6px 20px rgba(242, 179, 111, 0.18);
+}
+
+.stage-card--active .stage-card__header h3 {
+  color: #f2b36f;
 }
 
 .remove-button {
