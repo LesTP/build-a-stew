@@ -1062,6 +1062,39 @@ button {
   line-height: 1.45;
 }
 
+.save-build-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.save-build-form__label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.save-build-form__input {
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--line-rgb), 0.14);
+  background: rgba(var(--line-rgb), 0.05);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.save-build-form__warning {
+  margin: 0;
+  color: #f2b36f;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.save-build-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .ingredient-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

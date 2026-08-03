@@ -12,6 +12,7 @@ import { BuildStoreProvider, createEmptyBuild, useBuildStore } from './store';
 import { IngredientDetail } from './components/IngredientDetail';
 import { Legend } from './components/Legend';
 import { SavedBuildsPanel, notifySavedBuildsChanged } from './components/SavedBuildsPanel';
+import { SaveBuildForm } from './components/SaveBuildForm';
 import { handleTablistKeyDown } from './components/tablist';
 import { saveBuild } from './persistence';
 import { scoreStep } from './scoring';
@@ -53,7 +54,7 @@ function AppContent() {
   );
   const [selectedIngredientId, setSelectedIngredientId] = useState<string | null>(null);
   const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
-  const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load'>(null);
+  const [overlay, setOverlay] = useState<null | 'how' | 'recipe' | 'load' | 'save'>(null);
   const [selectedTechniqueId, setSelectedTechniqueId] = useState(DEFAULT_TECHNIQUE_ID);
   const [selectedCuisine, setSelectedCuisine] = useState<CuisineTag>(DEFAULT_CUISINE);
   const [activeStepId, setActiveStepId] = useState(AVAILABLE_TECHNIQUES[0]?.steps[0]?.id ?? 'brown');
@@ -262,7 +263,7 @@ function AppContent() {
     setSelectedIngredientId(null);
   }
 
-  function openOverlay(nextOverlay: 'how' | 'recipe' | 'load') {
+  function openOverlay(nextOverlay: 'how' | 'recipe' | 'load' | 'save') {
     focusCurrentElementAsTrigger(overlayTriggerRef);
     setOverlay(nextOverlay);
   }
@@ -271,11 +272,14 @@ function AppContent() {
     setOverlay(null);
   }
 
-  function handleSaveCurrentBuild() {
+  function handleSaveNamedBuild(id: string, name: string) {
+    const named = { ...build, id, name };
     try {
-      saveBuild(build);
-      setSaveFeedback(`Saved ${build.name ?? build.id}.`);
+      saveBuild(named);
+      updateBuild({ id, name });
+      setSaveFeedback(`Saved “${name}”.`);
       notifySavedBuildsChanged();
+      closeOverlay();
     } catch (error) {
       setSaveFeedback(error instanceof Error ? error.message : 'Unable to save build.');
     }
@@ -343,7 +347,7 @@ function AppContent() {
             </button>
           </div>
           <div className="header-actions header-actions--mutate">
-            <button type="button" className="primary-action" onClick={handleSaveCurrentBuild}>
+            <button type="button" className="primary-action" onClick={() => openOverlay('save')}>
               Save
             </button>
             <button type="button" className="secondary-action" onClick={resetBuild}>
@@ -498,6 +502,13 @@ function AppContent() {
       </Modal>
       <Modal open={overlay === 'load'} onClose={closeOverlay} title="Saved builds">
         <SavedBuildsPanel />
+      </Modal>
+      <Modal open={overlay === 'save'} onClose={closeOverlay} title="Save stew">
+        <SaveBuildForm
+          initialName={build.name ?? ''}
+          onSave={handleSaveNamedBuild}
+          onCancel={closeOverlay}
+        />
       </Modal>
     </>
   );

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import React from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, beforeAll, beforeEach, afterEach, vi } from 'vitest';
 import App from '../../src/App';
@@ -129,15 +129,19 @@ describe('Saved builds UI', () => {
     vi.unstubAllGlobals();
   });
 
-  it('the header Save button calls saveBuild, and Load reveals the saved list', async () => {
+  it('the header Save button opens the Save modal, which saves the named stew; Load reveals the list', async () => {
     const user = userEvent.setup();
-    const initialBuild = createBuild(catalog, 'header-build', 'Header Build');
 
     render(<App />);
 
-    mockState.buildsById[initialBuild.id] = structuredClone(initialBuild);
-
+    // Header Save opens the Save modal instead of saving directly.
     await user.click(screen.getByRole('button', { name: /^save$/i }));
+    expect(mockState.saveBuild).not.toHaveBeenCalled();
+
+    // Name the stew in the modal and submit.
+    const nameInput = screen.getByRole('textbox', { hidden: true });
+    fireEvent.change(nameInput, { target: { value: 'My Test Stew' } });
+    fireEvent.submit(nameInput.closest('form')!);
     expect(mockState.saveBuild).toHaveBeenCalled();
 
     // Saved-builds management now lives behind the Load popup.
