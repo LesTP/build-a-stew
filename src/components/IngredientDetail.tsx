@@ -58,9 +58,6 @@ export function IngredientDetail({
   if (!ingredient) {
     return (
       <section id={id} className="composer-panel composer-panel--detail" aria-label="Ingredient details" hidden={hidden}>
-        <div className="panel-heading">
-          <h2 id="detail-title">Ingredient details</h2>
-        </div>
         <div className="panel-placeholder">
           Select an ingredient to see general info, whether it fits with what you&rsquo;ve already
           added, and why.
@@ -90,10 +87,6 @@ export function IngredientDetail({
 
   return (
     <section id={id} className="composer-panel composer-panel--detail" aria-label="Ingredient details" hidden={hidden}>
-      <div className="panel-heading">
-        <h2 id="detail-title">Ingredient details</h2>
-      </div>
-
       <div className="detail-card">
         <div className="detail-card__header">
           <div>

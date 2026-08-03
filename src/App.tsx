@@ -447,7 +447,7 @@ function AppContent() {
           ) : (
             <>
               <div className="panel-heading">
-                <h2 id="step-picker-title">Ingredient picker</h2>
+                <h2 id="step-picker-title">Ingredient choices</h2>
               </div>
               <div className="panel-placeholder" aria-hidden="true">
                 Step-ranked ingredient suggestions will appear here.

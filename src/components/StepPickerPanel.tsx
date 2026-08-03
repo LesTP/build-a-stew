@@ -75,10 +75,11 @@ export function StepPickerPanel({
   return (
     <>
       <div className="panel-heading">
-        <h2 id="step-picker-title">Ingredient picker</h2>
+        <h2 id="step-picker-title">Choices for {step.label}</h2>
       </div>
       <p className="panel-copy">
-        Ranked by flavor balance and cuisine fit. Add to step with <span aria-hidden="true">←</span> or tap for details.
+        Ranked by flavor balance and cuisine fit.<br />
+        Add to step with <span aria-hidden="true">←</span> or tap for details.
       </p>
       {isCompactLayout && primarySuggestion ? (() => {
         const ingredient = ingredientsById.get(primarySuggestion.ingredientId);
